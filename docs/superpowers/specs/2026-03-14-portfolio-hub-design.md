@@ -38,11 +38,12 @@ Single-user system. Tony is the only user. Auth is gated by an email allowlist i
 | Framework | Next.js 15+ (App Router, `app/` directory) |
 | Language | TypeScript |
 | Styling | Tailwind CSS |
-| UI Components | shadcn/ui |
+| UI Components | shadcn/ui (Lucide icons) |
 | Database & Auth | Supabase (`@supabase/ssr`, `@supabase/supabase-js`) |
 | Hosting | Vercel |
 | Markdown rendering | react-markdown |
-| Animations | Framer Motion (scroll transitions) or Intersection Observer |
+| Markdown editing | Plain `<Textarea>` with a live preview toggle (no third-party editor) |
+| Animations | Framer Motion (hero animation + scroll-triggered section transitions) |
 
 ---
 
@@ -79,6 +80,16 @@ Since this is a single-user system with middleware-gated access, Row Level Secur
 
 All database mutations happen through Next.js Server Actions in `src/lib/actions/`. Each file starts with `"use server"` and uses the Supabase server client. The anon key is sufficient since RLS is disabled.
 
+### Error Handling Philosophy
+
+- **Landing page**: if Supabase is unreachable, render a static fallback (name, tagline, contact links) rather than an error page. The landing page should never show a broken state to visitors.
+- **Dashboard forms**: validation errors show inline messages below the relevant field. Server errors (Supabase unreachable, action failure) show a toast notification via shadcn/ui Sonner or similar.
+- **Sort ordering**: server-round-trip (not optimistic UI). Arrow buttons disable during the request to prevent double-clicks.
+
+### Caching Strategy
+
+The landing page uses Next.js on-demand ISR. The page is statically generated at build time and cached. When CMS server actions modify content, they call `revalidatePath('/')` to regenerate the page. This means visitors get fast static responses, and content updates appear within seconds of saving.
+
 ---
 
 ## 4. Data Model
@@ -87,43 +98,121 @@ Two tables in Supabase.
 
 ### `content_blocks`
 
-| Column | Type | Notes |
-|--------|------|-------|
-| id | uuid (PK) | `gen_random_uuid()` |
-| type | text | `hero`, `about`, `experience`, `skill`, `project`, `contact` |
-| title | text | Display title (nullable) |
-| metadata | jsonb | Structured fields per type (see below) |
-| body_md | text | Markdown content (nullable) |
-| sort_order | integer | Ordering within type |
-| visible | boolean | Show/hide on public site |
-| created_at | timestamptz | Auto-managed |
-| updated_at | timestamptz | Auto-managed |
+| Column | Type | Constraints | Default | Notes |
+|--------|------|-------------|---------|-------|
+| id | uuid | PK | `gen_random_uuid()` | |
+| type | text | NOT NULL | | `hero`, `about`, `experience`, `skill`, `project`, `contact` |
+| title | text | | NULL | Display title |
+| metadata | jsonb | NOT NULL | `'{}'::jsonb` | Structured fields per type |
+| body_md | text | | NULL | Markdown content |
+| sort_order | integer | NOT NULL | 0 | Ordering within type |
+| visible | boolean | NOT NULL | `true` | Show/hide on public site |
+| created_at | timestamptz | NOT NULL | `now()` | |
+| updated_at | timestamptz | NOT NULL | `now()` | Updated via trigger |
+
+**Indexes:**
+- `idx_content_blocks_type` on `type` (filter queries)
+- `idx_content_blocks_visible_type` on `(visible, type)` (landing page query)
+
+#### Singleton vs. Collection Types
+
+| Type | Cardinality | Enforcement |
+|------|-------------|-------------|
+| hero | Singleton (1) | CMS hides "New" button when a block exists. Server action rejects create if one exists. |
+| about | Singleton (1) | Same as hero. |
+| experience | Collection (many) | No limit. |
+| skill | Collection (many) | No limit. |
+| project | Collection (many) | No limit. |
+| contact | Collection (many) | No limit. |
 
 #### Metadata shapes per type
 
 | Type | Metadata Fields |
 |------|----------------|
-| hero | `{ tagline, subtitle }` |
-| about | `{ avatar_url, location }` |
-| experience | `{ company, role, start_date, end_date, logo_url }` |
-| skill | `{ category, level }` |
-| project | `{ url, github_url, tech_stack[], image_url, is_featured }` |
-| contact | `{ platform, url, icon, display_text }` |
+| hero | `{ tagline: string, subtitle: string }` |
+| about | `{ avatar_url: string, location: string }` |
+| experience | `{ company: string, role: string, start_date: string, end_date: string \| null, logo_url: string \| null }` |
+| skill | `{ category: string, level: string \| null }` |
+| project | `{ url: string \| null, github_url: string \| null, tech_stack: string[], image_url: string \| null, is_featured: boolean }` |
+| contact | `{ platform: string, url: string, icon: string, display_text: string }` |
 
 These shapes are enforced by TypeScript types in `src/lib/types.ts`, not by database constraints.
 
+#### Sort Order Initialization
+
+When creating a new content block, `sort_order` is set to `MAX(sort_order) + 1` for that type (queried in the server action). If it's the first block of that type, `sort_order` starts at 0. Same logic applies to `applications`.
+
 ### `applications`
 
-| Column | Type | Notes |
-|--------|------|-------|
-| id | uuid (PK) | `gen_random_uuid()` |
-| name | text | App display name |
-| description | text | Short description |
-| url | text | Link to the spoke app |
-| icon | text | Icon name or emoji |
-| status | text | `active`, `maintenance`, `disabled` |
-| sort_order | integer | Display ordering |
-| created_at | timestamptz | Auto-managed |
+| Column | Type | Constraints | Default | Notes |
+|--------|------|-------------|---------|-------|
+| id | uuid | PK | `gen_random_uuid()` | |
+| name | text | NOT NULL | | App display name |
+| description | text | | NULL | Short description |
+| url | text | NOT NULL | | Link to the spoke app |
+| icon | text | NOT NULL | | Emoji character (e.g., "💒", "📋") |
+| status | text | NOT NULL | `'active'` | `active`, `maintenance`, `disabled` |
+| sort_order | integer | NOT NULL | 0 | Display ordering |
+| created_at | timestamptz | NOT NULL | `now()` | |
+| updated_at | timestamptz | NOT NULL | `now()` | Updated via trigger |
+
+**Icon format:** The `icon` column stores emoji characters. If a richer icon system is needed later (e.g., Lucide icon names or image URLs), the column type remains `text` and the rendering component handles the format.
+
+### SQL Migration
+
+```sql
+-- content_blocks
+CREATE TABLE content_blocks (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  type text NOT NULL,
+  title text,
+  metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  body_md text,
+  sort_order integer NOT NULL DEFAULT 0,
+  visible boolean NOT NULL DEFAULT true,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_content_blocks_type ON content_blocks (type);
+CREATE INDEX idx_content_blocks_visible_type ON content_blocks (visible, type);
+
+ALTER TABLE content_blocks ADD CONSTRAINT chk_content_blocks_type
+  CHECK (type IN ('hero', 'about', 'experience', 'skill', 'project', 'contact'));
+
+ALTER TABLE applications ADD CONSTRAINT chk_applications_status
+  CHECK (status IN ('active', 'maintenance', 'disabled'));
+
+-- applications
+CREATE TABLE applications (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  description text,
+  url text NOT NULL,
+  icon text NOT NULL,
+  status text NOT NULL DEFAULT 'active',
+  sort_order integer NOT NULL DEFAULT 0,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+-- Auto-update updated_at trigger
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER content_blocks_updated_at
+  BEFORE UPDATE ON content_blocks
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER applications_updated_at
+  BEFORE UPDATE ON applications
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+```
 
 ---
 
@@ -145,13 +234,29 @@ GitHub OAuth via Supabase Auth.
 8. **Email matches** → proceed to `/dashboard`.
 9. **Email doesn't match** → sign out → redirect to `/auth/error?reason=unauthorized` (friendly page: "This dashboard is private. Head back to the Portfolio.").
 
+### Auth Callback Implementation
+
+The `/auth/callback/route.ts` handler:
+
+1. Reads the `code` query parameter from the URL.
+2. Creates a Supabase server client using `createServerClient` with cookie setters on the `NextResponse`.
+3. Calls `supabase.auth.exchangeCodeForSession(code)`.
+4. Redirects to `/dashboard` on success.
+5. Redirects to `/auth/error?reason=callback_failed` on failure.
+
+No "return to" parameter is supported in Phase 1 — the callback always redirects to `/dashboard`.
+
+### Sign Out
+
+A sign-out button is rendered in the dashboard sidebar (bottom of the nav, below the navigation items). Clicking it triggers the `signOut` server action in `lib/actions/auth.ts`, which calls `supabase.auth.signOut()` and redirects to `/`.
+
 ### Allowlist
 
 The `ALLOWED_EMAILS` environment variable holds a comma-separated list of permitted emails. Scaling path: hardcoded list → env-driven list → open registration with roles.
 
 ### SSO Prep
 
-The Supabase middleware client reads an optional `COOKIE_DOMAIN` env var. When unset (local dev), cookies scope to the current host. When set to `.mydomain.com` in production, session cookies are readable by all subdomains. One env var change, zero code changes needed later. This is deferred until the first spoke app ships.
+The Supabase middleware client reads an optional `COOKIE_DOMAIN` env var. When unset (local dev), cookies scope to the current host. When set to `.mydomain.com` in production, session cookies are readable by all subdomains. This requires custom logic in the `@supabase/ssr` cookie adapter's `set` callback to inject the `domain` attribute on the cookie options — `@supabase/ssr` does not natively support a `cookieDomain` option. This is deferred until the first spoke app ships.
 
 ### Environment Variables
 
@@ -159,9 +264,9 @@ The Supabase middleware client reads an optional `COOKIE_DOMAIN` env var. When u
 |----------|---------|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (safe for client) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Secret admin key (NEVER prefix with `NEXT_PUBLIC_`) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Secret admin key for local seeding/migrations only. Not used at runtime — exclude from Vercel production env unless needed. |
 | `ALLOWED_EMAILS` | Comma-separated allowlist |
-| `COOKIE_DOMAIN` | Optional, set to `.mydomain.com` for SSO |
+| `COOKIE_DOMAIN` | Optional, set to `.mydomain.com` for SSO (deferred) |
 
 ---
 
@@ -179,18 +284,19 @@ The Supabase middleware client reads an optional `COOKIE_DOMAIN` env var. When u
 ### Design Philosophy: Progressive Disclosure
 
 - **Layer 1**: Clean layout, clear typography, easy navigation. Works even with JS disabled. Serves recruiters and hiring managers.
-- **Layer 2**: Smooth scroll-triggered animations (fade-up, slide) as sections enter the viewport. Uses Intersection Observer or Framer Motion. Noticed by developers.
+- **Layer 2**: Smooth scroll-triggered animations (fade-up, slide) as sections enter the viewport using Framer Motion. Noticed by developers.
 - **Layer 3**: Two standout moments — hero animation and one creative section transition. Rewards exploration.
 
 ### Data Flow
 
-1. Landing page is a Server Component.
-2. Fetches all `content_blocks` where `visible = true`.
+1. Landing page uses on-demand ISR (statically generated, revalidated when content changes).
+2. Server Component fetches all `content_blocks` where `visible = true`.
 3. Groups by `type`, sorts by `sort_order`.
 4. Passes each group to its section component.
 5. Section components render structured metadata + markdown body.
 6. Hero and scroll animations are Client Components (need browser APIs).
-7. Cached by Next.js. CMS server actions call `revalidatePath('/')` to bust cache.
+7. CMS server actions call `revalidatePath('/')` after mutations to regenerate the cached page.
+8. If Supabase is unreachable, a static fallback renders (name, tagline, contact links).
 
 ---
 
@@ -205,6 +311,8 @@ Sidebar navigation with three items:
 
 Future modules (Kanban, Analytics, CRM, Costs) shown greyed out in sidebar as placeholders.
 
+**Sign out button** at the bottom of the sidebar. Triggers `signOut` server action → redirects to `/`.
+
 ### Overview Page (`/dashboard`)
 
 - Welcome header with "View live site →" link
@@ -217,20 +325,33 @@ Future modules (Kanban, Analytics, CRM, Costs) shown greyed out in sidebar as pl
 - Links use `target="_blank" rel="noopener noreferrer"` so the hub stays open
 - Status badge per card: `active` (green), `maintenance` (amber), `disabled` (dimmed, link removed)
 
+### Applications Management (`/dashboard/apps`)
+
+A CRUD page for managing spoke applications, structured similarly to the content CMS:
+
+- **List view**: table with columns — Name, URL, Status (badge), Sort Order, Actions (Edit, Delete)
+- **Add form**: dialog/modal with fields — Name, Description, URL, Icon (emoji picker or text input), Status dropdown
+- **Edit**: same dialog pre-filled with existing values
+- **Delete**: confirmation dialog ("Remove this application?") before deleting
+- **Sort ordering**: same ▲/▼ arrow pattern as content blocks
+
 ### CMS: Content List (`/dashboard/content`)
 
 - Filterable by content type using tabs (All, Hero, Experience, Projects, etc.)
-- Table columns: Order, Title, Type, Visible, Updated, Edit link
+- Table columns: Order, Title, Type, Visible, Updated, Actions (Edit, Delete)
 - Hidden items shown dimmed
-- **Sort ordering**: when filtered by a specific type, an Order column appears with ▲/▼ arrow buttons. Clicking an arrow fires a server action that swaps `sort_order` values between adjacent rows and calls `revalidatePath`. Arrows disabled at boundaries. Can upgrade to drag-and-drop (`@hello-pangea/dnd`) later.
+- **Sort ordering**: when filtered by a specific type, an Order column appears with ▲/▼ arrow buttons. Clicking an arrow fires a server action that swaps `sort_order` values between adjacent rows and calls `revalidatePath`. Arrows disabled at boundaries. Arrow buttons disable during the server action request to prevent double-clicks. Can upgrade to drag-and-drop (`@hello-pangea/dnd`) later.
+- **Delete**: confirmation dialog before deleting. After deletion, remaining blocks' `sort_order` values are re-normalized (0, 1, 2, ...) to avoid gaps. Same re-normalization applies to `applications` after delete.
+- **Singleton types** (hero, about): "New block" button is hidden when a block of that type already exists. The server action also rejects the create if one exists.
 
 ### CMS: Edit Form (`/dashboard/content/:id`)
 
 Hybrid form approach:
 - **Structured form fields** for metadata (company, role, dates, URLs, etc.)
-- **Markdown editor** for `body_md` (description/body content)
+- **Markdown editor** for `body_md`: a plain shadcn `<Textarea>` with a "Preview" toggle button that renders the markdown via react-markdown
 - **Visible toggle** (shadcn Switch component)
 - **Save button** triggers a server action
+- **Validation**: required fields show inline error messages. URL fields validate format. Date fields accept YYYY-MM format.
 
 Dynamic form rendering:
 - The `<ContentForm>` component reads the content type.
@@ -245,7 +366,8 @@ Type locking:
 
 - Type selector (dropdown) at the top.
 - Selecting a type renders the appropriate metadata fields + markdown editor.
-- Submit triggers a server action to insert a new `content_block`.
+- For singleton types that already have a block, the option is disabled in the dropdown with "(already exists)" label.
+- Submit triggers a server action to insert a new `content_block` with `sort_order = MAX(sort_order) + 1` for that type.
 
 ---
 
@@ -266,11 +388,11 @@ src/
           new/page.tsx          — CMS create form
         apps/
           page.tsx              — Manage spoke applications
-      layout.tsx                — Dashboard layout (sidebar nav, user menu)
+      layout.tsx                — Dashboard layout (sidebar nav, sign out, user menu)
     auth/
       login/page.tsx            — Sign in with GitHub
-      callback/route.ts         — OAuth code exchange
-      error/page.tsx            — Unauthorized / error states
+      callback/route.ts         — OAuth code exchange → redirect to /dashboard
+      error/page.tsx            — Unauthorized / error states (?reason=unauthorized|callback_failed)
     layout.tsx                  — Root layout (html, body, fonts)
   components/
     landing/                    — Hero, About, Experience, Skills, Projects, Contact
@@ -282,10 +404,10 @@ src/
       server.ts                 — Server component client (cookies)
       middleware.ts             — Middleware client (req/res cookies + COOKIE_DOMAIN)
     actions/
-      content.ts                — Server actions: CRUD for content blocks
+      content.ts                — Server actions: CRUD for content blocks (create, update, delete, reorder)
       apps.ts                   — Server actions: CRUD for spoke applications
-      auth.ts                   — Server actions: sign-out logic
-    types.ts                    — TypeScript types (ContentBlock, Application, metadata)
+      auth.ts                   — Server actions: sign-out (calls supabase.auth.signOut, redirects to /)
+    types.ts                    — TypeScript types (ContentBlock, Application, metadata per type)
 middleware.ts                   — Root: route protection + allowlist
 tailwind.config.ts
 .env.local                      — Supabase keys, ALLOWED_EMAILS, COOKIE_DOMAIN
@@ -312,6 +434,6 @@ tailwind.config.ts
 | `tailwindcss` | Styling |
 | `@supabase/ssr` | Supabase SSR auth |
 | `@supabase/supabase-js` | Supabase client |
-| `react-markdown` | Render markdown in landing page sections |
-| `framer-motion` (or Intersection Observer) | Scroll animations, hero animation |
+| `react-markdown` | Render markdown in landing page sections and CMS preview |
+| `framer-motion` | Hero animation + scroll-triggered section transitions |
 | shadcn/ui components | UI primitives (installed via CLI, not an npm package) |
