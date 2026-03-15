@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 
 interface Props {
   searchParams: Promise<{ reason?: string }>
@@ -29,9 +28,12 @@ export default async function AuthErrorPage({ searchParams }: Props) {
       <div className="mx-auto max-w-sm space-y-6 text-center">
         <h1 className="text-2xl font-bold">{message.title}</h1>
         <p className="text-muted-foreground">{message.description}</p>
-        <Button asChild>
-          <Link href="/">Back to Portfolio</Link>
-        </Button>
+        <Link
+          href="/"
+          className="inline-flex h-8 items-center justify-center rounded-lg bg-primary px-2.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/80"
+        >
+          Back to Portfolio
+        </Link>
       </div>
     </div>
   )
