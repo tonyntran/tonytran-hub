@@ -32,9 +32,9 @@ export function Hero({ block }: Props) {
         </motion.p>
         <motion.p
           className="mt-2 text-lg text-muted-foreground/70"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
         >
           {subtitle}
         </motion.p>
