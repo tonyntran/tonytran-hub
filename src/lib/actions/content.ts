@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { requireAuth } from '@/lib/auth'
 import { metadataSchemaMap } from '@/lib/schemas'
 import { SINGLETON_TYPES, type ContentBlockType } from '@/lib/types'
 
@@ -31,7 +32,7 @@ export async function getContentBlock(id: string) {
 }
 
 export async function createContentBlock(type: ContentBlockType, formData: FormData) {
-  const supabase = await createClient()
+  const { supabase } = await requireAuth()
 
   // Singleton enforcement
   if (SINGLETON_TYPES.includes(type)) {
@@ -92,7 +93,7 @@ export async function updateContentBlock(id: string, type: ContentBlockType, for
     return { error: parsed.error.flatten().fieldErrors }
   }
 
-  const supabase = await createClient()
+  const { supabase } = await requireAuth()
   const { error } = await supabase
     .from('content_blocks')
     .update({
@@ -112,7 +113,7 @@ export async function updateContentBlock(id: string, type: ContentBlockType, for
 }
 
 export async function deleteContentBlock(id: string) {
-  const supabase = await createClient()
+  const { supabase } = await requireAuth()
 
   const { data: block } = await supabase
     .from('content_blocks')
@@ -147,7 +148,7 @@ export async function deleteContentBlock(id: string) {
 }
 
 export async function reorderContentBlock(id: string, direction: 'up' | 'down') {
-  const supabase = await createClient()
+  const { supabase } = await requireAuth()
 
   const { data: block } = await supabase
     .from('content_blocks')

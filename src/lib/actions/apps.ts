@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { requireAuth } from '@/lib/auth'
 import { applicationSchema } from '@/lib/schemas'
 
 export async function getApplications() {
@@ -29,7 +30,7 @@ export async function createApplication(formData: FormData) {
     return { error: parsed.error.flatten().fieldErrors }
   }
 
-  const supabase = await createClient()
+  const { supabase } = await requireAuth()
 
   // Get next sort_order
   const { data: maxRow } = await supabase
@@ -66,7 +67,7 @@ export async function updateApplication(id: string, formData: FormData) {
     return { error: parsed.error.flatten().fieldErrors }
   }
 
-  const supabase = await createClient()
+  const { supabase } = await requireAuth()
   const { error } = await supabase
     .from('applications')
     .update(parsed.data)
@@ -80,7 +81,7 @@ export async function updateApplication(id: string, formData: FormData) {
 }
 
 export async function deleteApplication(id: string) {
-  const supabase = await createClient()
+  const { supabase } = await requireAuth()
 
   const { error } = await supabase.from('applications').delete().eq('id', id)
   if (error) return { error: error.message }
@@ -105,7 +106,7 @@ export async function deleteApplication(id: string) {
 }
 
 export async function reorderApplication(id: string, direction: 'up' | 'down') {
-  const supabase = await createClient()
+  const { supabase } = await requireAuth()
 
   const { data: apps } = await supabase
     .from('applications')
