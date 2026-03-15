@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -20,6 +20,14 @@ import { ALL_CONTENT_TYPES, SINGLETON_TYPES, type ContentBlock, type ContentBloc
 import { cn } from '@/lib/utils'
 
 export default function ContentListPage() {
+  return (
+    <Suspense fallback={<div className="py-8 text-center text-muted-foreground">Loading...</div>}>
+      <ContentListInner />
+    </Suspense>
+  )
+}
+
+function ContentListInner() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const activeType = searchParams.get('type') as ContentBlockType | null
