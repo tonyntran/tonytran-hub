@@ -13,13 +13,13 @@ export function About({ block }: Props) {
   return (
     <section className="mx-auto max-w-3xl px-6 py-24" id="about">
       <div className="flex gap-6">
-        {avatar_url && (
-          <img
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {avatar_url && <img
             src={avatar_url}
             alt="Avatar"
             className="h-20 w-20 rounded-full object-cover"
           />
-        )}
+        }
         <div>
           <h2 className="text-2xl font-bold">{block.title ?? 'About'}</h2>
           {location && (

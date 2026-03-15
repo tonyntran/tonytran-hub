@@ -45,7 +45,8 @@ function ContentListInner() {
   }, [activeType])
 
   useEffect(() => {
-    loadData()
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetching on filter change
+    void loadData()
   }, [loadData])
 
   const handleDelete = async (id: string) => {

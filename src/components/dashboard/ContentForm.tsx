@@ -14,7 +14,17 @@ import { SkillFields } from './fields/SkillFields'
 import { ProjectFields } from './fields/ProjectFields'
 import { ContactFields } from './fields/ContactFields'
 import { createContentBlock, updateContentBlock } from '@/lib/actions/content'
-import { ALL_CONTENT_TYPES, type ContentBlock, type ContentBlockType } from '@/lib/types'
+import {
+  ALL_CONTENT_TYPES,
+  type ContentBlock,
+  type ContentBlockType,
+  type HeroMetadata,
+  type AboutMetadata,
+  type ExperienceMetadata,
+  type SkillMetadata,
+  type ProjectMetadata,
+  type ContactMetadata,
+} from '@/lib/types'
 
 interface Props {
   block?: ContentBlock
@@ -51,20 +61,20 @@ export function ContentForm({ block, defaultType, singletonStatus }: Props) {
   }
 
   const renderFields = () => {
-    const metadata = block?.metadata as Record<string, unknown> | undefined
+    const metadata = block?.metadata
     switch (type) {
       case 'hero':
-        return <HeroFields metadata={metadata as any} />
+        return <HeroFields metadata={metadata as HeroMetadata | undefined} />
       case 'about':
-        return <AboutFields metadata={metadata as any} />
+        return <AboutFields metadata={metadata as AboutMetadata | undefined} />
       case 'experience':
-        return <ExperienceFields metadata={metadata as any} />
+        return <ExperienceFields metadata={metadata as ExperienceMetadata | undefined} />
       case 'skill':
-        return <SkillFields metadata={metadata as any} />
+        return <SkillFields metadata={metadata as SkillMetadata | undefined} />
       case 'project':
-        return <ProjectFields metadata={metadata as any} />
+        return <ProjectFields metadata={metadata as ProjectMetadata | undefined} />
       case 'contact':
-        return <ContactFields metadata={metadata as any} />
+        return <ContactFields metadata={metadata as ContactMetadata | undefined} />
     }
   }
 

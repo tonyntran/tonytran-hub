@@ -20,6 +20,7 @@ export function Projects({ blocks }: Props) {
           return (
             <Card key={block.id} className="overflow-hidden">
               {meta.image_url && (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={meta.image_url}
                   alt={block.title ?? 'Project'}
