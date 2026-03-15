@@ -351,7 +351,7 @@ Hybrid form approach:
 - **Markdown editor** for `body_md`: a plain shadcn `<Textarea>` with a "Preview" toggle button that renders the markdown via react-markdown
 - **Visible toggle** (shadcn Switch component)
 - **Save button** triggers a server action
-- **Validation**: required fields show inline error messages. URL fields validate format. Date fields accept YYYY-MM format.
+- **Validation**: Zod schemas per content type, connected via `@hookform/resolvers`. Required fields show inline error messages. URL fields validate format. Date fields accept YYYY-MM format. Experience `end_date`: a "Currently working here" checkbox nulls out `end_date` and disables the date input. Zod schema makes `end_date` required only when the checkbox is unchecked.
 
 Dynamic form rendering:
 - The `<ContentForm>` component reads the content type.
@@ -435,5 +435,9 @@ tailwind.config.ts
 | `@supabase/ssr` | Supabase SSR auth |
 | `@supabase/supabase-js` | Supabase client |
 | `react-markdown` | Render markdown in landing page sections and CMS preview |
+| `remark-gfm` | GitHub Flavored Markdown plugin (tables, strikethroughs, auto-linking URLs) |
 | `framer-motion` | Hero animation + scroll-triggered section transitions |
+| `react-hook-form` | Form state management (required by shadcn/ui `<Form>`) |
+| `zod` | Schema validation for form fields (URLs, required fields, dates) |
+| `@hookform/resolvers` | Connects Zod schemas to React Hook Form |
 | shadcn/ui components | UI primitives (installed via CLI, not an npm package) |
