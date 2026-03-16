@@ -2,6 +2,7 @@
 CLAUDE.md
 .claude/
 .superpowers/
+docs/superpowers/
 
 # env
 .env.local
