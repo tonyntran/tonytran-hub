@@ -21,12 +21,8 @@ export function Sidebar({ aboutBlock, contactBlocks, visible }: Props) {
     <aside className={`landing-sidebar ${visible ? 'visible' : ''}`} id="sidebar">
       <div>
         <div className="landing-sidebar-avatar">
-          {about?.avatar_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={about.avatar_url} alt="Tony Tran" />
-          ) : (
-            'TT'
-          )}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/profile.png" alt="Tony Tran" />
         </div>
         <div className="landing-sidebar-name">Tony Tran</div>
         <div className="landing-sidebar-role">Full-Stack Developer</div>

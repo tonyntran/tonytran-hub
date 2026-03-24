@@ -202,6 +202,63 @@
   pointer-events: none;
 }
 
+.landing-hero-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  margin: 0 auto 28px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px) scale(0.9);
+  animation: landing-hero-avatar-in 1s 0.1s ease-out forwards;
+}
+
+.landing-hero-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(224, 155, 108, 0.6),
+    rgba(224, 155, 108, 0.1),
+    rgba(224, 155, 108, 0.6)
+  );
+  animation: landing-avatar-glow-spin 4s linear infinite;
+}
+
+.landing-hero-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(224, 155, 108, 0.12) 0%, transparent 70%);
+  animation: landing-avatar-glow-pulse 3s ease-in-out infinite;
+}
+
+.landing-hero-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  border: 3px solid var(--landing-bg);
+}
+
+@keyframes landing-hero-avatar-in {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes landing-avatar-glow-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes landing-avatar-glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
 .landing-hero-name {
   font-family: var(--font-display);
   font-size: 7rem;
@@ -324,8 +381,8 @@
 }
 
 .landing-sidebar-avatar {
-  width: 68px;
-  height: 68px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   background: var(--landing-bg-card);
   border: 2px solid var(--landing-border);

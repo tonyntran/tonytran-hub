@@ -19,6 +19,10 @@ export function Hero({ block }: Props) {
     <section className="landing-hero" id="heroSection">
       <ParticleCanvas />
       <div className="landing-hero-content">
+        <div className="landing-hero-avatar">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/profile.png" alt="Tony Tran" />
+        </div>
         <div className="landing-hero-name">{block.title}</div>
         <div className="landing-hero-tagline">{tagline}</div>
         <button className="landing-hero-cta" onClick={scrollToPortfolio}>
