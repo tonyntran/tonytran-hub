@@ -200,50 +200,78 @@
   z-index: 2;
   text-align: center;
   pointer-events: none;
+  padding-bottom: 40px; /* optical centering — offset scroll indicator weight */
 }
 
+/* Profile picture that dissolves into the particle field */
 .landing-hero-avatar {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  margin: 0 auto 28px;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 32px;
   position: relative;
   opacity: 0;
-  transform: translateY(30px) scale(0.9);
-  animation: landing-hero-avatar-in 1s 0.1s ease-out forwards;
+  transform: translateY(20px) scale(0.92);
+  animation: landing-hero-avatar-in 1.2s 0.1s ease-out forwards;
 }
 
+/* Large ambient glow — warm light source behind the photo */
 .landing-hero-avatar::before {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -40px;
   border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    rgba(224, 155, 108, 0.6),
-    rgba(224, 155, 108, 0.1),
-    rgba(224, 155, 108, 0.6)
+  background: radial-gradient(
+    circle,
+    rgba(224, 155, 108, 0.10) 0%,
+    rgba(224, 155, 108, 0.04) 40%,
+    transparent 70%
   );
-  animation: landing-avatar-glow-spin 4s linear infinite;
+  animation: landing-avatar-glow-pulse 4s ease-in-out infinite;
 }
 
+/* Subtle rotating constellation ring — very faint, wide */
 .landing-hero-avatar::after {
   content: '';
   position: absolute;
-  inset: -12px;
+  inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(224, 155, 108, 0.12) 0%, transparent 70%);
-  animation: landing-avatar-glow-pulse 3s ease-in-out infinite;
+  border: 1px solid transparent;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(224, 155, 108, 0.15) 25%,
+    transparent 50%,
+    rgba(224, 155, 108, 0.10) 75%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(circle, transparent 58%, black 60%, black 62%, transparent 64%);
+  -webkit-mask-image: radial-gradient(circle, transparent 58%, black 60%, black 62%, transparent 64%);
+  animation: landing-avatar-glow-spin 8s linear infinite;
 }
 
 .landing-hero-avatar img {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
   object-fit: cover;
   position: relative;
   z-index: 1;
-  border: 3px solid var(--landing-bg);
+  border: none;
+  /* Dissolving radial mask — soft edges fade into the dark bg */
+  border-radius: 50%;
+  mask-image: radial-gradient(
+    ellipse 52% 52% at 50% 46%,
+    black 55%,
+    rgba(0, 0, 0, 0.6) 70%,
+    rgba(0, 0, 0, 0.2) 85%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 52% 52% at 50% 46%,
+    black 55%,
+    rgba(0, 0, 0, 0.6) 70%,
+    rgba(0, 0, 0, 0.2) 85%,
+    transparent 100%
+  );
 }
 
 @keyframes landing-hero-avatar-in {
@@ -255,8 +283,8 @@
 }
 
 @keyframes landing-avatar-glow-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
 }
 
 .landing-hero-name {
