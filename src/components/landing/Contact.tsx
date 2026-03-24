@@ -7,25 +7,29 @@ interface Props {
 export function Contact({ blocks }: Props) {
   if (blocks.length === 0) return null
 
+  const emailContact = blocks.find(
+    (b) => (b.metadata as ContactMetadata).platform.toLowerCase() === 'email'
+  )
+  const emailUrl = emailContact
+    ? (emailContact.metadata as ContactMetadata).url
+    : '#'
+
   return (
-    <section className="mx-auto max-w-3xl px-6 py-24 text-center" id="contact">
-      <h2 className="mb-8 text-2xl font-bold">Get in Touch</h2>
-      <div className="flex flex-wrap justify-center gap-6">
-        {blocks.map((block) => {
-          const meta = block.metadata as ContactMetadata
-          return (
-            <a
-              key={block.id}
-              href={meta.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground transition-colors hover:text-primary"
-            >
-              {meta.platform}: <span className="text-primary">{meta.display_text}</span>
-            </a>
-          )
-        })}
+    <div className="landing-card landing-contact" id="contact">
+      <div>
+        <div className="landing-contact-heading">Let&apos;s work together</div>
+        <div className="landing-contact-sub">
+          Always open to interesting projects and conversations.
+        </div>
       </div>
-    </section>
+      <div className="landing-contact-links">
+        <a className="landing-contact-btn landing-contact-btn-primary" href={emailUrl}>
+          Get in Touch
+        </a>
+        <a className="landing-contact-btn landing-contact-btn-secondary" href="#" target="_blank" rel="noopener noreferrer">
+          Resume
+        </a>
+      </div>
+    </div>
   )
 }

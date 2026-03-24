@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import type { ContentBlock, HeroMetadata } from '@/lib/types'
+import { ParticleCanvas } from './ParticleCanvas'
 
 interface Props {
   block: ContentBlock | undefined
@@ -9,35 +9,25 @@ interface Props {
 
 export function Hero({ block }: Props) {
   if (!block) return null
-  const { tagline, subtitle } = block.metadata as HeroMetadata
+  const { tagline } = block.metadata as HeroMetadata
+
+  const scrollToPortfolio = () => {
+    document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
-    <section className="flex min-h-screen items-center justify-center px-6">
-      <div className="text-center">
-        <motion.h1
-          className="text-5xl font-bold tracking-tight sm:text-7xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-        >
-          {block.title}
-        </motion.h1>
-        <motion.p
-          className="mt-4 text-xl text-muted-foreground"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-        >
-          {tagline}
-        </motion.p>
-        <motion.p
-          className="mt-2 text-lg text-muted-foreground/70"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-        >
-          {subtitle}
-        </motion.p>
+    <section className="landing-hero" id="heroSection">
+      <ParticleCanvas />
+      <div className="landing-hero-content">
+        <div className="landing-hero-name">{block.title}</div>
+        <div className="landing-hero-tagline">{tagline}</div>
+        <button className="landing-hero-cta" onClick={scrollToPortfolio}>
+          Explore My Work
+        </button>
+      </div>
+      <div className="landing-scroll-indicator">
+        <span>Scroll</span>
+        <div className="landing-scroll-line" />
       </div>
     </section>
   )
