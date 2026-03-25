@@ -1,3 +1,6 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import type { ContentBlock, ContactMetadata } from '@/lib/types'
 
 interface Props {
@@ -15,7 +18,17 @@ export function Contact({ blocks }: Props) {
     : '#'
 
   return (
-    <div className="landing-card landing-contact" id="contact">
+    <motion.div
+      className="landing-card landing-contact"
+      id="contact"
+      initial={{ opacity: 0, y: 60, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{
+        duration: 0.8,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+    >
       <div>
         <div className="landing-contact-heading">Let&apos;s work together</div>
         <div className="landing-contact-sub">
@@ -30,6 +43,6 @@ export function Contact({ blocks }: Props) {
           Resume
         </a>
       </div>
-    </div>
+    </motion.div>
   )
 }
