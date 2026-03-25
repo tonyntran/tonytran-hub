@@ -133,18 +133,18 @@
    Scoped to .landing-theme to avoid affecting dashboard
    ======================================== */
 .landing-theme {
-  --background: #1C2228;
+  --background: #181E24;
   --foreground: #EDE8E0;
-  --card: #2A3540;
+  --card: #2E3A44;
   --card-foreground: #EDE8E0;
-  --popover: #2A3540;
+  --popover: #2E3A44;
   --popover-foreground: #EDE8E0;
   --primary: #E09B6C;
-  --primary-foreground: #1C2228;
-  --secondary: #2A3540;
+  --primary-foreground: #181E24;
+  --secondary: #2E3A44;
   --secondary-foreground: #EDE8E0;
-  --muted: #2A3540;
-  --muted-foreground: #8A9AA8;
+  --muted: #2E3A44;
+  --muted-foreground: #9A9488;
   --accent: rgba(224,155,108,0.14);
   --accent-foreground: #E09B6C;
   --border: rgba(255,255,255,0.08);
@@ -152,17 +152,19 @@
   --ring: #E09B6C;
 
   /* Landing-specific tokens */
-  --landing-bg: #1C2228;
+  --landing-bg: #181E24;
   --landing-bg-sidebar: #141A1F;
-  --landing-bg-card: #2A3540;
-  --landing-bg-card-hover: #324050;
-  --landing-bg-card-gradient: linear-gradient(135deg, #2A3540 0%, #324050 100%);
+  --landing-bg-card: #2E3A44;
+  --landing-bg-card-hover: #364858;
+  --landing-bg-card-gradient: linear-gradient(135deg, #2E3A44 0%, #364858 100%);
   --landing-text: #EDE8E0;
-  --landing-text-muted: #8A9AA8;
+  --landing-text-muted: #9A9488;
   --landing-text-dim: rgba(237,232,224,0.3);
   --landing-accent: #E09B6C;
   --landing-accent-bg: rgba(224,155,108,0.14);
   --landing-accent-bg-hover: rgba(224,155,108,0.22);
+  --landing-accent-secondary: #7EA0B4;
+  --landing-accent-secondary-bg: rgba(126,160,180,0.14);
   --landing-border: rgba(255,255,255,0.08);
   --landing-border-hover: rgba(255,255,255,0.14);
   --landing-particle-rgb: 224, 155, 108;
@@ -179,34 +181,36 @@
    ======================================== */
 :root:not(.dark) .landing-theme,
 .light .landing-theme {
-  --landing-bg: #EDE5D8;
-  --landing-bg-sidebar: #E2D9CA;
-  --landing-bg-card: #E2D9CA;
-  --landing-bg-card-hover: #D8CDBC;
-  --landing-bg-card-gradient: linear-gradient(135deg, #E2D9CA 0%, #D8CDBC 100%);
+  --landing-bg: #EAE1D2;
+  --landing-bg-sidebar: #DDD3C2;
+  --landing-bg-card: #DDD3C2;
+  --landing-bg-card-hover: #D2C7B4;
+  --landing-bg-card-gradient: linear-gradient(135deg, #DDD3C2 0%, #D2C7B4 100%);
   --landing-text: #2A2015;
-  --landing-text-muted: #5C5248;
+  --landing-text-muted: #6B5D4E;
   --landing-text-dim: rgba(42, 32, 21, 0.3);
   --landing-accent: #A65D2E;
   --landing-accent-bg: rgba(166, 93, 46, 0.12);
   --landing-accent-bg-hover: rgba(166, 93, 46, 0.20);
+  --landing-accent-secondary: #506E82;
+  --landing-accent-secondary-bg: rgba(80, 110, 130, 0.12);
   --landing-border: rgba(0, 0, 0, 0.07);
   --landing-border-hover: rgba(0, 0, 0, 0.12);
   --landing-particle-rgb: 166, 93, 46;
 
   /* Override shadcn vars for components used in landing */
-  --background: #EDE5D8;
+  --background: #EAE1D2;
   --foreground: #2A2015;
-  --card: #E2D9CA;
+  --card: #DDD3C2;
   --card-foreground: #2A2015;
-  --popover: #E2D9CA;
+  --popover: #DDD3C2;
   --popover-foreground: #2A2015;
   --primary: #A65D2E;
-  --primary-foreground: #EDE5D8;
-  --secondary: #D8CDBC;
+  --primary-foreground: #EAE1D2;
+  --secondary: #D2C7B4;
   --secondary-foreground: #2A2015;
-  --muted: #D8CDBC;
-  --muted-foreground: #5C5248;
+  --muted: #D2C7B4;
+  --muted-foreground: #6B5D4E;
   --accent: rgba(166, 93, 46, 0.12);
   --accent-foreground: #A65D2E;
   --border: rgba(0, 0, 0, 0.07);
@@ -637,7 +641,7 @@
   color: var(--landing-text-muted);
   margin-bottom: 22px;
   padding: 10px 14px;
-  background: var(--landing-accent-bg);
+  background: var(--landing-accent-secondary-bg);
   border-radius: 8px;
 }
 
@@ -645,7 +649,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #5CB85C;
+  background: var(--landing-accent-secondary);
   flex-shrink: 0;
   animation: landing-pulse 2s ease-in-out infinite;
 }
@@ -826,8 +830,17 @@
   transition: background 0.2s;
 }
 
+.landing-skill-tag:nth-child(even) {
+  background: var(--landing-accent-secondary-bg);
+  color: var(--landing-accent-secondary);
+}
+
 .landing-skill-tag:hover {
   background: var(--landing-accent-bg-hover);
+}
+
+.landing-skill-tag:nth-child(even):hover {
+  background: rgba(126, 160, 180, 0.22);
 }
 
 .landing-skill-category {
@@ -1153,14 +1166,15 @@
 .landing-timeline-period {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  color: var(--landing-text-dim);
-  background: var(--landing-accent-bg);
+  color: var(--landing-accent-secondary);
+  background: var(--landing-accent-secondary-bg);
   padding: 2px 10px;
   border-radius: 20px;
   letter-spacing: 0.02em;
 }
 
 .landing-timeline-entry:first-child .landing-timeline-period {
+  color: var(--landing-accent);
   background: color-mix(in srgb, var(--landing-accent) 18%, transparent);
 }
 
