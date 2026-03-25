@@ -70,7 +70,7 @@ Wraps next-themes ThemeProvider with:
 - disableTransitionOnChange={false}
 ```
 
-Added to root `layout.tsx`, wrapping `{children}` and `<Toaster />`.
+Added to root `layout.tsx`, wrapping `{children}` and `<Toaster />`. The `<html>` element in `layout.tsx` must include `suppressHydrationWarning` since `next-themes` injects a class attribute before React hydration.
 
 ### ThemeToggle (`src/components/landing/ThemeToggle.tsx`)
 
