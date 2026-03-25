@@ -165,10 +165,59 @@
   --landing-accent-bg-hover: rgba(224,155,108,0.22);
   --landing-border: rgba(255,255,255,0.08);
   --landing-border-hover: rgba(255,255,255,0.14);
+  --landing-particle-rgb: 224, 155, 108;
 
   font-family: var(--font-body);
   background: var(--landing-bg);
   color: var(--landing-text);
+  transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+/* ========================================
+   LIMESTONE LIGHT THEME — override landing vars
+   Activated when next-themes sets class="light" on <html>
+   ======================================== */
+:root:not(.dark) .landing-theme,
+.light .landing-theme {
+  --landing-bg: #F7F4F0;
+  --landing-bg-sidebar: #EFEBE4;
+  --landing-bg-card: #EFEBE4;
+  --landing-bg-card-hover: #E6E0D6;
+  --landing-bg-card-gradient: linear-gradient(135deg, #EFEBE4 0%, #E6E0D6 100%);
+  --landing-text: #1F1A14;
+  --landing-text-muted: #5C5248;
+  --landing-text-dim: rgba(31, 26, 20, 0.3);
+  --landing-accent: #A65D2E;
+  --landing-accent-bg: rgba(166, 93, 46, 0.10);
+  --landing-accent-bg-hover: rgba(166, 93, 46, 0.18);
+  --landing-border: rgba(0, 0, 0, 0.06);
+  --landing-border-hover: rgba(0, 0, 0, 0.10);
+  --landing-particle-rgb: 166, 93, 46;
+
+  /* Override shadcn vars for components used in landing */
+  --background: #F7F4F0;
+  --foreground: #1F1A14;
+  --card: #EFEBE4;
+  --card-foreground: #1F1A14;
+  --popover: #EFEBE4;
+  --popover-foreground: #1F1A14;
+  --primary: #A65D2E;
+  --primary-foreground: #F7F4F0;
+  --secondary: #E6E0D6;
+  --secondary-foreground: #1F1A14;
+  --muted: #E6E0D6;
+  --muted-foreground: #5C5248;
+  --accent: rgba(166, 93, 46, 0.10);
+  --accent-foreground: #A65D2E;
+  --border: rgba(0, 0, 0, 0.06);
+  --input: rgba(0, 0, 0, 0.06);
+  --ring: #A65D2E;
+}
+
+.landing-theme .landing-card,
+.landing-theme .landing-sidebar,
+.landing-theme .landing-hero {
+  transition: background-color 0.4s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* ========================================
