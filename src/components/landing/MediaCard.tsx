@@ -10,7 +10,7 @@ import { WeddingPreview } from './previews/WeddingPreview'
 
 const PREVIEW_MATCHERS: Array<{ keywords: string[]; component: React.ComponentType }> = [
   { keywords: ['football', 'auction', 'draft'], component: FantasyFootballPreview },
-  { keywords: ['pokemon', 'tcg', 'card market'], component: PokemonTCGPreview },
+  { keywords: ['pokemon', 'tcg', 'card market', 'pokeassistant', 'poke'], component: PokemonTCGPreview },
   { keywords: ['wedding'], component: WeddingPreview },
 ]
 
