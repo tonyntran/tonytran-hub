@@ -5,6 +5,9 @@ import { useRef, useEffect, useCallback } from 'react'
 const PARTICLE_COUNT = 400
 const CONNECT_DIST = 120
 const MOUSE_RADIUS = 220
+const REPULSE_DIST = 18
+const MAX_SPEED = 2.5
+const MAX_CONNECTIONS = 600
 
 interface Particle {
   x: number
@@ -20,6 +23,7 @@ export function ParticleCanvas() {
   const mouseRef = useRef({ x: -1000, y: -1000 })
   const particlesRef = useRef<Particle[]>([])
   const animFrameRef = useRef<number>(0)
+  const colorRef = useRef('224, 155, 108')
 
   const createParticles = useCallback((w: number, h: number) => {
     particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => ({
@@ -30,6 +34,13 @@ export function ParticleCanvas() {
       r: Math.random() * 1.8 + 0.6,
       alpha: Math.random() * 0.45 + 0.12,
     }))
+  }, [])
+
+  const readParticleColor = useCallback(() => {
+    const raw = getComputedStyle(document.documentElement)
+      .getPropertyValue('--landing-particle-rgb')
+      .trim()
+    if (raw) colorRef.current = raw
   }, [])
 
   useEffect(() => {
@@ -53,20 +64,55 @@ export function ParticleCanvas() {
       const mouse = mouseRef.current
       ctx!.clearRect(0, 0, W, H)
 
-      // Connecting lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
+      // Connecting lines (capped to prevent lag when particles clump)
+      let connCount = 0
+      ctx!.strokeStyle = `rgba(${colorRef.current}, 0.10)`
+      ctx!.lineWidth = 0.5
+      for (let i = 0; i < particles.length && connCount < MAX_CONNECTIONS; i++) {
+        for (let j = i + 1; j < particles.length && connCount < MAX_CONNECTIONS; j++) {
           const dx = particles[i].x - particles[j].x
           const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < CONNECT_DIST) {
+          const distSq = dx * dx + dy * dy
+          if (distSq < CONNECT_DIST * CONNECT_DIST) {
+            const dist = Math.sqrt(distSq)
             const alpha = (1 - dist / CONNECT_DIST) * 0.10
-            ctx!.strokeStyle = `rgba(224, 155, 108, ${alpha})`
-            ctx!.lineWidth = 0.5
+            ctx!.strokeStyle = `rgba(${colorRef.current}, ${alpha})`
             ctx!.beginPath()
             ctx!.moveTo(particles[i].x, particles[i].y)
             ctx!.lineTo(particles[j].x, particles[j].y)
             ctx!.stroke()
+            connCount++
+          }
+        }
+      }
+
+      // Collect particles near the mouse for targeted repulsion
+      const nearMouse: number[] = []
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i]
+        const dx = mouse.x - p.x
+        const dy = mouse.y - p.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < MOUSE_RADIUS) nearMouse.push(i)
+      }
+
+      // Repulsion only among particles clustered near the cursor
+      for (let a = 0; a < nearMouse.length; a++) {
+        for (let b = a + 1; b < nearMouse.length; b++) {
+          const p = particles[nearMouse[a]]
+          const q = particles[nearMouse[b]]
+          const rx = p.x - q.x
+          const ry = p.y - q.y
+          const rDistSq = rx * rx + ry * ry
+          if (rDistSq < REPULSE_DIST * REPULSE_DIST && rDistSq > 0.01) {
+            const rDist = Math.sqrt(rDistSq)
+            const push = (REPULSE_DIST - rDist) / REPULSE_DIST * 0.3
+            const nx = rx / rDist
+            const ny = ry / rDist
+            p.vx += nx * push
+            p.vy += ny * push
+            q.vx -= nx * push
+            q.vy -= ny * push
           }
         }
       }
@@ -86,6 +132,14 @@ export function ParticleCanvas() {
         p.vy *= 0.985
         p.vx += (Math.random() - 0.5) * 0.015
         p.vy += (Math.random() - 0.5) * 0.015
+
+        // Velocity cap
+        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy)
+        if (speed > MAX_SPEED) {
+          p.vx = (p.vx / speed) * MAX_SPEED
+          p.vy = (p.vy / speed) * MAX_SPEED
+        }
+
         p.x += p.vx
         p.y += p.vy
 
@@ -96,14 +150,14 @@ export function ParticleCanvas() {
 
         ctx!.beginPath()
         ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx!.fillStyle = `rgba(224, 155, 108, ${p.alpha})`
+        ctx!.fillStyle = `rgba(${colorRef.current}, ${p.alpha})`
         ctx!.fill()
       }
 
       // Mouse glow
       if (mouse.x > 0) {
         const grd = ctx!.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 140)
-        grd.addColorStop(0, 'rgba(224, 155, 108, 0.05)')
+        grd.addColorStop(0, `rgba(${colorRef.current}, 0.05)`)
         grd.addColorStop(1, 'transparent')
         ctx!.fillStyle = grd
         ctx!.fillRect(mouse.x - 140, mouse.y - 140, 280, 280)
@@ -121,6 +175,16 @@ export function ParticleCanvas() {
     }
 
     resize()
+
+    readParticleColor()
+
+    // Watch for theme class changes on <html>
+    const observer = new MutationObserver(() => readParticleColor())
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
     draw()
 
     window.addEventListener('resize', resize)
@@ -129,11 +193,12 @@ export function ParticleCanvas() {
 
     return () => {
       cancelAnimationFrame(animFrameRef.current)
+      observer.disconnect()
       window.removeEventListener('resize', resize)
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('mouseleave', onMouseLeave)
     }
-  }, [createParticles])
+  }, [createParticles, readParticleColor])
 
   return <canvas ref={canvasRef} />
 }
