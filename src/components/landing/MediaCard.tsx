@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import type { ContentBlock, ProjectMetadata } from '@/lib/types'
 
@@ -45,7 +45,12 @@ function MockApp() {
 export function MediaCard({ block, className = '', hasVideo = false }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
   const { theme } = useTheme()
-  const gradients = theme === 'light' ? LIGHT_GRADIENTS : GRADIENTS
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  // Use dark gradients during SSR to match server render, then swap after mount
+  const gradients = mounted && theme === 'light' ? LIGHT_GRADIENTS : GRADIENTS
   const meta = block.metadata as ProjectMetadata
 
   // Auto-measure info panel height for hover transition
