@@ -1,4 +1,5 @@
 import type { ContentBlock, HeroMetadata } from '@/lib/types'
+import { AnimatedCard } from './AnimatedCard'
 
 interface Props {
   block: ContentBlock | undefined
@@ -9,7 +10,7 @@ export function BentoHero({ block }: Props) {
   const { subtitle } = block.metadata as HeroMetadata
 
   return (
-    <div className="landing-card landing-bento-hero">
+    <AnimatedCard className="landing-card landing-bento-hero" delay={0}>
       <div className="landing-bento-hello">// Hello, world</div>
       <div className="landing-bento-title">
         Building things<br />for the web
@@ -21,6 +22,6 @@ export function BentoHero({ block }: Props) {
         <span className="landing-hero-highlight">cloud infrastructure</span>.{' '}
         {subtitle}
       </div>
-    </div>
+    </AnimatedCard>
   )
 }

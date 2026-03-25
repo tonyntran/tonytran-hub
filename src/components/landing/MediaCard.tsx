@@ -3,11 +3,13 @@
 import { useRef, useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import type { ContentBlock, ProjectMetadata } from '@/lib/types'
+import { AnimatedCard } from './AnimatedCard'
 
 interface Props {
   block: ContentBlock
   className?: string
   hasVideo?: boolean
+  index?: number
 }
 
 const GRADIENTS = [
@@ -42,7 +44,7 @@ function MockApp() {
   )
 }
 
-export function MediaCard({ block, className = '', hasVideo = false }: Props) {
+export function MediaCard({ block, className = '', hasVideo = false, index = 0 }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -71,8 +73,9 @@ export function MediaCard({ block, className = '', hasVideo = false }: Props) {
   const gradientIndex = Math.abs(block.id.charCodeAt(0)) % gradients.length
 
   return (
-    <div ref={cardRef} className={`landing-card landing-media-card ${className}`}>
-      <div className="landing-media-wrapper">
+    <AnimatedCard delay={0.05 + index * 0.1}>
+      <div ref={cardRef} className={`landing-card landing-media-card ${className}`}>
+        <div className="landing-media-wrapper">
         <div className="landing-media-info">
           <div className="landing-media-title">{block.title}</div>
           <div className="landing-media-meta">
@@ -117,6 +120,7 @@ export function MediaCard({ block, className = '', hasVideo = false }: Props) {
         </div>
       </div>
       <span className="landing-media-close">&times;</span>
-    </div>
+      </div>
+    </AnimatedCard>
   )
 }

@@ -17,6 +17,7 @@ export function Projects({ blocks }: Props) {
           block={block}
           className={`landing-media-${i + 1}`}
           hasVideo={i === 1}
+          index={i}
         />
       ))}
     </>

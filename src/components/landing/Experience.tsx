@@ -1,4 +1,5 @@
 import type { ContentBlock, ExperienceMetadata } from '@/lib/types'
+import { AnimatedCard } from './AnimatedCard'
 
 interface Props {
   blocks: ContentBlock[]
@@ -8,7 +9,7 @@ export function Experience({ blocks }: Props) {
   if (blocks.length === 0) return null
 
   return (
-    <div className="landing-card landing-experience" id="experience">
+    <AnimatedCard className="landing-card landing-experience" id="experience" delay={0.1}>
       <div className="landing-card-label">Experience</div>
       <div className="landing-timeline">
         {blocks.map((block) => {
@@ -27,6 +28,6 @@ export function Experience({ blocks }: Props) {
           )
         })}
       </div>
-    </div>
+    </AnimatedCard>
   )
 }
