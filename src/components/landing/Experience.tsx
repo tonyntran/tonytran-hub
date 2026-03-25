@@ -17,9 +17,11 @@ export function Experience({ blocks }: Props) {
           return (
             <div key={block.id} className="landing-timeline-entry">
               <div className="landing-timeline-role">{meta.role}</div>
-              <div className="landing-timeline-company">{meta.company}</div>
-              <div className="landing-timeline-period">
-                {meta.start_date} — {meta.end_date ?? 'Present'}
+              <div className="landing-timeline-meta">
+                <span className="landing-timeline-company">{meta.company}</span>
+                <span className="landing-timeline-period">
+                  {meta.start_date} — {meta.end_date ?? 'Present'}
+                </span>
               </div>
               {block.body_md && (
                 <div className="landing-timeline-desc">{block.body_md}</div>
