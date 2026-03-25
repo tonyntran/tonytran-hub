@@ -179,14 +179,14 @@
    ======================================== */
 :root:not(.dark) .landing-theme,
 .light .landing-theme {
-  --landing-bg: #F0E9DE;
-  --landing-bg-sidebar: #E6DDD0;
-  --landing-bg-card: #E6DDD0;
-  --landing-bg-card-hover: #DCD2C3;
-  --landing-bg-card-gradient: linear-gradient(135deg, #E6DDD0 0%, #DCD2C3 100%);
-  --landing-text: #231D14;
+  --landing-bg: #EDE5D8;
+  --landing-bg-sidebar: #E2D9CA;
+  --landing-bg-card: #E2D9CA;
+  --landing-bg-card-hover: #D8CDBC;
+  --landing-bg-card-gradient: linear-gradient(135deg, #E2D9CA 0%, #D8CDBC 100%);
+  --landing-text: #2A2015;
   --landing-text-muted: #5C5248;
-  --landing-text-dim: rgba(35, 29, 20, 0.3);
+  --landing-text-dim: rgba(42, 32, 21, 0.3);
   --landing-accent: #A65D2E;
   --landing-accent-bg: rgba(166, 93, 46, 0.12);
   --landing-accent-bg-hover: rgba(166, 93, 46, 0.20);
@@ -195,17 +195,17 @@
   --landing-particle-rgb: 166, 93, 46;
 
   /* Override shadcn vars for components used in landing */
-  --background: #F0E9DE;
-  --foreground: #231D14;
-  --card: #E6DDD0;
-  --card-foreground: #231D14;
-  --popover: #E6DDD0;
-  --popover-foreground: #231D14;
+  --background: #EDE5D8;
+  --foreground: #2A2015;
+  --card: #E2D9CA;
+  --card-foreground: #2A2015;
+  --popover: #E2D9CA;
+  --popover-foreground: #2A2015;
   --primary: #A65D2E;
-  --primary-foreground: #F0E9DE;
-  --secondary: #DCD2C3;
-  --secondary-foreground: #231D14;
-  --muted: #DCD2C3;
+  --primary-foreground: #EDE5D8;
+  --secondary: #D8CDBC;
+  --secondary-foreground: #2A2015;
+  --muted: #D8CDBC;
   --muted-foreground: #5C5248;
   --accent: rgba(166, 93, 46, 0.12);
   --accent-foreground: #A65D2E;
