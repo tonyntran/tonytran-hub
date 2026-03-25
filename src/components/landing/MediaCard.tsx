@@ -89,8 +89,8 @@ export function MediaCard({ block, className = '', hasVideo = false, index = 0 }
   const gradientIndex = Math.abs(block.id.charCodeAt(0)) % gradients.length
 
   return (
-    <AnimatedCard delay={0.05 + index * 0.1}>
-      <div ref={cardRef} className={`landing-card landing-media-card ${className}`}>
+    <AnimatedCard className={className} delay={0.05 + index * 0.1}>
+      <div ref={cardRef} className="landing-card landing-media-card">
         <div className="landing-media-wrapper">
         <div className="landing-media-info">
           <div className="landing-media-title">{block.title}</div>
