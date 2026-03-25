@@ -704,6 +704,11 @@
   transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
+.landing-bento .landing-card {
+  position: relative;
+  z-index: 1;
+}
+
 .landing-card:hover {
   border-color: var(--landing-border-hover);
   transform: translateY(-2px);
