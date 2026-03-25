@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
+import { useTheme } from 'next-themes'
 import type { ContentBlock, ProjectMetadata } from '@/lib/types'
 
 interface Props {
@@ -13,6 +14,12 @@ const GRADIENTS = [
   'linear-gradient(135deg, #2D3748 0%, #1A365D 40%, #2A4365 100%)',
   'linear-gradient(135deg, #2D2D2D 0%, #1A1A2E 40%, #16213E 100%)',
   'linear-gradient(135deg, #1A1F16 0%, #2D3320 40%, #1A2410 100%)',
+]
+
+const LIGHT_GRADIENTS = [
+  'linear-gradient(135deg, #E8E2D8 0%, #D4CCC0 40%, #E0D8CC 100%)',
+  'linear-gradient(135deg, #E5E0D8 0%, #D8D0C5 40%, #DDD5C8 100%)',
+  'linear-gradient(135deg, #EAE5DD 0%, #D6CFC3 40%, #E2DAD0 100%)',
 ]
 
 function MockApp() {
@@ -37,6 +44,8 @@ function MockApp() {
 
 export function MediaCard({ block, className = '', hasVideo = false }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const { theme } = useTheme()
+  const gradients = theme === 'light' ? LIGHT_GRADIENTS : GRADIENTS
   const meta = block.metadata as ProjectMetadata
 
   // Auto-measure info panel height for hover transition
@@ -54,7 +63,7 @@ export function MediaCard({ block, className = '', hasVideo = false }: Props) {
     card.style.setProperty('--info-h', `${h}px`)
   }, [])
 
-  const gradientIndex = Math.abs(block.id.charCodeAt(0)) % GRADIENTS.length
+  const gradientIndex = Math.abs(block.id.charCodeAt(0)) % gradients.length
 
   return (
     <div ref={cardRef} className={`landing-card landing-media-card ${className}`}>
@@ -94,7 +103,7 @@ export function MediaCard({ block, className = '', hasVideo = false }: Props) {
           ) : (
             <div
               className="landing-media-visual-placeholder"
-              style={{ background: GRADIENTS[gradientIndex] }}
+              style={{ background: gradients[gradientIndex] }}
             >
               <MockApp />
             </div>
