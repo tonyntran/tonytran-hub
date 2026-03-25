@@ -277,7 +277,7 @@
   border-radius: 20px;
   background: radial-gradient(
     ellipse at 50% 40%,
-    rgba(224, 155, 108, 0.10) 0%,
+    color-mix(in srgb, var(--landing-accent) 10%, transparent) 0%,
     transparent 65%
   );
   animation: landing-avatar-glow-pulse 4s ease-in-out infinite;
@@ -291,7 +291,7 @@
   object-fit: cover;
   position: relative;
   z-index: 4;
-  border: 1px solid rgba(224, 155, 108, 0.12);
+  border: 1px solid color-mix(in srgb, var(--landing-accent) 12%, transparent);
   border-radius: 12px;
   mask-image: linear-gradient(to bottom,
     black 0%, black 70%,
@@ -316,21 +316,21 @@
 /* Ring 1 — inner, tight orbit, fast */
 .landing-hero-ring-1 {
   inset: -24px;
-  border: 1px solid rgba(224, 155, 108, 0.16);
+  border: 1px solid color-mix(in srgb, var(--landing-accent) 16%, transparent);
   animation: landing-ring-orbit-1 14s linear infinite;
 }
 
 /* Ring 2 — middle, dashed, reverse direction */
 .landing-hero-ring-2 {
   inset: -55px;
-  border: 1px dashed rgba(224, 155, 108, 0.08);
+  border: 1px dashed color-mix(in srgb, var(--landing-accent) 8%, transparent);
   animation: landing-ring-orbit-2 22s linear infinite reverse;
 }
 
 /* Ring 3 — outer, widest, slow and faint */
 .landing-hero-ring-3 {
   inset: -90px;
-  border: 1px solid rgba(224, 155, 108, 0.05);
+  border: 1px solid color-mix(in srgb, var(--landing-accent) 5%, transparent);
   animation: landing-ring-orbit-3 35s linear infinite;
 }
 
@@ -341,7 +341,7 @@
   height: 5px;
   border-radius: 50%;
   background: var(--landing-accent);
-  box-shadow: 0 0 10px rgba(224, 155, 108, 0.5), 0 0 20px rgba(224, 155, 108, 0.2);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--landing-accent) 50%, transparent), 0 0 20px color-mix(in srgb, var(--landing-accent) 20%, transparent);
   /* Position on the ring edge using rotate + translate */
   top: 50%;
   left: 50%;
