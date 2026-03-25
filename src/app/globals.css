@@ -830,17 +830,8 @@
   transition: background 0.2s;
 }
 
-.landing-skill-tag:nth-child(even) {
-  background: var(--landing-accent-secondary-bg);
-  color: var(--landing-accent-secondary);
-}
-
 .landing-skill-tag:hover {
   background: var(--landing-accent-bg-hover);
-}
-
-.landing-skill-tag:nth-child(even):hover {
-  background: rgba(126, 160, 180, 0.22);
 }
 
 .landing-skill-category {
