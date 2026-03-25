@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Mockup — Tony Tran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #1C2228;
+    --bg-sidebar: #141A1F;
+    --bg-card: #2A3540;
+    --bg-card-hover: #324050;
+    --bg-card-gradient: linear-gradient(135deg, #2A3540 0%, #324050 100%);
+    --text: #EDE8E0;
+    --text-muted: #8A9AA8;
+    --text-dim: rgba(237,232,224,0.3);
+    --accent: #E09B6C;
+    --accent-bg: rgba(224,155,108,0.14);
+    --accent-bg-hover: rgba(224,155,108,0.22);
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.14);
+    --font-display: 'Oswald', sans-serif;
+    --font-body: 'Source Sans 3', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ========================================
+     FULLSCREEN HERO WITH PARTICLE CANVAS
+     ======================================== */
+  .hero-fullscreen {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 20;
+  }
+
+  .hero-fullscreen canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+    padding-bottom: 40px;
+  }
+
+  .hero-avatar {
+    width: 200px; height: 200px;
+    margin: 0 auto 36px; position: relative;
+    perspective: 900px;
+    opacity: 0; transform: translateY(20px) scale(0.92);
+    animation: heroIn 1.2s 0.1s ease-out forwards;
+  }
+  .hero-avatar::before {
+    content: ''; position: absolute; inset: -60px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(224,155,108,0.12) 0%, rgba(224,155,108,0.04) 40%, transparent 65%);
+    animation: glowPulse 4s ease-in-out infinite; z-index: 0;
+  }
+  .hero-avatar img {
+    width: 100%; height: 100%; object-fit: cover;
+    position: relative; z-index: 4; border: none; border-radius: 50%;
+    mask-image: radial-gradient(ellipse 52% 52% at 50% 46%, black 55%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.2) 85%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 52% 52% at 50% 46%, black 55%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.2) 85%, transparent 100%);
+  }
+  .hero-ring { position: absolute; border-radius: 50%; transform-style: preserve-3d; z-index: 2; }
+  .hero-ring-1 { inset: -20px; border: 1px solid rgba(224,155,108,0.18); animation: ringOrbit1 14s linear infinite; }
+  .hero-ring-2 { inset: -50px; border: 1px dashed rgba(224,155,108,0.10); animation: ringOrbit2 22s linear infinite reverse; }
+  .hero-ring-3 { inset: -85px; border: 1px solid rgba(224,155,108,0.07); animation: ringOrbit3 35s linear infinite; }
+  .hero-orbit-dot {
+    position: absolute; border-radius: 50%; background: #E09B6C;
+    box-shadow: 0 0 10px rgba(224,155,108,0.5), 0 0 20px rgba(224,155,108,0.2);
+  }
+  .hero-ring-1 .hero-orbit-dot { width: 4px; height: 4px; }
+  .hero-ring-1 .hero-orbit-dot:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+  .hero-ring-1 .hero-orbit-dot:nth-child(2) { bottom: 0; left: 50%; transform: translateX(-50%); }
+  .hero-ring-2 .hero-orbit-dot { width: 3px; height: 3px; opacity: 0.7; }
+  .hero-ring-2 .hero-orbit-dot:nth-child(1) { top: 50%; right: 0; transform: translateY(-50%); }
+  .hero-ring-3 .hero-orbit-dot { width: 5px; height: 5px; opacity: 0.5; }
+  .hero-ring-3 .hero-orbit-dot:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+  .hero-ring-3 .hero-orbit-dot:nth-child(2) { top: 50%; left: 0; transform: translateY(-50%); }
+  .hero-ring-3 .hero-orbit-dot:nth-child(3) { bottom: 0; right: 0; }
+  @keyframes ringOrbit1 {
+    from { transform: rotateX(68deg) rotateZ(0deg); }
+    to { transform: rotateX(68deg) rotateZ(360deg); }
+  }
+  @keyframes ringOrbit2 {
+    from { transform: rotateX(55deg) rotateY(25deg) rotateZ(0deg); }
+    to { transform: rotateX(55deg) rotateY(25deg) rotateZ(360deg); }
+  }
+  @keyframes ringOrbit3 {
+    from { transform: rotateX(72deg) rotateY(-15deg) rotateZ(0deg); }
+    to { transform: rotateX(72deg) rotateY(-15deg) rotateZ(360deg); }
+  }
+  @keyframes glowPulse { 0%,100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.1); } }
+
+  .hero-content .hero-name {
+    font-family: var(--font-display);
+    font-size: 7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    line-height: 1;
+    white-space: nowrap;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroIn 1s 0.3s ease-out forwards;
+  }
+
+  .hero-content .hero-tagline {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroIn 0.8s 0.7s ease-out forwards;
+  }
+
+  .hero-content .hero-cta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: heroIn 0.8s 1.1s ease-out forwards;
+    pointer-events: auto;
+    cursor: pointer;
+    background: none;
+    border: 1px solid rgba(224,155,108,0.3);
+    padding: 12px 28px;
+    border-radius: 8px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .hero-content .hero-cta:hover {
+    background: rgba(224,155,108,0.1);
+    border-color: rgba(224,155,108,0.5);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: heroIn 0.6s 1.5s ease-out forwards;
+  }
+
+  .scroll-indicator span {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes heroIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.6; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* ========================================
+     PORTFOLIO LAYOUT (below hero)
+     ======================================== */
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Sidebar — starts hidden, revealed by scroll JS */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    padding: 44px 32px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease;
+  }
+
+  .sidebar.visible {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .avatar {
+    width: 96px; height: 96px; border-radius: 50%;
+    background: var(--bg-card); border: 2px solid var(--border);
+    margin-bottom: 22px; display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 1.4rem; font-weight: 600;
+    color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .sidebar-name { font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; color: var(--text); line-height: 1.05; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 6px; }
+  .sidebar-role { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
+  .sidebar-location { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 36px; }
+
+  .sidebar-nav { display: flex; flex-direction: column; }
+  .sidebar-nav a { display: block; padding: 10px 0 10px 16px; margin-left: -32px; font-family: var(--font-display); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+  .sidebar-nav a:hover { color: var(--text); }
+  .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); }
+
+  .sidebar-status { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 22px; padding: 10px 14px; background: var(--accent-bg); border-radius: 8px; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #5CB85C; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .sidebar-socials { display: flex; gap: 20px; }
+  .sidebar-socials a { font-size: 0.78rem; color: var(--text-dim); text-decoration: none; transition: color 0.25s; }
+  .sidebar-socials a:hover { color: var(--accent); }
+
+  /* Main content — starts hidden, revealed by scroll */
+  .main {
+    grid-column: 2;
+    padding: 32px 36px 60px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .main.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+    max-width: 1100px;
+  }
+
+  /* ========== BASE CARD ========== */
+  .card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  }
+
+  .card-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px; }
+
+  .card-title {
+    font-family: var(--font-display); font-size: 1.5rem; font-weight: 600;
+    color: var(--text); text-transform: uppercase; letter-spacing: 0.03em;
+    line-height: 1.15; margin-bottom: 8px;
+  }
+
+  /* ========== BENTO HERO CARD ========== */
+  .card-hero {
+    grid-column: 1 / -1;
+    padding: 48px 40px;
+    background: var(--bg-card-gradient);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .card-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.5;
+  }
+
+  .bento-hero-hello { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; position: relative; }
+  .bento-hero-title { font-family: var(--font-display); font-size: 4rem; font-weight: 600; color: var(--text); line-height: 1.05; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 12px; position: relative; }
+  .bento-hero-subtitle { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; max-width: 600px; position: relative; }
+  .hero-accent { color: var(--accent); }
+
+  /* ========== ABOUT ========== */
+  .card-about { grid-column: 1 / 8; min-height: 180px; }
+  .about-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-top: 4px; }
+
+  /* ========== SKILLS ========== */
+  .card-skills { grid-column: 8 / -1; min-height: 180px; }
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .skill-tag { padding: 5px 14px; border-radius: 20px; font-size: 0.75rem; background: var(--accent-bg); color: var(--accent); font-family: var(--font-mono); transition: background 0.2s; }
+  .skill-tag:hover { background: var(--accent-bg-hover); }
+  .skill-category { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 14px; margin-bottom: 8px; }
+  .skill-category:first-child { margin-top: 0; }
+
+  /* ========== MEDIA CARD ========== */
+  .card-media { padding: 0; cursor: pointer; background: var(--bg-card); }
+  .card-media-1 { grid-column: 1 / 7; min-height: 360px; }
+  .card-media-2 { grid-column: 7 / -1; min-height: 360px; }
+  .card-media-3 { grid-column: 1 / 5; min-height: 340px; }
+
+  .media-wrapper { position: absolute; inset: 0; overflow: hidden; }
+  .media-info { position: absolute; top: 0; left: 0; right: 0; padding: 24px 28px 20px; transform: translateY(-100%); opacity: 0; transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.35s ease; z-index: 2; background: var(--bg-card); }
+  .media-info .media-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text); margin-bottom: 4px; }
+  .media-info .media-meta { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.05em; margin-bottom: 10px; }
+  .media-info .media-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; }
+  .media-info .media-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .media-info .media-tags span { font-family: var(--font-mono); font-size: 0.63rem; padding: 3px 10px; border-radius: 12px; background: var(--accent-bg); color: var(--accent); }
+  .media-info .media-links { display: flex; gap: 14px; margin-top: 12px; }
+  .media-info .media-links a { font-size: 0.76rem; color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+  .media-info .media-links a:hover { opacity: 0.7; }
+
+  .media-visual { position: absolute; inset: 0; overflow: hidden; transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94); z-index: 1; }
+  .media-visual-inner { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .media-close { position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; z-index: 5; opacity: 0; transition: opacity 0.3s; cursor: pointer; color: var(--text); font-size: 0.7rem; }
+
+  .card-media:hover .media-info { transform: translateY(0); opacity: 1; }
+  .card-media:hover .media-visual { transform: translateY(var(--info-h, 180px)); }
+  .card-media:hover .media-close { opacity: 1; }
+
+  .visual-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .visual-placeholder-1 { background: linear-gradient(135deg, #2D3748 0%, #1A365D 40%, #2A4365 100%); }
+  .visual-placeholder-2 { background: linear-gradient(135deg, #2D2D2D 0%, #1A1A2E 40%, #16213E 100%); }
+  .visual-placeholder-3 { background: linear-gradient(135deg, #1A1F16 0%, #2D3320 40%, #1A2410 100%); }
+
+  .mock-app { width: 75%; height: 65%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); display: grid; grid-template-columns: 50px 1fr; grid-template-rows: 24px 1fr; overflow: hidden; }
+  .mock-app .m-topbar { grid-column: 1 / -1; background: rgba(255,255,255,0.05); display: flex; align-items: center; padding: 0 8px; gap: 4px; }
+  .mock-app .m-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+  .mock-app .m-side { background: rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.05); }
+  .mock-app .m-body { padding: 6px; display: flex; flex-direction: column; gap: 5px; }
+  .mock-app .m-line { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.06); }
+  .mock-app .m-line.short { width: 55%; }
+  .mock-app .m-line.acc { background: rgba(224,155,108,0.2); width: 38%; }
+
+  .play-icon { position: absolute; bottom: 16px; left: 16px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; z-index: 3; transition: opacity 0.3s, transform 0.3s; }
+  .play-icon::after { content: ''; display: block; width: 0; height: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent rgba(255,255,255,0.8); margin-left: 2px; }
+  .card-media:hover .play-icon { opacity: 0; transform: scale(0.8); }
+
+  /* ========== EXPERIENCE ========== */
+  .card-experience { grid-column: 5 / -1; min-height: 280px; }
+  .timeline { margin-top: 8px; }
+  .timeline-entry { position: relative; padding-left: 20px; padding-bottom: 24px; border-left: 1px solid var(--border); }
+  .timeline-entry:last-child { padding-bottom: 0; }
+  .timeline-entry::before { content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .timeline-entry:not(:first-child)::before { background: var(--text-dim); }
+  .timeline-role { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text); margin-bottom: 2px; }
+  .timeline-company { font-size: 0.82rem; color: var(--accent); margin-bottom: 2px; }
+  .timeline-period { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim); margin-bottom: 6px; }
+  .timeline-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* ========== CONTACT ========== */
+  .card-contact { grid-column: 1 / -1; padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; background: var(--bg-card-gradient); }
+  .contact-heading { font-family: var(--font-display); font-size: 2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text); margin-bottom: 6px; }
+  .contact-sub { font-size: 0.88rem; color: var(--text-muted); }
+  .contact-links { display: flex; gap: 12px; }
+  .contact-btn { padding: 10px 24px; border-radius: 10px; font-size: 0.82rem; font-family: var(--font-body); font-weight: 500; text-decoration: none; transition: all 0.25s; cursor: pointer; }
+  .contact-btn-primary { background: var(--accent); color: var(--bg); border: 1px solid var(--accent); }
+  .contact-btn-primary:hover { opacity: 0.85; }
+  .contact-btn-secondary { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+  .contact-btn-secondary:hover { color: var(--text); border-color: var(--border-hover); }
+</style>
+</head>
+<body>
+
+<!-- ======== FULLSCREEN HERO ======== -->
+<section class="hero-fullscreen" id="heroSection">
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-avatar" id="heroAvatar">
+      <div class="hero-ring hero-ring-1"><span class="hero-orbit-dot"></span><span class="hero-orbit-dot"></span></div>
+      <div class="hero-ring hero-ring-2"><span class="hero-orbit-dot"></span></div>
+      <div class="hero-ring hero-ring-3"><span class="hero-orbit-dot"></span><span class="hero-orbit-dot"></span><span class="hero-orbit-dot"></span></div>
+      <img src="/assets/profile.png" alt="Tony Tran">
+    </div>
+    <div class="hero-name">Tony Tran</div>
+    <div class="hero-tagline">Full Stack Engineer</div>
+    <button class="hero-cta" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">Explore My Work</button>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ======== PORTFOLIO SECTION ======== -->
+<div class="layout" id="portfolio">
+
+  <aside class="sidebar" id="sidebar">
+    <div>
+      <div class="avatar"><img src="/assets/profile.png" alt="Tony Tran" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+      <div class="sidebar-name">Tony Tran</div>
+      <div class="sidebar-role">Full-Stack Developer</div>
+      <div class="sidebar-location">Based in the US</div>
+      <nav class="sidebar-nav">
+        <a href="#" class="active">About</a>
+        <a href="#">Experience</a>
+        <a href="#">Projects</a>
+        <a href="#">Skills</a>
+        <a href="#">Contact</a>
+      </nav>
+    </div>
+    <div>
+      <div class="sidebar-status"><span class="status-dot"></span> Open to opportunities</div>
+      <div class="sidebar-socials"><a href="#">GitHub</a><a href="#">LinkedIn</a><a href="#">Email</a></div>
+    </div>
+  </aside>
+
+  <main class="main" id="mainContent">
+    <div class="bento">
+
+      <div class="card card-hero">
+        <div class="bento-hero-hello">// Hello, world</div>
+        <div class="bento-hero-title">Building things<br>for the web</div>
+        <div class="bento-hero-subtitle">Full-stack developer crafting modern applications with <span class="hero-accent">React</span>, <span class="hero-accent">Next.js</span>, and <span class="hero-accent">cloud infrastructure</span>. Focused on shipping fast and building well.</div>
+      </div>
+
+      <div class="card card-about">
+        <div class="card-label">About</div>
+        <div class="card-title">A bit about me</div>
+        <div class="about-text">Developer with a passion for building scalable, user-focused web applications. I enjoy the full spectrum — from designing clean interfaces to architecting backend systems and deployment pipelines. Currently exploring AI-powered tooling and developer experience.</div>
+      </div>
+
+      <div class="card card-skills">
+        <div class="card-label">Skills</div>
+        <div class="skill-category">Frontend</div>
+        <div class="skills-grid"><span class="skill-tag">React</span><span class="skill-tag">Next.js</span><span class="skill-tag">TypeScript</span><span class="skill-tag">Tailwind</span></div>
+        <div class="skill-category">Backend</div>
+        <div class="skills-grid"><span class="skill-tag">Node.js</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">Supabase</span></div>
+        <div class="skill-category">Infra</div>
+        <div class="skills-grid"><span class="skill-tag">AWS</span><span class="skill-tag">Docker</span><span class="skill-tag">CI/CD</span></div>
+      </div>
+
+      <div class="card card-media card-media-1">
+        <div class="media-wrapper">
+          <div class="media-info">
+            <div class="media-title">Portfolio Hub</div>
+            <div class="media-meta">Next.js &middot; 2024</div>
+            <div class="media-desc">A modular personal dashboard and portfolio system with CMS-powered content, analytics, and project showcase.</div>
+            <div class="media-tags"><span>Next.js</span><span>Supabase</span><span>Tailwind</span><span>TypeScript</span></div>
+            <div class="media-links"><a href="#">Live Demo &rarr;</a><a href="#">GitHub &rarr;</a></div>
+          </div>
+          <div class="media-visual"><div class="visual-placeholder visual-placeholder-1 media-visual-inner"><div class="mock-app"><div class="m-topbar"><span class="m-dot"></span><span class="m-dot"></span><span class="m-dot"></span></div><div class="m-side"></div><div class="m-body"><div class="m-line"></div><div class="m-line short"></div><div class="m-line acc"></div><div class="m-line"></div><div class="m-line short"></div></div></div></div></div>
+        </div>
+        <span class="media-close">&times;</span>
+      </div>
+
+      <div class="card card-media card-media-2">
+        <div class="media-wrapper">
+          <div class="media-info">
+            <div class="media-title">Dev Tooling CLI</div>
+            <div class="media-meta">Node.js &middot; 2024</div>
+            <div class="media-desc">Command-line tool for scaffolding and managing full-stack project templates with built-in CI/CD pipelines.</div>
+            <div class="media-tags"><span>Node.js</span><span>TypeScript</span><span>CLI</span></div>
+            <div class="media-links"><a href="#">GitHub &rarr;</a></div>
+          </div>
+          <div class="media-visual"><div class="visual-placeholder visual-placeholder-2 media-visual-inner"><div class="mock-app"><div class="m-topbar"><span class="m-dot"></span><span class="m-dot"></span><span class="m-dot"></span></div><div class="m-side"></div><div class="m-body"><div class="m-line acc"></div><div class="m-line"></div><div class="m-line short"></div><div class="m-line"></div><div class="m-line acc"></div></div></div></div><div class="play-icon"></div></div>
+        </div>
+        <span class="media-close">&times;</span>
+      </div>
+
+      <div class="card card-media card-media-3">
+        <div class="media-wrapper">
+          <div class="media-info">
+            <div class="media-title">Budget Tracker</div>
+            <div class="media-meta">React &middot; 2023</div>
+            <div class="media-desc">Personal finance app with interactive charts and data visualization.</div>
+            <div class="media-tags"><span>React</span><span>D3.js</span></div>
+            <div class="media-links"><a href="#">Live &rarr;</a></div>
+          </div>
+          <div class="media-visual"><div class="visual-placeholder visual-placeholder-3 media-visual-inner"><div class="mock-app"><div class="m-topbar"><span class="m-dot"></span><span class="m-dot"></span><span class="m-dot"></span></div><div class="m-side"></div><div class="m-body"><div class="m-line short"></div><div class="m-line"></div><div class="m-line acc"></div><div class="m-line short"></div></div></div></div></div>
+        </div>
+        <span class="media-close">&times;</span>
+      </div>
+
+      <div class="card card-experience">
+        <div class="card-label">Experience</div>
+        <div class="timeline">
+          <div class="timeline-entry"><div class="timeline-role">Software Engineer</div><div class="timeline-company">Acme Corp</div><div class="timeline-period">2023 — Present</div><div class="timeline-desc">Building scalable web platforms and internal developer tooling for the engineering team.</div></div>
+          <div class="timeline-entry"><div class="timeline-role">Full-Stack Developer</div><div class="timeline-company">StartupXYZ</div><div class="timeline-period">2021 — 2023</div><div class="timeline-desc">Led frontend architecture migration to Next.js. Built real-time collaboration features.</div></div>
+          <div class="timeline-entry"><div class="timeline-role">Junior Developer</div><div class="timeline-company">Agency Co</div><div class="timeline-period">2020 — 2021</div><div class="timeline-desc">Client-facing web applications and responsive design systems.</div></div>
+        </div>
+      </div>
+
+      <div class="card card-contact">
+        <div><div class="contact-heading">Let's work together</div><div class="contact-sub">Always open to interesting projects and conversations.</div></div>
+        <div class="contact-links"><a class="contact-btn contact-btn-primary" href="#">Get in Touch</a><a class="contact-btn contact-btn-secondary" href="#">Resume</a></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+// =============================================
+// PARTICLE CONSTELLATION CANVAS
+// =============================================
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], mouse = { x: -1000, y: -1000 };
+const PARTICLE_COUNT = 300;
+const CONNECT_DIST = 140;
+const MOUSE_RADIUS = 200;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function createParticles() {
+  particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: Math.random() * 2 + 1,
+      alpha: Math.random() * 0.5 + 0.2
+    });
+  }
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Draw connecting lines
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < CONNECT_DIST) {
+        const alpha = (1 - dist / CONNECT_DIST) * 0.15;
+        ctx.strokeStyle = `rgba(224, 155, 108, ${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Draw and update particles
+  for (const p of particles) {
+    // Mouse repulsion
+    const dx = p.x - mouse.x;
+    const dy = p.y - mouse.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < MOUSE_RADIUS && dist > 0) {
+      const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+      const angle = Math.atan2(dy, dx);
+      p.vx += Math.cos(angle) * force * 0.8;
+      p.vy += Math.sin(angle) * force * 0.8;
+    }
+
+    // Damping
+    p.vx *= 0.98;
+    p.vy *= 0.98;
+
+    // Drift back to natural velocity
+    p.vx += (Math.random() - 0.5) * 0.02;
+    p.vy += (Math.random() - 0.5) * 0.02;
+
+    p.x += p.vx;
+    p.y += p.vy;
+
+    // Wrap edges
+    if (p.x < -10) p.x = W + 10;
+    if (p.x > W + 10) p.x = -10;
+    if (p.y < -10) p.y = H + 10;
+    if (p.y > H + 10) p.y = -10;
+
+    // Draw particle
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(224, 155, 108, ${p.alpha})`;
+    ctx.fill();
+  }
+
+  // Mouse glow
+  if (mouse.x > 0) {
+    const grd = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 120);
+    grd.addColorStop(0, 'rgba(224, 155, 108, 0.04)');
+    grd.addColorStop(1, 'transparent');
+    ctx.fillStyle = grd;
+    ctx.fillRect(mouse.x - 120, mouse.y - 120, 240, 240);
+  }
+
+  requestAnimationFrame(drawParticles);
+}
+
+// Mouse tracking + avatar parallax
+const heroAvatar = document.getElementById('heroAvatar');
+document.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  // Ring parallax
+  if (heroAvatar) {
+    const rect = heroAvatar.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / window.innerWidth;
+    const dy = (e.clientY - cy) / window.innerHeight;
+    heroAvatar.style.setProperty('--mx', dx * 12 + 'deg');
+    heroAvatar.style.setProperty('--my', dy * -12 + 'deg');
+  }
+});
+
+document.addEventListener('mouseleave', () => {
+  mouse.x = -1000;
+  mouse.y = -1000;
+});
+
+window.addEventListener('resize', () => { resize(); createParticles(); });
+resize();
+createParticles();
+drawParticles();
+
+// =============================================
+// SCROLL: HERO FADE + LAYOUT REVEAL
+// =============================================
+const heroSection = document.getElementById('heroSection');
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.getElementById('mainContent');
+let revealed = false;
+
+function onScroll() {
+  const scrollY = window.scrollY;
+  const heroH = window.innerHeight;
+  const progress = Math.min(scrollY / (heroH * 0.6), 1);
+
+  // Fade and scale the hero
+  heroSection.style.opacity = 1 - progress;
+  heroSection.style.transform = `scale(${1 - progress * 0.05})`;
+
+  // Reveal sidebar + main when scrolled past 40% of hero
+  if (progress > 0.4 && !revealed) {
+    revealed = true;
+    sidebar.classList.add('visible');
+    mainContent.classList.add('visible');
+  }
+
+  // Hide again if scrolled back to top
+  if (progress < 0.2 && revealed) {
+    revealed = false;
+    sidebar.classList.remove('visible');
+    mainContent.classList.remove('visible');
+  }
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// =============================================
+// MEDIA CARD: Auto-measure info heights
+// =============================================
+document.querySelectorAll('.card-media').forEach(card => {
+  const info = card.querySelector('.media-info');
+  if (info) {
+    info.style.transform = 'translateY(0)';
+    info.style.opacity = '1';
+    const h = info.offsetHeight;
+    info.style.transform = '';
+    info.style.opacity = '';
+    card.style.setProperty('--info-h', h + 'px');
+  }
+});
+</script>
+
+</body>
+</html>

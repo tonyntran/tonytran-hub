@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Kanban, BarChart3, Users, DollarSign } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { signOut } from '@/lib/actions/auth'
 import { cn } from '@/lib/utils'
@@ -12,7 +13,12 @@ const navItems = [
   { label: 'Applications', href: '/dashboard/apps' },
 ]
 
-const futureModules = ['Kanban', 'Analytics', 'CRM', 'Costs']
+const futureModules = [
+  { label: 'Kanban', icon: Kanban },
+  { label: 'Analytics', icon: BarChart3 },
+  { label: 'CRM', icon: Users },
+  { label: 'Costs', icon: DollarSign },
+]
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -48,11 +54,15 @@ export function Sidebar() {
         })}
 
         <div className="mt-4 border-t px-4 pt-4">
-          <p className="mb-2 text-xs text-muted-foreground">Future modules</p>
+          <p className="mb-2 text-xs text-muted-foreground">Coming soon</p>
           {futureModules.map((mod) => (
-            <p key={mod} className="py-1 text-xs text-muted-foreground/50">
-              {mod}
-            </p>
+            <div
+              key={mod.label}
+              className="flex items-center gap-2 py-1.5 text-xs text-muted-foreground/40"
+            >
+              <mod.icon className="h-3.5 w-3.5" />
+              <span>{mod.label}</span>
+            </div>
           ))}
         </div>
       </nav>
