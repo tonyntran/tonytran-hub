@@ -179,38 +179,38 @@
    ======================================== */
 :root:not(.dark) .landing-theme,
 .light .landing-theme {
-  --landing-bg: #F7F4F0;
-  --landing-bg-sidebar: #EFEBE4;
-  --landing-bg-card: #EFEBE4;
-  --landing-bg-card-hover: #E6E0D6;
-  --landing-bg-card-gradient: linear-gradient(135deg, #EFEBE4 0%, #E6E0D6 100%);
-  --landing-text: #1F1A14;
+  --landing-bg: #F0E9DE;
+  --landing-bg-sidebar: #E6DDD0;
+  --landing-bg-card: #E6DDD0;
+  --landing-bg-card-hover: #DCD2C3;
+  --landing-bg-card-gradient: linear-gradient(135deg, #E6DDD0 0%, #DCD2C3 100%);
+  --landing-text: #231D14;
   --landing-text-muted: #5C5248;
-  --landing-text-dim: rgba(31, 26, 20, 0.3);
+  --landing-text-dim: rgba(35, 29, 20, 0.3);
   --landing-accent: #A65D2E;
-  --landing-accent-bg: rgba(166, 93, 46, 0.10);
-  --landing-accent-bg-hover: rgba(166, 93, 46, 0.18);
-  --landing-border: rgba(0, 0, 0, 0.06);
-  --landing-border-hover: rgba(0, 0, 0, 0.10);
+  --landing-accent-bg: rgba(166, 93, 46, 0.12);
+  --landing-accent-bg-hover: rgba(166, 93, 46, 0.20);
+  --landing-border: rgba(0, 0, 0, 0.07);
+  --landing-border-hover: rgba(0, 0, 0, 0.12);
   --landing-particle-rgb: 166, 93, 46;
 
   /* Override shadcn vars for components used in landing */
-  --background: #F7F4F0;
-  --foreground: #1F1A14;
-  --card: #EFEBE4;
-  --card-foreground: #1F1A14;
-  --popover: #EFEBE4;
-  --popover-foreground: #1F1A14;
+  --background: #F0E9DE;
+  --foreground: #231D14;
+  --card: #E6DDD0;
+  --card-foreground: #231D14;
+  --popover: #E6DDD0;
+  --popover-foreground: #231D14;
   --primary: #A65D2E;
-  --primary-foreground: #F7F4F0;
-  --secondary: #E6E0D6;
-  --secondary-foreground: #1F1A14;
-  --muted: #E6E0D6;
+  --primary-foreground: #F0E9DE;
+  --secondary: #DCD2C3;
+  --secondary-foreground: #231D14;
+  --muted: #DCD2C3;
   --muted-foreground: #5C5248;
-  --accent: rgba(166, 93, 46, 0.10);
+  --accent: rgba(166, 93, 46, 0.12);
   --accent-foreground: #A65D2E;
-  --border: rgba(0, 0, 0, 0.06);
-  --input: rgba(0, 0, 0, 0.06);
+  --border: rgba(0, 0, 0, 0.07);
+  --input: rgba(0, 0, 0, 0.07);
   --ring: #A65D2E;
 }
 

@@ -17,9 +17,9 @@ const GRADIENTS = [
 ]
 
 const LIGHT_GRADIENTS = [
-  'linear-gradient(135deg, #E8E2D8 0%, #D4CCC0 40%, #E0D8CC 100%)',
-  'linear-gradient(135deg, #E5E0D8 0%, #D8D0C5 40%, #DDD5C8 100%)',
-  'linear-gradient(135deg, #EAE5DD 0%, #D6CFC3 40%, #E2DAD0 100%)',
+  'linear-gradient(135deg, #E0D6C6 0%, #D2C7B4 40%, #DCD2C3 100%)',
+  'linear-gradient(135deg, #DDD3C4 0%, #CFC3B2 40%, #D8CDBC 100%)',
+  'linear-gradient(135deg, #E2D9CA 0%, #D4C9B8 40%, #DED4C5 100%)',
 ]
 
 function MockApp() {
