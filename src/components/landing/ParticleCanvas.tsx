@@ -2,9 +2,9 @@
 
 import { useRef, useEffect, useCallback } from 'react'
 
-const PARTICLE_COUNT = 300
-const CONNECT_DIST = 140
-const MOUSE_RADIUS = 200
+const PARTICLE_COUNT = 400
+const CONNECT_DIST = 120
+const MOUSE_RADIUS = 220
 
 interface Particle {
   x: number
@@ -25,10 +25,10 @@ export function ParticleCanvas() {
     particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      r: Math.random() * 2 + 1,
-      alpha: Math.random() * 0.5 + 0.2,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.8 + 0.6,
+      alpha: Math.random() * 0.45 + 0.12,
     }))
   }, [])
 
@@ -60,7 +60,7 @@ export function ParticleCanvas() {
           const dy = particles[i].y - particles[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
           if (dist < CONNECT_DIST) {
-            const alpha = (1 - dist / CONNECT_DIST) * 0.15
+            const alpha = (1 - dist / CONNECT_DIST) * 0.10
             ctx!.strokeStyle = `rgba(224, 155, 108, ${alpha})`
             ctx!.lineWidth = 0.5
             ctx!.beginPath()
@@ -71,22 +71,21 @@ export function ParticleCanvas() {
         }
       }
 
-      // Particles + physics
+      // Particles + physics — attract toward mouse
       for (const p of particles) {
-        const dx = p.x - mouse.x
-        const dy = p.y - mouse.y
+        const dx = mouse.x - p.x
+        const dy = mouse.y - p.y
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < MOUSE_RADIUS && dist > 0) {
+        if (dist < MOUSE_RADIUS && dist > 5) {
           const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS
-          const angle = Math.atan2(dy, dx)
-          p.vx += Math.cos(angle) * force * 0.8
-          p.vy += Math.sin(angle) * force * 0.8
+          p.vx += (dx / dist) * force * 0.18
+          p.vy += (dy / dist) * force * 0.18
         }
 
-        p.vx *= 0.98
-        p.vy *= 0.98
-        p.vx += (Math.random() - 0.5) * 0.02
-        p.vy += (Math.random() - 0.5) * 0.02
+        p.vx *= 0.985
+        p.vy *= 0.985
+        p.vx += (Math.random() - 0.5) * 0.015
+        p.vy += (Math.random() - 0.5) * 0.015
         p.x += p.vx
         p.y += p.vy
 
@@ -103,11 +102,11 @@ export function ParticleCanvas() {
 
       // Mouse glow
       if (mouse.x > 0) {
-        const grd = ctx!.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 120)
-        grd.addColorStop(0, 'rgba(224, 155, 108, 0.04)')
+        const grd = ctx!.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 140)
+        grd.addColorStop(0, 'rgba(224, 155, 108, 0.05)')
         grd.addColorStop(1, 'transparent')
         ctx!.fillStyle = grd
-        ctx!.fillRect(mouse.x - 120, mouse.y - 120, 240, 240)
+        ctx!.fillRect(mouse.x - 140, mouse.y - 140, 280, 280)
       }
 
       animFrameRef.current = requestAnimationFrame(draw)

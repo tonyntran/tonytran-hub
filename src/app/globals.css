@@ -198,16 +198,21 @@
 .landing-hero-content {
   position: relative;
   z-index: 2;
-  text-align: center;
   pointer-events: none;
-  padding-bottom: 40px; /* optical centering — offset scroll indicator weight */
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  padding: 0 6vw;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Profile picture with 3D orbital rings */
+/* Profile picture with 3D orbital rings — vertical rectangle */
 .landing-hero-avatar {
-  width: 200px;
-  height: 200px;
-  margin: 0 auto 36px;
+  width: 280px;
+  height: 380px;
+  flex-shrink: 0;
   position: relative;
   perspective: 900px;
   opacity: 0;
@@ -219,39 +224,34 @@
 .landing-hero-avatar::before {
   content: '';
   position: absolute;
-  inset: -60px;
-  border-radius: 50%;
+  inset: -40px;
+  border-radius: 20px;
   background: radial-gradient(
-    circle,
-    rgba(224, 155, 108, 0.12) 0%,
-    rgba(224, 155, 108, 0.04) 40%,
+    ellipse at 50% 40%,
+    rgba(224, 155, 108, 0.10) 0%,
     transparent 65%
   );
   animation: landing-avatar-glow-pulse 4s ease-in-out infinite;
   z-index: 0;
 }
 
-/* Photo with dissolving edges */
+/* Photo with dissolving bottom edge */
 .landing-hero-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   position: relative;
   z-index: 4;
-  border: none;
-  border-radius: 50%;
-  mask-image: radial-gradient(
-    ellipse 52% 52% at 50% 46%,
-    black 55%,
-    rgba(0, 0, 0, 0.6) 70%,
-    rgba(0, 0, 0, 0.2) 85%,
+  border: 1px solid rgba(224, 155, 108, 0.12);
+  border-radius: 12px;
+  mask-image: linear-gradient(to bottom,
+    black 0%, black 70%,
+    rgba(0, 0, 0, 0.4) 88%,
     transparent 100%
   );
-  -webkit-mask-image: radial-gradient(
-    ellipse 52% 52% at 50% 46%,
-    black 55%,
-    rgba(0, 0, 0, 0.6) 70%,
-    rgba(0, 0, 0, 0.2) 85%,
+  -webkit-mask-image: linear-gradient(to bottom,
+    black 0%, black 70%,
+    rgba(0, 0, 0, 0.4) 88%,
     transparent 100%
   );
 }
@@ -266,22 +266,22 @@
 
 /* Ring 1 — inner, tight orbit, fast */
 .landing-hero-ring-1 {
-  inset: -20px;
-  border: 1px solid rgba(224, 155, 108, 0.18);
+  inset: -24px;
+  border: 1px solid rgba(224, 155, 108, 0.16);
   animation: landing-ring-orbit-1 14s linear infinite;
 }
 
 /* Ring 2 — middle, dashed, reverse direction */
 .landing-hero-ring-2 {
-  inset: -50px;
-  border: 1px dashed rgba(224, 155, 108, 0.10);
+  inset: -55px;
+  border: 1px dashed rgba(224, 155, 108, 0.08);
   animation: landing-ring-orbit-2 22s linear infinite reverse;
 }
 
 /* Ring 3 — outer, widest, slow and faint */
 .landing-hero-ring-3 {
-  inset: -85px;
-  border: 1px solid rgba(224, 155, 108, 0.07);
+  inset: -90px;
+  border: 1px solid rgba(224, 155, 108, 0.05);
   animation: landing-ring-orbit-3 35s linear infinite;
 }
 
@@ -351,58 +351,84 @@
 }
 
 @keyframes landing-avatar-glow-pulse {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+/* Text side of hero — fills remaining space */
+.landing-hero-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.landing-hero-pre {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--landing-accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: landing-hero-in 0.6s 0.2s ease-out forwards;
 }
 
 .landing-hero-name {
   font-family: var(--font-display);
-  font-size: 7rem;
+  font-size: clamp(5rem, 9vw, 9rem);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--landing-text);
-  line-height: 1;
-  white-space: nowrap;
-  margin-bottom: 16px;
+  line-height: 0.90;
+  margin-bottom: 24px;
   opacity: 0;
   transform: translateY(30px);
-  animation: landing-hero-in 1s 0.3s ease-out forwards;
+  animation: landing-hero-in 0.8s 0.4s ease-out forwards;
+}
+
+.landing-hero-divider {
+  width: 70px;
+  height: 2px;
+  background: linear-gradient(to right, var(--landing-accent), transparent);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: landing-hero-in 0.5s 0.6s ease-out forwards;
 }
 
 .landing-hero-tagline {
   font-family: var(--font-body);
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   font-weight: 300;
   color: var(--landing-text-muted);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 28px;
+  margin-bottom: 44px;
   opacity: 0;
   transform: translateY(20px);
-  animation: landing-hero-in 0.8s 0.7s ease-out forwards;
+  animation: landing-hero-in 0.6s 0.7s ease-out forwards;
 }
 
 .landing-hero-cta {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--landing-accent);
+  color: var(--landing-text-muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   opacity: 0;
-  animation: landing-hero-in 0.8s 1.1s ease-out forwards;
+  animation: landing-hero-in 0.6s 1s ease-out forwards;
   pointer-events: auto;
   cursor: pointer;
   background: none;
-  border: 1px solid rgba(224,155,108,0.3);
-  padding: 12px 28px;
+  border: 1px solid var(--landing-border);
+  padding: 14px 32px;
   border-radius: 8px;
-  transition: background 0.3s, border-color 0.3s;
+  transition: all 0.3s;
 }
 
 .landing-hero-cta:hover {
-  background: rgba(224,155,108,0.1);
-  border-color: rgba(224,155,108,0.5);
+  background: rgba(224,155,108,0.06);
+  border-color: rgba(224,155,108,0.4);
+  color: var(--landing-accent);
 }
 
 .landing-scroll-indicator {
@@ -614,7 +640,7 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 18px;
-  max-width: 1100px;
+  width: 100%;
 }
 
 /* -- Base Card -- */
@@ -710,7 +736,8 @@
 
 /* -- About Card -- */
 .landing-about {
-  grid-column: 1 / 8;
+  grid-column: 1 / 6;
+  grid-row: 1;
   min-height: 180px;
 }
 
@@ -723,8 +750,8 @@
 
 /* -- Skills Card -- */
 .landing-skills {
-  grid-column: 8 / -1;
-  min-height: 180px;
+  grid-column: 1 / 6;
+  grid-row: 4;
 }
 
 .landing-skills-grid {
@@ -988,15 +1015,15 @@
   transform: scale(0.8);
 }
 
-/* Media card grid positions */
-.landing-media-1 { grid-column: 1 / 7; min-height: 360px; }
-.landing-media-2 { grid-column: 7 / -1; min-height: 360px; }
-.landing-media-3 { grid-column: 1 / 5; min-height: 340px; }
+/* Media card grid positions — Layout C "Balanced Columns" */
+.landing-media-1 { grid-column: 6 / -1; grid-row: 1; min-height: 280px; }
+.landing-media-2 { grid-column: 6 / -1; grid-row: 2; min-height: 280px; }
+.landing-media-3 { grid-column: 6 / -1; grid-row: 3; min-height: 280px; }
 
 /* -- Experience Card -- */
 .landing-experience {
-  grid-column: 5 / -1;
-  min-height: 280px;
+  grid-column: 1 / 6;
+  grid-row: 2 / 4;
 }
 
 .landing-timeline {
@@ -1061,7 +1088,9 @@
 /* -- Contact Card -- */
 .landing-contact {
   grid-column: 1 / -1;
+  grid-row: 5;
   padding: 36px 40px;
+  min-height: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;

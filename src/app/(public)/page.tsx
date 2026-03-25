@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Hero } from '@/components/landing/Hero'
 import { LandingShell } from '@/components/landing/LandingShell'
-import { BentoHero } from '@/components/landing/BentoHero'
 import { About } from '@/components/landing/About'
 import { Skills } from '@/components/landing/Skills'
 import { Projects } from '@/components/landing/Projects'
@@ -64,11 +63,10 @@ export default async function LandingPage() {
     <div className="landing-theme">
       <Hero block={getOne('hero')} />
       <LandingShell aboutBlock={getOne('about')} contactBlocks={get('contact')}>
-        <BentoHero block={getOne('hero')} />
         <About block={getOne('about')} />
-        <Skills blocks={get('skill')} />
-        <Projects blocks={get('project')} />
         <Experience blocks={get('experience')} />
+        <Projects blocks={get('project')} />
+        <Skills blocks={get('skill')} />
         <Contact blocks={get('contact')} />
       </LandingShell>
     </div>
