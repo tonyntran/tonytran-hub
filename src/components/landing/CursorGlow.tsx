@@ -19,6 +19,7 @@ export function CursorGlow() {
     }
 
     function animate() {
+      if (!glow) return
       x = lerp(x, targetX, 0.15)
       y = lerp(y, targetY, 0.15)
       glow.style.transform = `translate(${x - 200}px, ${y - 200}px)`
@@ -39,10 +40,10 @@ export function CursorGlow() {
 
       if (inside && !visible) {
         visible = true
-        glow.style.opacity = '1'
+        if (glow) glow.style.opacity = '1'
       } else if (!inside && visible) {
         visible = false
-        glow.style.opacity = '0'
+        if (glow) glow.style.opacity = '0'
       }
 
       targetX = e.clientX

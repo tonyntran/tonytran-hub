@@ -4,6 +4,22 @@ import { useRef, useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import type { ContentBlock, ProjectMetadata } from '@/lib/types'
 import { AnimatedCard } from './AnimatedCard'
+import { FantasyFootballPreview } from './previews/FantasyFootballPreview'
+import { PokemonTCGPreview } from './previews/PokemonTCGPreview'
+import { WeddingPreview } from './previews/WeddingPreview'
+
+const PREVIEW_MATCHERS: Array<{ keywords: string[]; component: React.ComponentType }> = [
+  { keywords: ['football', 'auction', 'draft'], component: FantasyFootballPreview },
+  { keywords: ['pokemon', 'tcg', 'card market'], component: PokemonTCGPreview },
+  { keywords: ['wedding'], component: WeddingPreview },
+]
+
+function getPreviewComponent(title: string | null): React.ComponentType | null {
+  if (!title) return null
+  const lower = title.toLowerCase()
+  const match = PREVIEW_MATCHERS.find(m => m.keywords.some(kw => lower.includes(kw)))
+  return match?.component ?? null
+}
 
 interface Props {
   block: ContentBlock
@@ -108,14 +124,24 @@ export function MediaCard({ block, className = '', hasVideo = false, index = 0 }
           {meta.image_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={meta.image_url} alt={block.title ?? 'Project'} />
-          ) : (
-            <div
-              className="landing-media-visual-placeholder"
-              style={{ background: gradients[gradientIndex] }}
-            >
-              <MockApp />
-            </div>
-          )}
+          ) : (() => {
+            const PreviewComponent = getPreviewComponent(block.title)
+            return PreviewComponent ? (
+              <div
+                className="landing-media-visual-placeholder"
+                style={{ background: 'var(--landing-bg-card)' }}
+              >
+                <PreviewComponent />
+              </div>
+            ) : (
+              <div
+                className="landing-media-visual-placeholder"
+                style={{ background: gradients[gradientIndex] }}
+              >
+                <MockApp />
+              </div>
+            )
+          })()}
           {hasVideo && <div className="landing-play-icon" />}
         </div>
       </div>
