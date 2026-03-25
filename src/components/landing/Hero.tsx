@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import type { ContentBlock } from '@/lib/types'
 import { ParticleCanvas } from './ParticleCanvas'
+import { ThemeToggle } from './ThemeToggle'
 
 interface Props {
   block: ContentBlock | undefined
@@ -66,6 +67,7 @@ export function Hero({ block }: Props) {
           </button>
         </div>
       </div>
+      <ThemeToggle className="landing-theme-toggle-hero" />
       <div className="landing-scroll-indicator">
         <span>Scroll</span>
         <div className="landing-scroll-line" />

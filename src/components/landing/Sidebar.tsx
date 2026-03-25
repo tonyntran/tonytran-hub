@@ -1,4 +1,7 @@
+'use client'
+
 import type { ContentBlock, AboutMetadata, ContactMetadata } from '@/lib/types'
+import { ThemeToggle } from './ThemeToggle'
 
 interface Props {
   aboutBlock: ContentBlock | undefined
@@ -42,6 +45,7 @@ export function Sidebar({ aboutBlock, contactBlocks, visible }: Props) {
           <span className="landing-status-dot" />
           Open to opportunities
         </div>
+        <ThemeToggle />
         <div className="landing-sidebar-socials">
           {contactBlocks.map((block) => {
             const meta = block.metadata as ContactMetadata

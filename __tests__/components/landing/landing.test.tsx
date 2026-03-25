@@ -20,6 +20,11 @@ HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
   set lineWidth(_v: number) {},
 })) as unknown as typeof HTMLCanvasElement.prototype.getContext
 
+// Mock next-themes (used by ThemeToggle)
+vi.mock('next-themes', () => ({
+  useTheme: () => ({ theme: 'dark', setTheme: vi.fn() }),
+}))
+
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: new Proxy(
