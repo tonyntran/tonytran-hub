@@ -90,7 +90,7 @@ export function MediaCard({ block, className = '', hasVideo = false, index = 0 }
 
   return (
     <AnimatedCard className={className} delay={0.05 + index * 0.1}>
-      <div ref={cardRef} className="landing-card landing-media-card">
+      <div ref={cardRef} className="landing-card landing-media-card" style={{ height: '100%' }}>
         <div className="landing-media-wrapper">
         <div className="landing-media-info">
           <div className="landing-media-title">{block.title}</div>
