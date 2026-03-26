@@ -17,6 +17,19 @@ export function AboutFields({ metadata }: Props) {
         <Label htmlFor="location">Location</Label>
         <Input id="location" name="location" defaultValue={metadata?.location ?? ''} required />
       </div>
+      <div>
+        <Label htmlFor="resume_url">Resume URL</Label>
+        <Input
+          id="resume_url"
+          name="resume_url"
+          type="url"
+          placeholder="https://drive.google.com/... or link to hosted PDF"
+          defaultValue={metadata?.resume_url ?? ''}
+        />
+        <p className="mt-1 text-xs text-muted-foreground">
+          Link to your resume PDF. Leave empty to hide the Resume button.
+        </p>
+      </div>
     </>
   )
 }

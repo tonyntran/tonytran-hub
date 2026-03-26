@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import type { ContentBlock, ProjectMetadata } from '@/lib/types'
 import { AnimatedCard } from './AnimatedCard'
+import { MarkdownContent } from './MarkdownContent'
 import { FantasyFootballPreview } from './previews/FantasyFootballPreview'
 import { PokemonTCGPreview } from './previews/PokemonTCGPreview'
 import { WeddingPreview } from './previews/WeddingPreview'
@@ -98,7 +99,7 @@ export function MediaCard({ block, className = '', hasVideo = false, index = 0 }
             {meta.tech_stack[0] ?? 'Project'} &middot; {new Date(block.created_at || Date.now()).getFullYear()}
           </div>
           {block.body_md && (
-            <div className="landing-media-desc">{block.body_md}</div>
+            <MarkdownContent className="landing-media-desc">{block.body_md}</MarkdownContent>
           )}
           {meta.tech_stack.length > 0 && (
             <div className="landing-media-tags">

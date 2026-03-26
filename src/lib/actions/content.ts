@@ -208,6 +208,7 @@ function extractMetadata(type: ContentBlockType, formData: FormData): Record<str
       return {
         avatar_url: formData.get('avatar_url'),
         location: formData.get('location'),
+        resume_url: (formData.get('resume_url') as string) || null,
       }
     case 'experience':
       return {

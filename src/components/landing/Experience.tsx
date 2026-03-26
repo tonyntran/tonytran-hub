@@ -1,5 +1,6 @@
 import type { ContentBlock, ExperienceMetadata } from '@/lib/types'
 import { AnimatedCard } from './AnimatedCard'
+import { MarkdownContent } from './MarkdownContent'
 
 interface Props {
   blocks: ContentBlock[]
@@ -24,7 +25,7 @@ export function Experience({ blocks }: Props) {
                 </span>
               </div>
               {block.body_md && (
-                <div className="landing-timeline-desc">{block.body_md}</div>
+                <MarkdownContent className="landing-timeline-desc">{block.body_md}</MarkdownContent>
               )}
             </div>
           )

@@ -1,13 +1,14 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import type { ContentBlock, ContactMetadata } from '@/lib/types'
+import type { ContentBlock, ContactMetadata, AboutMetadata } from '@/lib/types'
 
 interface Props {
   blocks: ContentBlock[]
+  aboutBlock?: ContentBlock
 }
 
-export function Contact({ blocks }: Props) {
+export function Contact({ blocks, aboutBlock }: Props) {
   if (blocks.length === 0) return null
 
   const emailContact = blocks.find(
@@ -16,6 +17,10 @@ export function Contact({ blocks }: Props) {
   const emailUrl = emailContact
     ? (emailContact.metadata as ContactMetadata).url
     : '#'
+
+  const resumeUrl = aboutBlock
+    ? (aboutBlock.metadata as AboutMetadata).resume_url
+    : null
 
   return (
     <motion.div
@@ -39,9 +44,11 @@ export function Contact({ blocks }: Props) {
         <a className="landing-contact-btn landing-contact-btn-primary" href={emailUrl}>
           Get in Touch
         </a>
-        <a className="landing-contact-btn landing-contact-btn-secondary" href="#" target="_blank" rel="noopener noreferrer">
-          Resume
-        </a>
+        {resumeUrl && (
+          <a className="landing-contact-btn landing-contact-btn-secondary" href={resumeUrl} target="_blank" rel="noopener noreferrer">
+            Resume
+          </a>
+        )}
       </div>
     </motion.div>
   )
