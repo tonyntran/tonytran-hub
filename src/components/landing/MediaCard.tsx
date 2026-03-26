@@ -1,18 +1,44 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
+import { useTheme } from 'next-themes'
 import type { ContentBlock, ProjectMetadata } from '@/lib/types'
+import { AnimatedCard } from './AnimatedCard'
+import { MarkdownContent } from './MarkdownContent'
+import { FantasyFootballPreview } from './previews/FantasyFootballPreview'
+import { PokemonTCGPreview } from './previews/PokemonTCGPreview'
+import { WeddingPreview } from './previews/WeddingPreview'
+
+const PREVIEW_MATCHERS: Array<{ keywords: string[]; component: React.ComponentType }> = [
+  { keywords: ['football', 'auction', 'draft'], component: FantasyFootballPreview },
+  { keywords: ['pokemon', 'tcg', 'card market', 'pokeassistant', 'poke'], component: PokemonTCGPreview },
+  { keywords: ['wedding'], component: WeddingPreview },
+]
+
+function getPreviewComponent(title: string | null): React.ComponentType | null {
+  if (!title) return null
+  const lower = title.toLowerCase()
+  const match = PREVIEW_MATCHERS.find(m => m.keywords.some(kw => lower.includes(kw)))
+  return match?.component ?? null
+}
 
 interface Props {
   block: ContentBlock
   className?: string
   hasVideo?: boolean
+  index?: number
 }
 
 const GRADIENTS = [
   'linear-gradient(135deg, #2D3748 0%, #1A365D 40%, #2A4365 100%)',
   'linear-gradient(135deg, #2D2D2D 0%, #1A1A2E 40%, #16213E 100%)',
   'linear-gradient(135deg, #1A1F16 0%, #2D3320 40%, #1A2410 100%)',
+]
+
+const LIGHT_GRADIENTS = [
+  'linear-gradient(135deg, #D8CDBC 0%, #CCBFAC 40%, #D2C7B4 100%)',
+  'linear-gradient(135deg, #D5C9B8 0%, #C8BBAA 40%, #CEBFAE 100%)',
+  'linear-gradient(135deg, #DCD1C0 0%, #CFC3B2 40%, #D6CBBA 100%)',
 ]
 
 function MockApp() {
@@ -35,8 +61,15 @@ function MockApp() {
   )
 }
 
-export function MediaCard({ block, className = '', hasVideo = false }: Props) {
+export function MediaCard({ block, className = '', hasVideo = false, index = 0 }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  // Use dark gradients during SSR to match server render, then swap after mount
+  const gradients = mounted && theme === 'light' ? LIGHT_GRADIENTS : GRADIENTS
   const meta = block.metadata as ProjectMetadata
 
   // Auto-measure info panel height for hover transition
@@ -54,18 +87,19 @@ export function MediaCard({ block, className = '', hasVideo = false }: Props) {
     card.style.setProperty('--info-h', `${h}px`)
   }, [])
 
-  const gradientIndex = Math.abs(block.id.charCodeAt(0)) % GRADIENTS.length
+  const gradientIndex = Math.abs(block.id.charCodeAt(0)) % gradients.length
 
   return (
-    <div ref={cardRef} className={`landing-card landing-media-card ${className}`}>
-      <div className="landing-media-wrapper">
+    <AnimatedCard className={className} delay={0.05 + index * 0.1}>
+      <div ref={cardRef} className="landing-card landing-media-card" style={{ height: '100%' }}>
+        <div className="landing-media-wrapper">
         <div className="landing-media-info">
           <div className="landing-media-title">{block.title}</div>
           <div className="landing-media-meta">
             {meta.tech_stack[0] ?? 'Project'} &middot; {new Date(block.created_at || Date.now()).getFullYear()}
           </div>
           {block.body_md && (
-            <div className="landing-media-desc">{block.body_md}</div>
+            <MarkdownContent className="landing-media-desc">{block.body_md}</MarkdownContent>
           )}
           {meta.tech_stack.length > 0 && (
             <div className="landing-media-tags">
@@ -91,18 +125,29 @@ export function MediaCard({ block, className = '', hasVideo = false }: Props) {
           {meta.image_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={meta.image_url} alt={block.title ?? 'Project'} />
-          ) : (
-            <div
-              className="landing-media-visual-placeholder"
-              style={{ background: GRADIENTS[gradientIndex] }}
-            >
-              <MockApp />
-            </div>
-          )}
+          ) : (() => {
+            const PreviewComponent = getPreviewComponent(block.title)
+            return PreviewComponent ? (
+              <div
+                className="landing-media-visual-placeholder"
+                style={{ background: 'var(--landing-bg-card)' }}
+              >
+                <PreviewComponent />
+              </div>
+            ) : (
+              <div
+                className="landing-media-visual-placeholder"
+                style={{ background: gradients[gradientIndex] }}
+              >
+                <MockApp />
+              </div>
+            )
+          })()}
           {hasVideo && <div className="landing-play-icon" />}
         </div>
       </div>
       <span className="landing-media-close">&times;</span>
-    </div>
+      </div>
+    </AnimatedCard>
   )
 }

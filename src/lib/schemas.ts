@@ -10,6 +10,7 @@ export const heroMetadataSchema = z.object({
 export const aboutMetadataSchema = z.object({
   avatar_url: z.string().url('Must be a valid URL'),
   location: z.string().min(1, 'Location is required'),
+  resume_url: z.string().url('Must be a valid URL').nullable(),
 })
 
 export const experienceMetadataSchema = z.object({

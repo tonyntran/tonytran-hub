@@ -26,6 +26,9 @@ export function ContactFields({ metadata }: Props) {
       <div>
         <Label htmlFor="icon">Icon</Label>
         <Input id="icon" name="icon" placeholder="github" defaultValue={metadata?.icon ?? ''} required />
+        <p className="mt-1 text-xs text-muted-foreground">
+          Available: github, linkedin, twitter, x, email, instagram, youtube, facebook, globe
+        </p>
       </div>
     </>
   )

@@ -1,10 +1,14 @@
-import type { ContentBlock, ContactMetadata } from '@/lib/types'
+'use client'
+
+import { motion } from 'framer-motion'
+import type { ContentBlock, ContactMetadata, AboutMetadata } from '@/lib/types'
 
 interface Props {
   blocks: ContentBlock[]
+  aboutBlock?: ContentBlock
 }
 
-export function Contact({ blocks }: Props) {
+export function Contact({ blocks, aboutBlock }: Props) {
   if (blocks.length === 0) return null
 
   const emailContact = blocks.find(
@@ -14,8 +18,22 @@ export function Contact({ blocks }: Props) {
     ? (emailContact.metadata as ContactMetadata).url
     : '#'
 
+  const resumeUrl = aboutBlock
+    ? (aboutBlock.metadata as AboutMetadata).resume_url
+    : null
+
   return (
-    <div className="landing-card landing-contact" id="contact">
+    <motion.div
+      className="landing-card landing-contact"
+      id="contact"
+      initial={{ opacity: 0, y: 60, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{
+        duration: 0.8,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+    >
       <div>
         <div className="landing-contact-heading">Let&apos;s work together</div>
         <div className="landing-contact-sub">
@@ -26,10 +44,12 @@ export function Contact({ blocks }: Props) {
         <a className="landing-contact-btn landing-contact-btn-primary" href={emailUrl}>
           Get in Touch
         </a>
-        <a className="landing-contact-btn landing-contact-btn-secondary" href="#" target="_blank" rel="noopener noreferrer">
-          Resume
-        </a>
+        {resumeUrl && (
+          <a className="landing-contact-btn landing-contact-btn-secondary" href={resumeUrl} target="_blank" rel="noopener noreferrer">
+            Resume
+          </a>
+        )}
       </div>
-    </div>
+    </motion.div>
   )
 }

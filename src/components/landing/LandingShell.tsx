@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { CursorGlow } from './CursorGlow'
 import { Sidebar } from './Sidebar'
 import type { ContentBlock } from '@/lib/types'
 
@@ -44,6 +45,7 @@ export function LandingShell({ aboutBlock, contactBlocks, children }: Props) {
 
   return (
     <div className="landing-layout" id="portfolio">
+      <CursorGlow />
       <Sidebar
         aboutBlock={aboutBlock}
         contactBlocks={contactBlocks}

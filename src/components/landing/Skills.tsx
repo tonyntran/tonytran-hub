@@ -1,4 +1,5 @@
 import type { ContentBlock, SkillMetadata } from '@/lib/types'
+import { AnimatedCard } from './AnimatedCard'
 
 interface Props {
   blocks: ContentBlock[]
@@ -15,7 +16,7 @@ export function Skills({ blocks }: Props) {
   }, {})
 
   return (
-    <div className="landing-card landing-skills" id="skills">
+    <AnimatedCard className="landing-card landing-skills" id="skills" delay={0.15}>
       <div className="landing-card-label">Skills</div>
       {Object.entries(grouped).map(([category, skills]) => (
         <div key={category}>
@@ -29,6 +30,6 @@ export function Skills({ blocks }: Props) {
           </div>
         </div>
       ))}
-    </div>
+    </AnimatedCard>
   )
 }

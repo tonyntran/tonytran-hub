@@ -12,6 +12,7 @@ export interface HeroMetadata {
 export interface AboutMetadata {
   avatar_url: string
   location: string
+  resume_url: string | null
 }
 
 export interface ExperienceMetadata {

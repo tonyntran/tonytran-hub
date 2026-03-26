@@ -28,6 +28,7 @@ describe('aboutMetadataSchema', () => {
     const result = aboutMetadataSchema.safeParse({
       avatar_url: 'https://example.com/avatar.jpg',
       location: 'San Francisco, CA',
+      resume_url: null,
     })
     expect(result.success).toBe(true)
   })

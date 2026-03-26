@@ -133,18 +133,18 @@
    Scoped to .landing-theme to avoid affecting dashboard
    ======================================== */
 .landing-theme {
-  --background: #1C2228;
+  --background: #181E24;
   --foreground: #EDE8E0;
-  --card: #2A3540;
+  --card: #2E3A44;
   --card-foreground: #EDE8E0;
-  --popover: #2A3540;
+  --popover: #2E3A44;
   --popover-foreground: #EDE8E0;
   --primary: #E09B6C;
-  --primary-foreground: #1C2228;
-  --secondary: #2A3540;
+  --primary-foreground: #181E24;
+  --secondary: #2E3A44;
   --secondary-foreground: #EDE8E0;
-  --muted: #2A3540;
-  --muted-foreground: #8A9AA8;
+  --muted: #2E3A44;
+  --muted-foreground: #9A9488;
   --accent: rgba(224,155,108,0.14);
   --accent-foreground: #E09B6C;
   --border: rgba(255,255,255,0.08);
@@ -152,23 +152,76 @@
   --ring: #E09B6C;
 
   /* Landing-specific tokens */
-  --landing-bg: #1C2228;
+  --landing-bg: #181E24;
   --landing-bg-sidebar: #141A1F;
-  --landing-bg-card: #2A3540;
-  --landing-bg-card-hover: #324050;
-  --landing-bg-card-gradient: linear-gradient(135deg, #2A3540 0%, #324050 100%);
+  --landing-bg-card: #2E3A44;
+  --landing-bg-card-hover: #364858;
+  --landing-bg-card-gradient: linear-gradient(135deg, #2E3A44 0%, #364858 100%);
   --landing-text: #EDE8E0;
-  --landing-text-muted: #8A9AA8;
+  --landing-text-muted: #9A9488;
   --landing-text-dim: rgba(237,232,224,0.3);
   --landing-accent: #E09B6C;
   --landing-accent-bg: rgba(224,155,108,0.14);
   --landing-accent-bg-hover: rgba(224,155,108,0.22);
+  --landing-accent-secondary: #7EA0B4;
+  --landing-accent-secondary-bg: rgba(126,160,180,0.14);
   --landing-border: rgba(255,255,255,0.08);
   --landing-border-hover: rgba(255,255,255,0.14);
+  --landing-particle-rgb: 224, 155, 108;
 
   font-family: var(--font-body);
   background: var(--landing-bg);
   color: var(--landing-text);
+  transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+/* ========================================
+   LIMESTONE LIGHT THEME — override landing vars
+   Activated when next-themes sets class="light" on <html>
+   ======================================== */
+:root:not(.dark) .landing-theme,
+.light .landing-theme {
+  --landing-bg: #EAE1D2;
+  --landing-bg-sidebar: #DDD3C2;
+  --landing-bg-card: #DDD3C2;
+  --landing-bg-card-hover: #D2C7B4;
+  --landing-bg-card-gradient: linear-gradient(135deg, #DDD3C2 0%, #D2C7B4 100%);
+  --landing-text: #2A2015;
+  --landing-text-muted: #6B5D4E;
+  --landing-text-dim: rgba(42, 32, 21, 0.3);
+  --landing-accent: #A65D2E;
+  --landing-accent-bg: rgba(166, 93, 46, 0.12);
+  --landing-accent-bg-hover: rgba(166, 93, 46, 0.20);
+  --landing-accent-secondary: #506E82;
+  --landing-accent-secondary-bg: rgba(80, 110, 130, 0.12);
+  --landing-border: rgba(0, 0, 0, 0.07);
+  --landing-border-hover: rgba(0, 0, 0, 0.12);
+  --landing-particle-rgb: 166, 93, 46;
+
+  /* Override shadcn vars for components used in landing */
+  --background: #EAE1D2;
+  --foreground: #2A2015;
+  --card: #DDD3C2;
+  --card-foreground: #2A2015;
+  --popover: #DDD3C2;
+  --popover-foreground: #2A2015;
+  --primary: #A65D2E;
+  --primary-foreground: #EAE1D2;
+  --secondary: #D2C7B4;
+  --secondary-foreground: #2A2015;
+  --muted: #D2C7B4;
+  --muted-foreground: #6B5D4E;
+  --accent: rgba(166, 93, 46, 0.12);
+  --accent-foreground: #A65D2E;
+  --border: rgba(0, 0, 0, 0.07);
+  --input: rgba(0, 0, 0, 0.07);
+  --ring: #A65D2E;
+}
+
+.landing-theme .landing-card,
+.landing-theme .landing-sidebar,
+.landing-theme .landing-hero {
+  transition: background-color 0.4s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* ========================================
@@ -204,7 +257,7 @@
   gap: 70px;
   padding: 0 6vw;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
@@ -228,7 +281,7 @@
   border-radius: 20px;
   background: radial-gradient(
     ellipse at 50% 40%,
-    rgba(224, 155, 108, 0.10) 0%,
+    color-mix(in srgb, var(--landing-accent) 10%, transparent) 0%,
     transparent 65%
   );
   animation: landing-avatar-glow-pulse 4s ease-in-out infinite;
@@ -242,7 +295,7 @@
   object-fit: cover;
   position: relative;
   z-index: 4;
-  border: 1px solid rgba(224, 155, 108, 0.12);
+  border: 1px solid color-mix(in srgb, var(--landing-accent) 12%, transparent);
   border-radius: 12px;
   mask-image: linear-gradient(to bottom,
     black 0%, black 70%,
@@ -267,21 +320,21 @@
 /* Ring 1 — inner, tight orbit, fast */
 .landing-hero-ring-1 {
   inset: -24px;
-  border: 1px solid rgba(224, 155, 108, 0.16);
+  border: 1px solid color-mix(in srgb, var(--landing-accent) 16%, transparent);
   animation: landing-ring-orbit-1 14s linear infinite;
 }
 
 /* Ring 2 — middle, dashed, reverse direction */
 .landing-hero-ring-2 {
   inset: -55px;
-  border: 1px dashed rgba(224, 155, 108, 0.08);
+  border: 1px dashed color-mix(in srgb, var(--landing-accent) 8%, transparent);
   animation: landing-ring-orbit-2 22s linear infinite reverse;
 }
 
 /* Ring 3 — outer, widest, slow and faint */
 .landing-hero-ring-3 {
   inset: -90px;
-  border: 1px solid rgba(224, 155, 108, 0.05);
+  border: 1px solid color-mix(in srgb, var(--landing-accent) 5%, transparent);
   animation: landing-ring-orbit-3 35s linear infinite;
 }
 
@@ -292,7 +345,7 @@
   height: 5px;
   border-radius: 50%;
   background: var(--landing-accent);
-  box-shadow: 0 0 10px rgba(224, 155, 108, 0.5), 0 0 20px rgba(224, 155, 108, 0.2);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--landing-accent) 50%, transparent), 0 0 20px color-mix(in srgb, var(--landing-accent) 20%, transparent);
   /* Position on the ring edge using rotate + translate */
   top: 50%;
   left: 50%;
@@ -374,12 +427,13 @@
 
 .landing-hero-name {
   font-family: var(--font-display);
-  font-size: clamp(5rem, 9vw, 9rem);
+  font-size: clamp(5rem, 8vw, 9rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--landing-text);
   line-height: 0.90;
+  white-space: nowrap;
   margin-bottom: 24px;
   opacity: 0;
   transform: translateY(30px);
@@ -587,7 +641,7 @@
   color: var(--landing-text-muted);
   margin-bottom: 22px;
   padding: 10px 14px;
-  background: var(--landing-accent-bg);
+  background: var(--landing-accent-secondary-bg);
   border-radius: 8px;
 }
 
@@ -595,7 +649,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #5CB85C;
+  background: var(--landing-accent-secondary);
   flex-shrink: 0;
   animation: landing-pulse 2s ease-in-out infinite;
 }
@@ -638,9 +692,21 @@
 /* -- Bento Grid -- */
 .landing-bento {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: 3fr 2fr;
   gap: 18px;
   width: 100%;
+}
+
+.landing-bento-left {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.landing-bento-right {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 /* -- Base Card -- */
@@ -652,6 +718,11 @@
   position: relative;
   overflow: hidden;
   transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.landing-bento .landing-card {
+  position: relative;
+  z-index: 1;
 }
 
 .landing-card:hover {
@@ -736,9 +807,44 @@
 
 /* -- About Card -- */
 .landing-about {
-  grid-column: 1 / 6;
-  grid-row: 1;
   min-height: 180px;
+}
+
+.landing-about-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.landing-about-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--landing-accent);
+  box-shadow: 0 0 0 3px var(--landing-accent-bg);
+}
+
+.landing-about-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.landing-about-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  color: var(--landing-text-dim);
+  margin-top: 4px;
+}
+
+.landing-about-location svg {
+  color: var(--landing-accent);
+  flex-shrink: 0;
 }
 
 .landing-about-text {
@@ -750,8 +856,6 @@
 
 /* -- Skills Card -- */
 .landing-skills {
-  grid-column: 1 / 6;
-  grid-row: 4;
 }
 
 .landing-skills-grid {
@@ -1015,80 +1119,111 @@
   transform: scale(0.8);
 }
 
-/* Media card grid positions — Layout C "Balanced Columns" */
-.landing-media-1 { grid-column: 6 / -1; grid-row: 1; min-height: 280px; }
-.landing-media-2 { grid-column: 6 / -1; grid-row: 2; min-height: 280px; }
-.landing-media-3 { grid-column: 6 / -1; grid-row: 3; min-height: 280px; }
+/* Media card grid positions */
+.landing-media-1,
+.landing-media-2,
+.landing-media-3 {
+  flex: 1 1 0;
+  min-height: 220px;
+}
 
 /* -- Experience Card -- */
 .landing-experience {
-  grid-column: 1 / 6;
-  grid-row: 2 / 4;
 }
 
 .landing-timeline {
-  margin-top: 8px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .landing-timeline-entry {
   position: relative;
-  padding-left: 20px;
-  padding-bottom: 24px;
-  border-left: 1px solid var(--landing-border);
+  padding: 16px 18px 16px 28px;
+  border-left: 2px solid var(--landing-border);
+  border-radius: 0 10px 10px 0;
+  transition: background 0.25s;
+}
+
+.landing-timeline-entry:hover {
+  background: var(--landing-accent-bg);
+}
+
+.landing-timeline-entry:first-child {
+  background: var(--landing-accent-bg);
 }
 
 .landing-timeline-entry:last-child {
-  padding-bottom: 0;
+  border-left-color: transparent;
 }
 
 .landing-timeline-entry::before {
   content: '';
   position: absolute;
-  left: -4px;
-  top: 6px;
-  width: 7px;
-  height: 7px;
+  left: -5px;
+  top: 20px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--landing-accent);
+  background: var(--landing-text-dim);
+  border: 2px solid var(--landing-bg-card);
 }
 
-.landing-timeline-entry:not(:first-child)::before {
-  background: var(--landing-text-dim);
+.landing-timeline-entry:first-child::before {
+  background: var(--landing-accent);
+  box-shadow: 0 0 0 3px var(--landing-accent-bg);
 }
 
 .landing-timeline-role {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--landing-text);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.landing-timeline-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .landing-timeline-company {
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   color: var(--landing-accent);
-  margin-bottom: 2px;
+  font-weight: 500;
 }
 
 .landing-timeline-period {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--landing-text-dim);
-  margin-bottom: 6px;
+  font-size: 0.65rem;
+  color: var(--landing-accent-secondary);
+  background: var(--landing-accent-secondary-bg);
+  padding: 2px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+.landing-timeline-entry:first-child .landing-timeline-period {
+  color: var(--landing-accent);
+  background: color-mix(in srgb, var(--landing-accent) 18%, transparent);
 }
 
 .landing-timeline-desc {
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   color: var(--landing-text-muted);
-  line-height: 1.5;
+  line-height: 1.65;
 }
 
 /* -- Contact Card -- */
 .landing-contact {
   grid-column: 1 / -1;
-  grid-row: 5;
   padding: 36px 40px;
   min-height: auto;
   display: flex;
@@ -1147,4 +1282,366 @@
 .landing-contact-btn-secondary:hover {
   color: var(--landing-text);
   border-color: var(--landing-border-hover);
+}
+
+/* -- Theme Toggle -- */
+.landing-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--landing-border);
+  background: transparent;
+  color: var(--landing-text-muted);
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+
+.landing-theme-toggle:hover {
+  color: var(--landing-accent);
+  border-color: var(--landing-accent);
+  background: var(--landing-accent-bg);
+}
+
+.landing-theme-toggle-icon {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.landing-theme-toggle-icon-rotated {
+  transform: rotate(180deg);
+}
+
+.landing-theme-toggle:active {
+  transform: scale(1.15);
+  transition: transform 0.1s ease;
+}
+
+.landing-theme-toggle:active .landing-theme-toggle-icon {
+  transition-duration: 0.3s;
+}
+
+.landing-theme-toggle-hero {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  z-index: 30;
+}
+
+.landing-sidebar .landing-theme-toggle {
+  margin-bottom: 16px;
+}
+
+/* -- Landing Prose — markdown content styled for landing theme -- */
+.landing-prose {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.landing-prose p {
+  margin: 0 0 0.6em;
+}
+
+.landing-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.landing-prose ul,
+.landing-prose ol {
+  margin: 0.4em 0;
+  padding-left: 1.4em;
+}
+
+.landing-prose ul {
+  list-style-type: disc;
+}
+
+.landing-prose ol {
+  list-style-type: decimal;
+}
+
+.landing-prose li {
+  margin: 0.2em 0;
+}
+
+.landing-prose li::marker {
+  color: var(--landing-accent);
+}
+
+.landing-prose strong {
+  color: var(--landing-text);
+  font-weight: 600;
+}
+
+.landing-prose em {
+  font-style: italic;
+}
+
+.landing-prose a {
+  color: var(--landing-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--landing-accent) 40%, transparent);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s;
+}
+
+.landing-prose a:hover {
+  text-decoration-color: var(--landing-accent);
+}
+
+.landing-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--landing-accent-bg);
+  color: var(--landing-accent);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+
+.landing-prose h1,
+.landing-prose h2,
+.landing-prose h3,
+.landing-prose h4 {
+  color: var(--landing-text);
+  font-weight: 600;
+  margin: 0.8em 0 0.4em;
+}
+
+.landing-prose h1:first-child,
+.landing-prose h2:first-child,
+.landing-prose h3:first-child,
+.landing-prose h4:first-child {
+  margin-top: 0;
+}
+
+.landing-prose blockquote {
+  border-left: 2px solid var(--landing-accent);
+  padding-left: 1em;
+  margin: 0.6em 0;
+  color: var(--landing-text-muted);
+  font-style: italic;
+}
+
+.landing-prose hr {
+  border: none;
+  border-top: 1px solid var(--landing-border);
+  margin: 1em 0;
+}
+
+/* ========================================
+   RESPONSIVE — Tablet (≤1024px)
+   ======================================== */
+@media (max-width: 1024px) {
+  .landing-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-sidebar {
+    display: none;
+  }
+
+  .landing-main {
+    grid-column: 1;
+    padding: 24px 24px 48px;
+  }
+
+  .landing-hero-content {
+    gap: 40px;
+    padding: 0 4vw;
+  }
+
+  .landing-hero-avatar {
+    width: 220px;
+    height: 300px;
+  }
+
+  .landing-hero-name {
+    font-size: clamp(3.5rem, 6vw, 7rem);
+  }
+
+  /* Bento grid — keep 2 columns but tighter */
+  .landing-bento {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .landing-media-1,
+  .landing-media-2,
+  .landing-media-3 { min-height: 260px; }
+}
+
+/* ========================================
+   RESPONSIVE — Mobile (≤768px)
+   ======================================== */
+@media (max-width: 768px) {
+  /* Hero — stack vertically */
+  .landing-hero-content {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+    padding: 0 6vw;
+  }
+
+  .landing-hero-avatar {
+    width: 160px;
+    height: 220px;
+  }
+
+  .landing-hero-ring-3 {
+    display: none;
+  }
+
+  .landing-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .landing-hero-name {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    white-space: normal;
+    text-align: center;
+  }
+
+  .landing-hero-tagline {
+    font-size: 1rem;
+    margin-bottom: 28px;
+  }
+
+  .landing-hero-divider {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .landing-main {
+    padding: 16px 16px 40px;
+  }
+
+  /* Bento grid — single column */
+  .landing-bento {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .landing-bento-left,
+  .landing-bento-right {
+    gap: 14px;
+  }
+
+  .landing-media-1,
+  .landing-media-2,
+  .landing-media-3 {
+    min-height: 240px;
+  }
+
+  /* Cards — tighter padding */
+  .landing-card {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .landing-card-title {
+    font-size: 1.2rem;
+  }
+
+  /* Experience timeline */
+  .landing-timeline-role {
+    font-size: 0.95rem;
+  }
+
+  .landing-timeline-entry {
+    padding: 12px 14px 12px 20px;
+  }
+
+  /* Contact card — stack */
+  .landing-contact {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    padding: 28px 24px;
+  }
+
+  .landing-contact-heading {
+    font-size: 1.5rem;
+  }
+
+  .landing-contact-links {
+    justify-content: center;
+  }
+
+  /* Media card info panel */
+  .landing-media-info {
+    padding: 18px 20px 16px;
+  }
+
+  .landing-media-title {
+    font-size: 1.1rem;
+  }
+
+  /* Bento hero card */
+  .landing-bento-hero {
+    padding: 32px 24px;
+  }
+
+  .landing-bento-title {
+    font-size: 2.4rem;
+  }
+
+  /* Scroll indicator */
+  .landing-scroll-indicator {
+    bottom: 20px;
+  }
+
+  /* Theme toggle in hero */
+  .landing-theme-toggle-hero {
+    top: 16px;
+    right: 16px;
+  }
+}
+
+/* ========================================
+   RESPONSIVE — Small Mobile (≤480px)
+   ======================================== */
+@media (max-width: 480px) {
+  .landing-hero-avatar {
+    width: 120px;
+    height: 165px;
+  }
+
+  .landing-hero-ring-2,
+  .landing-hero-ring-3 {
+    display: none;
+  }
+
+  .landing-hero-name {
+    font-size: clamp(2rem, 12vw, 3.5rem);
+  }
+
+  .landing-hero-pre {
+    font-size: 0.6rem;
+  }
+
+  .landing-hero-tagline {
+    font-size: 0.85rem;
+  }
+
+  .landing-hero-cta {
+    font-size: 0.65rem;
+    padding: 10px 22px;
+  }
+
+  .landing-card {
+    padding: 16px;
+  }
+
+  .landing-contact-links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .landing-contact-btn {
+    text-align: center;
+  }
 }

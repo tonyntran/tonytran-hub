@@ -63,11 +63,15 @@ export default async function LandingPage() {
     <div className="landing-theme">
       <Hero block={getOne('hero')} />
       <LandingShell aboutBlock={getOne('about')} contactBlocks={get('contact')}>
-        <About block={getOne('about')} />
-        <Experience blocks={get('experience')} />
-        <Projects blocks={get('project')} />
-        <Skills blocks={get('skill')} />
-        <Contact blocks={get('contact')} />
+        <div className="landing-bento-left">
+          <About block={getOne('about')} />
+          <Experience blocks={get('experience')} />
+          <Skills blocks={get('skill')} />
+        </div>
+        <div className="landing-bento-right">
+          <Projects blocks={get('project')} />
+        </div>
+        <Contact blocks={get('contact')} aboutBlock={getOne('about')} />
       </LandingShell>
     </div>
   )
