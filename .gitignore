@@ -1,9 +1,13 @@
 # claude
 CLAUDE.md
 .claude/
+.claire/
 .superpowers/
 docs/
 docs/superpowers/
+
+# mcp
+.mcp.json
 
 # env
 .env.local
@@ -15,6 +19,9 @@ node_modules/
 # next
 .next/
 out/
+
+# supabase local
+supabase/.temp/
 
 # worktrees
 .worktrees/
