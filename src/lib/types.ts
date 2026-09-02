@@ -1,7 +1,7 @@
-export type ContentBlockType = 'hero' | 'about' | 'experience' | 'skill' | 'project' | 'contact'
+export type ContentBlockType = 'hero' | 'about' | 'experience' | 'skill' | 'project' | 'contact' | 'blog_post'
 
 export const SINGLETON_TYPES: ContentBlockType[] = ['hero', 'about']
-export const COLLECTION_TYPES: ContentBlockType[] = ['experience', 'skill', 'project', 'contact']
+export const COLLECTION_TYPES: ContentBlockType[] = ['experience', 'skill', 'project', 'contact', 'blog_post']
 export const ALL_CONTENT_TYPES: ContentBlockType[] = [...SINGLETON_TYPES, ...COLLECTION_TYPES]
 
 export interface HeroMetadata {
@@ -43,6 +43,12 @@ export interface ContactMetadata {
   display_text: string
 }
 
+export interface BlogPostMetadata {
+  slug: string
+  excerpt: string | null
+  cover_image_url: string | null
+}
+
 export type ContentMetadata =
   | HeroMetadata
   | AboutMetadata
@@ -50,6 +56,7 @@ export type ContentMetadata =
   | SkillMetadata
   | ProjectMetadata
   | ContactMetadata
+  | BlogPostMetadata
 
 export interface ContentBlock {
   id: string

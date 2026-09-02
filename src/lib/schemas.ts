@@ -41,6 +41,12 @@ export const contactMetadataSchema = z.object({
   display_text: z.string().min(1, 'Display text is required'),
 })
 
+export const blogPostMetadataSchema = z.object({
+  slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'Lowercase letters, numbers, and hyphens only'),
+  excerpt: z.string().nullable(),
+  cover_image_url: urlOrNull,
+})
+
 export const metadataSchemaMap = {
   hero: heroMetadataSchema,
   about: aboutMetadataSchema,
@@ -48,6 +54,7 @@ export const metadataSchemaMap = {
   skill: skillMetadataSchema,
   project: projectMetadataSchema,
   contact: contactMetadataSchema,
+  blog_post: blogPostMetadataSchema,
 } as const
 
 export const applicationSchema = z.object({

@@ -6,6 +6,7 @@ import {
   skillMetadataSchema,
   projectMetadataSchema,
   contactMetadataSchema,
+  blogPostMetadataSchema,
   applicationSchema,
 } from '@/lib/schemas'
 
@@ -159,6 +160,35 @@ describe('contactMetadataSchema', () => {
       url: 'https://github.com/tonyntran',
       icon: 'github',
       display_text: '@tonyntran',
+    })
+    expect(result.success).toBe(false)
+  })
+})
+
+describe('blogPostMetadataSchema', () => {
+  it('accepts valid blog post metadata', () => {
+    const result = blogPostMetadataSchema.safeParse({
+      slug: 'week-4-recap',
+      excerpt: 'A wild week in the league.',
+      cover_image_url: 'https://example.com/cover.jpg',
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('accepts null excerpt and cover_image_url', () => {
+    const result = blogPostMetadataSchema.safeParse({
+      slug: 'week-4-recap',
+      excerpt: null,
+      cover_image_url: null,
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it('rejects a slug with uppercase letters or spaces', () => {
+    const result = blogPostMetadataSchema.safeParse({
+      slug: 'Week 4 Recap',
+      excerpt: null,
+      cover_image_url: null,
     })
     expect(result.success).toBe(false)
   })
