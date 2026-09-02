@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import { toast } from 'sonner'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Textarea } from '@/components/ui/textarea'
@@ -35,6 +36,8 @@ export function MarkdownEditor({ name, defaultValue, label = 'Description (Markd
       } else {
         setValue((prev) => prev + markdown)
       }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Image upload failed')
     } finally {
       setUploading(false)
       e.target.value = ''

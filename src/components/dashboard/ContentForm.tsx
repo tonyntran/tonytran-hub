@@ -53,7 +53,8 @@ export function ContentForm({ block, defaultType, singletonStatus }: Props) {
       if ('server' in errors) {
         toast.error((errors as { server: string[] }).server[0])
       } else {
-        toast.error('Please fix the validation errors')
+        const first = Object.entries(errors)[0]
+        toast.error(first ? `${first[0]}: ${first[1][0]}` : 'Please fix the validation errors')
       }
       return
     }

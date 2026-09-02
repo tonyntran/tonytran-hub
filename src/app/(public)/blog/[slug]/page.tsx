@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { MarkdownContent } from '@/components/landing/MarkdownContent'
 import type { ContentBlock, BlogPostMetadata } from '@/lib/types'
@@ -40,9 +41,9 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">
-      <a href="/blog" className="text-sm text-muted-foreground hover:underline">
+      <Link href="/blog" className="text-sm text-muted-foreground hover:underline">
         ← Back to blog
-      </a>
+      </Link>
       {meta.cover_image_url && (
         // eslint-disable-next-line @next/next/no-img-element
         <img

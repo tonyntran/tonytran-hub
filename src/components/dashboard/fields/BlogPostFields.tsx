@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -32,6 +33,8 @@ export function BlogPostFields({ metadata }: Props) {
     try {
       const url = await uploadImage('blog-images', file)
       setCoverImageUrl(url)
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Image upload failed')
     } finally {
       setUploading(false)
       e.target.value = ''

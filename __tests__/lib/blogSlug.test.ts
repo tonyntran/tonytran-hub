@@ -17,7 +17,7 @@ function makeFakeSupabase(result: { data: unknown }) {
       calls.push({ method: 'neq', args })
       return builder
     },
-    maybeSingle: () => Promise.resolve(result),
+    maybeSingle: () => Promise.resolve({ ...result, error: null }),
   }
   const supabase = { from: () => builder } as unknown as SupabaseClient
   return { supabase, calls }
@@ -25,13 +25,17 @@ function makeFakeSupabase(result: { data: unknown }) {
 
 describe('isBlogSlugTaken', () => {
   it('returns true when a matching row exists', async () => {
-    const { supabase } = makeFakeSupabase({ data: { id: 'existing' } })
+    const { supabase, calls } = makeFakeSupabase({ data: { id: 'existing' } })
     expect(await isBlogSlugTaken(supabase, 'week-4-recap')).toBe(true)
+    expect(calls).toContainEqual({ method: 'eq', args: ['type', 'blog_post'] })
+    expect(calls).toContainEqual({ method: 'eq', args: ['metadata->>slug', 'week-4-recap'] })
   })
 
   it('returns false when no row matches', async () => {
-    const { supabase } = makeFakeSupabase({ data: null })
+    const { supabase, calls } = makeFakeSupabase({ data: null })
     expect(await isBlogSlugTaken(supabase, 'week-4-recap')).toBe(false)
+    expect(calls).toContainEqual({ method: 'eq', args: ['type', 'blog_post'] })
+    expect(calls).toContainEqual({ method: 'eq', args: ['metadata->>slug', 'week-4-recap'] })
   })
 
   it('excludes the given id from the check', async () => {

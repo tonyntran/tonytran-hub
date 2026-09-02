@@ -15,6 +15,7 @@ export async function isBlogSlugTaken(
     query = query.neq('id', excludeId)
   }
 
-  const { data } = await query.maybeSingle()
+  const { data, error } = await query.maybeSingle()
+  if (error) throw new Error(error.message)
   return !!data
 }

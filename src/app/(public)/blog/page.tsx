@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { BlogCard } from '@/components/landing/blog/BlogCard'
 import type { ContentBlock } from '@/lib/types'
@@ -24,9 +25,9 @@ export default async function BlogListPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <a href="/" className="text-sm text-muted-foreground hover:underline">
+      <Link href="/" className="text-sm text-muted-foreground hover:underline">
         ← Back home
-      </a>
+      </Link>
       <h1 className="mt-4 mb-8 text-3xl font-bold">Blog</h1>
       {posts.length === 0 ? (
         <p className="text-muted-foreground">No posts yet.</p>
