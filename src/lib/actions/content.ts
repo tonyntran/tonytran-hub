@@ -4,7 +4,8 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth } from '@/lib/auth'
 import { metadataSchemaMap } from '@/lib/schemas'
-import { SINGLETON_TYPES, type ContentBlockType } from '@/lib/types'
+import { SINGLETON_TYPES, type ContentBlockType, type BlogPostMetadata } from '@/lib/types'
+import { isBlogSlugTaken } from '@/lib/blogSlug'
 
 export async function getContentBlocks(type?: ContentBlockType) {
   const supabase = await createClient()
@@ -56,6 +57,13 @@ export async function createContentBlock(type: ContentBlockType, formData: FormD
     return { error: parsed.error.flatten().fieldErrors }
   }
 
+  if (type === 'blog_post') {
+    const taken = await isBlogSlugTaken(supabase, (parsed.data as BlogPostMetadata).slug)
+    if (taken) {
+      return { error: { slug: ['Slug already in use'] } }
+    }
+  }
+
   // Get next sort_order for this type
   const { data: maxRow } = await supabase
     .from('content_blocks')
@@ -94,6 +102,14 @@ export async function updateContentBlock(id: string, type: ContentBlockType, for
   }
 
   const { supabase } = await requireAuth()
+
+  if (type === 'blog_post') {
+    const taken = await isBlogSlugTaken(supabase, (parsed.data as BlogPostMetadata).slug, id)
+    if (taken) {
+      return { error: { slug: ['Slug already in use'] } }
+    }
+  }
+
   const { error } = await supabase
     .from('content_blocks')
     .update({
@@ -239,6 +255,12 @@ function extractMetadata(type: ContentBlockType, formData: FormData): Record<str
         url: formData.get('contact_url'),
         icon: formData.get('icon'),
         display_text: formData.get('display_text'),
+      }
+    case 'blog_post':
+      return {
+        slug: formData.get('slug'),
+        excerpt: (formData.get('excerpt') as string) || null,
+        cover_image_url: (formData.get('cover_image_url') as string) || null,
       }
   }
 }
