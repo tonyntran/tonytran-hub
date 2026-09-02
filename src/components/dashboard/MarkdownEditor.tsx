@@ -1,28 +1,65 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { uploadImage } from '@/lib/supabase/uploadImage'
 
 interface Props {
   name: string
   defaultValue: string
+  label?: string
 }
 
-export function MarkdownEditor({ name, defaultValue }: Props) {
+export function MarkdownEditor({ name, defaultValue, label = 'Description (Markdown)' }: Props) {
   const [value, setValue] = useState(defaultValue)
   const [preview, setPreview] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const insertImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    try {
+      const url = await uploadImage('blog-images', file)
+      const markdown = `![](${url})`
+      const textarea = textareaRef.current
+      if (textarea) {
+        const start = textarea.selectionStart
+        const end = textarea.selectionEnd
+        setValue(value.slice(0, start) + markdown + value.slice(end))
+      } else {
+        setValue(value + markdown)
+      }
+    } finally {
+      setUploading(false)
+      e.target.value = ''
+    }
+  }
 
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <Label>Description (Markdown)</Label>
-        <Button type="button" variant="ghost" size="sm" onClick={() => setPreview(!preview)}>
-          {preview ? 'Edit' : 'Preview'}
-        </Button>
+        <Label>{label}</Label>
+        <div className="flex items-center gap-2">
+          <label className="inline-flex h-8 cursor-pointer items-center rounded-md px-2.5 text-sm text-muted-foreground hover:text-foreground">
+            {uploading ? 'Uploading...' : 'Insert image'}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={insertImage}
+              disabled={preview}
+            />
+          </label>
+          <Button type="button" variant="ghost" size="sm" onClick={() => setPreview(!preview)}>
+            {preview ? 'Edit' : 'Preview'}
+          </Button>
+        </div>
       </div>
       {/* Hidden input ensures body_md is always in FormData, even in preview mode */}
       <input type="hidden" name={name} value={value} />
@@ -32,6 +69,7 @@ export function MarkdownEditor({ name, defaultValue }: Props) {
         </div>
       ) : (
         <Textarea
+          ref={textareaRef}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           rows={6}
