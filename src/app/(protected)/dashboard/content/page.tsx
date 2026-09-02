@@ -80,7 +80,7 @@ function ContentListInner() {
     || !SINGLETON_TYPES.includes(activeType)
     || !singletonStatus[activeType]
 
-  const showOrder = !!activeType
+  const showOrder = !!activeType && activeType !== 'blog_post'
 
   const formatDate = (date: string) => {
     const d = new Date(date)

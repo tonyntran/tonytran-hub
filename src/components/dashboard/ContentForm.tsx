@@ -13,6 +13,7 @@ import { ExperienceFields } from './fields/ExperienceFields'
 import { SkillFields } from './fields/SkillFields'
 import { ProjectFields } from './fields/ProjectFields'
 import { ContactFields } from './fields/ContactFields'
+import { BlogPostFields } from './fields/BlogPostFields'
 import { createContentBlock, updateContentBlock } from '@/lib/actions/content'
 import {
   ALL_CONTENT_TYPES,
@@ -24,6 +25,7 @@ import {
   type SkillMetadata,
   type ProjectMetadata,
   type ContactMetadata,
+  type BlogPostMetadata,
 } from '@/lib/types'
 
 interface Props {
@@ -75,6 +77,8 @@ export function ContentForm({ block, defaultType, singletonStatus }: Props) {
         return <ProjectFields metadata={metadata as ProjectMetadata | undefined} />
       case 'contact':
         return <ContactFields metadata={metadata as ContactMetadata | undefined} />
+      case 'blog_post':
+        return <BlogPostFields metadata={metadata as BlogPostMetadata | undefined} />
     }
   }
 
@@ -115,7 +119,11 @@ export function ContentForm({ block, defaultType, singletonStatus }: Props) {
 
       {renderFields()}
 
-      <MarkdownEditor name="body_md" defaultValue={block?.body_md ?? ''} />
+      <MarkdownEditor
+        name="body_md"
+        defaultValue={block?.body_md ?? ''}
+        label={type === 'blog_post' ? 'Body (Markdown)' : undefined}
+      />
 
       <div className="flex items-center gap-2">
         <input type="checkbox" id="visible" name="visible" defaultChecked={block?.visible ?? true} className="rounded border" />
