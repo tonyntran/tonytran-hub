@@ -94,6 +94,12 @@ describe('Sidebar', () => {
     expect(screen.getByText('Tony Tran')).toBeInTheDocument()
     expect(screen.getByText('Based in the US')).toBeInTheDocument()
   })
+
+  it('renders a Blog link to /blog', async () => {
+    const { Sidebar } = await import('@/components/landing/Sidebar')
+    render(<Sidebar aboutBlock={undefined} contactBlocks={[]} visible={true} />)
+    expect(screen.getByRole('link', { name: 'Blog' })).toHaveAttribute('href', '/blog')
+  })
 })
 
 describe('BentoHero', () => {
