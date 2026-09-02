@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { BlogCard } from '@/components/landing/blog/BlogCard'
+import { ThemeToggle } from '@/components/landing/ThemeToggle'
 import type { ContentBlock } from '@/lib/types'
 
 export default async function BlogListPage() {
@@ -24,20 +25,30 @@ export default async function BlogListPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
-      <Link href="/" className="text-sm text-muted-foreground hover:underline">
-        ← Back home
-      </Link>
-      <h1 className="mt-4 mb-8 text-3xl font-bold">Blog</h1>
-      {posts.length === 0 ? (
-        <p className="text-muted-foreground">No posts yet.</p>
-      ) : (
-        <div className="flex flex-col gap-8">
-          {posts.map((post) => (
-            <BlogCard key={post.id} block={post} />
-          ))}
-        </div>
-      )}
+    <div className="landing-theme">
+      <header className="landing-blog-topbar">
+        <Link href="/" className="landing-blog-wordmark">
+          Tony Tran <span>/ Blog</span>
+        </Link>
+        <ThemeToggle />
+      </header>
+      <div className="landing-blog-container">
+        <p className="landing-blog-eyebrow">Field Notes</p>
+        <h1 className="landing-blog-title">Blog</h1>
+        <div className="landing-blog-divider" />
+        <p className="landing-blog-subtitle">
+          Recaps, breakdowns, and the occasional rant — mostly fantasy football, sometimes everything else.
+        </p>
+        {posts.length === 0 ? (
+          <p className="landing-blog-empty">No posts yet. Check back soon.</p>
+        ) : (
+          <div className="landing-blog-list">
+            {posts.map((post, index) => (
+              <BlogCard key={post.id} block={post} index={index} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
