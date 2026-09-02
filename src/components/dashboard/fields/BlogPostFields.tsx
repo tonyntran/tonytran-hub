@@ -78,7 +78,13 @@ export function BlogPostFields({ metadata }: Props) {
           />
           <label className="inline-flex h-9 cursor-pointer items-center rounded-md border px-3 text-sm">
             {uploading ? 'Uploading...' : 'Upload'}
-            <input type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleCoverUpload}
+              disabled={uploading}
+            />
           </label>
         </div>
       </div>
