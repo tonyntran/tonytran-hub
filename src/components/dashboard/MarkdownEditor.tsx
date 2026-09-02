@@ -23,17 +23,17 @@ export function MarkdownEditor({ name, defaultValue, label = 'Description (Markd
   const insertImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+    const textarea = textareaRef.current
+    const start = textarea?.selectionStart
+    const end = textarea?.selectionEnd
     setUploading(true)
     try {
       const url = await uploadImage('blog-images', file)
       const markdown = `![](${url})`
-      const textarea = textareaRef.current
-      if (textarea) {
-        const start = textarea.selectionStart
-        const end = textarea.selectionEnd
-        setValue(value.slice(0, start) + markdown + value.slice(end))
+      if (start != null && end != null) {
+        setValue((prev) => prev.slice(0, start) + markdown + prev.slice(end))
       } else {
-        setValue(value + markdown)
+        setValue((prev) => prev + markdown)
       }
     } finally {
       setUploading(false)
@@ -53,7 +53,7 @@ export function MarkdownEditor({ name, defaultValue, label = 'Description (Markd
               accept="image/*"
               className="hidden"
               onChange={insertImage}
-              disabled={preview}
+              disabled={preview || uploading}
             />
           </label>
           <Button type="button" variant="ghost" size="sm" onClick={() => setPreview(!preview)}>
