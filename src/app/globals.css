@@ -1558,6 +1558,78 @@
   color: var(--landing-text);
 }
 
+/* Long-form spacing — roomier than the compact .landing-prose used in cards */
+.landing-blog-article p {
+  margin: 0 0 1.3em;
+}
+
+.landing-blog-article p:last-child {
+  margin-bottom: 0;
+}
+
+.landing-blog-article ul,
+.landing-blog-article ol {
+  margin: 0.8em 0 1.3em;
+}
+
+/* Inline lead-in labels — "Pros:", "Cons:", "Verdict:" — read as callouts, not just bold text */
+.landing-blog-article p > strong:first-child {
+  color: var(--landing-accent);
+}
+
+/* Section headings get real hierarchy: display font, size, breathing room */
+.landing-blog-article h1,
+.landing-blog-article h2,
+.landing-blog-article h3,
+.landing-blog-article h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  color: var(--landing-text);
+  margin: 1.7em 0 0.7em;
+}
+
+.landing-blog-article h1:first-child,
+.landing-blog-article h2:first-child,
+.landing-blog-article h3:first-child,
+.landing-blog-article h4:first-child {
+  margin-top: 0;
+}
+
+.landing-blog-article h1 { font-size: 1.9rem; }
+.landing-blog-article h2 { font-size: 1.5rem; }
+.landing-blog-article h3 { font-size: 1.25rem; }
+.landing-blog-article h4 { font-size: 1.05rem; }
+
+/* Section breaks — a faded rule with a centered accent mark, echoing the site's dot motif */
+.landing-blog-article hr {
+  position: relative;
+  height: 1px;
+  border: none;
+  margin: 3em 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--landing-border) 15%,
+    var(--landing-border) 85%,
+    transparent
+  );
+}
+
+.landing-blog-article hr::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--landing-accent);
+  transform: translate(-50%, -50%);
+}
+
 .landing-blog-list {
   display: flex;
   flex-direction: column;
