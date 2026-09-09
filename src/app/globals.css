@@ -846,37 +846,81 @@
 .landing-skills {
 }
 
-.landing-skills-grid {
+.landing-skill-category-group {
+  margin-top: 22px;
+}
+
+.landing-skill-category-group:first-of-type {
+  margin-top: 16px;
+}
+
+.landing-skill-category-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.landing-skill-tag {
-  padding: 5px 14px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  background: var(--landing-accent-bg);
-  color: var(--landing-accent);
-  font-family: var(--font-mono);
-  transition: background 0.2s;
-}
-
-.landing-skill-tag:hover {
-  background: var(--landing-accent-bg-hover);
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .landing-skill-category {
-  font-size: 0.72rem;
-  color: var(--landing-text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
   letter-spacing: 0.08em;
-  margin-top: 14px;
-  margin-bottom: 8px;
+  color: var(--landing-accent);
+  flex-shrink: 0;
 }
 
-.landing-skill-category:first-child {
-  margin-top: 0;
+.landing-skill-category-line {
+  flex: 1;
+  height: 1px;
+  background: var(--landing-border);
+}
+
+.landing-skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 18px;
+}
+
+.landing-skill-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 68px;
+  text-align: center;
+}
+
+.landing-skill-tile-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.landing-skill-tile:hover .landing-skill-tile-icon {
+  transform: translateY(-3px);
+}
+
+.landing-skill-tile-fallback {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--landing-accent-bg);
+  color: var(--landing-accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.landing-skill-tile-label {
+  font-size: 0.72rem;
+  color: var(--landing-text-muted);
+  line-height: 1.3;
 }
 
 /* -- Media Card (Projects) -- */

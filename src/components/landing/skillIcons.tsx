@@ -1,0 +1,74 @@
+import type { IconType } from 'react-icons'
+import {
+  SiPython, SiTypescript, SiJavascript, SiGo, SiSwift, SiKotlin,
+  SiReact, SiNextdotjs, SiAngular, SiVuedotjs, SiTailwindcss, SiBootstrap,
+  SiJquery, SiHtml5, SiCss, SiSass, SiD3,
+  SiNodedotjs, SiExpress, SiDjango, SiFlask, SiFastapi, SiSpring, SiGraphql,
+  SiPostgresql, SiMysql, SiMongodb, SiRedis, SiSupabase, SiFirebase,
+  SiDocker, SiKubernetes, SiVercel, SiGit, SiGithub, SiGitlab,
+  SiJest, SiVitest, SiWebpack, SiVite, SiLangchain, SiJson,
+} from 'react-icons/si'
+
+interface SkillIcon {
+  Icon: IconType
+  color: string
+}
+
+const SKILL_ICONS: Record<string, SkillIcon> = {
+  python: { Icon: SiPython, color: '#3776AB' },
+  typescript: { Icon: SiTypescript, color: '#3178C6' },
+  javascript: { Icon: SiJavascript, color: '#F7DF1E' },
+  go: { Icon: SiGo, color: '#00ADD8' },
+  golang: { Icon: SiGo, color: '#00ADD8' },
+  swift: { Icon: SiSwift, color: '#F05138' },
+  kotlin: { Icon: SiKotlin, color: '#7F52FF' },
+  react: { Icon: SiReact, color: '#61DAFB' },
+  'next.js': { Icon: SiNextdotjs, color: 'currentColor' },
+  nextjs: { Icon: SiNextdotjs, color: 'currentColor' },
+  angular: { Icon: SiAngular, color: '#DD0031' },
+  'vue.js': { Icon: SiVuedotjs, color: '#4FC08D' },
+  vue: { Icon: SiVuedotjs, color: '#4FC08D' },
+  tailwind: { Icon: SiTailwindcss, color: '#06B6D4' },
+  'tailwind css': { Icon: SiTailwindcss, color: '#06B6D4' },
+  bootstrap: { Icon: SiBootstrap, color: '#7952B3' },
+  jquery: { Icon: SiJquery, color: '#0769AD' },
+  html: { Icon: SiHtml5, color: '#E34F26' },
+  html5: { Icon: SiHtml5, color: '#E34F26' },
+  css: { Icon: SiCss, color: '#1572B6' },
+  css3: { Icon: SiCss, color: '#1572B6' },
+  sass: { Icon: SiSass, color: '#CC6699' },
+  'd3.js': { Icon: SiD3, color: '#F9A03C' },
+  d3: { Icon: SiD3, color: '#F9A03C' },
+  'node.js': { Icon: SiNodedotjs, color: '#5FA04E' },
+  nodejs: { Icon: SiNodedotjs, color: '#5FA04E' },
+  node: { Icon: SiNodedotjs, color: '#5FA04E' },
+  express: { Icon: SiExpress, color: 'currentColor' },
+  django: { Icon: SiDjango, color: 'currentColor' },
+  flask: { Icon: SiFlask, color: 'currentColor' },
+  fastapi: { Icon: SiFastapi, color: '#009688' },
+  spring: { Icon: SiSpring, color: '#6DB33F' },
+  graphql: { Icon: SiGraphql, color: '#E10098' },
+  postgresql: { Icon: SiPostgresql, color: '#4169E1' },
+  postgres: { Icon: SiPostgresql, color: '#4169E1' },
+  mysql: { Icon: SiMysql, color: '#4479A1' },
+  mongodb: { Icon: SiMongodb, color: '#47A248' },
+  redis: { Icon: SiRedis, color: '#FF4438' },
+  supabase: { Icon: SiSupabase, color: '#3ECF8E' },
+  firebase: { Icon: SiFirebase, color: '#FFCA28' },
+  docker: { Icon: SiDocker, color: '#2496ED' },
+  kubernetes: { Icon: SiKubernetes, color: '#326CE5' },
+  vercel: { Icon: SiVercel, color: 'currentColor' },
+  git: { Icon: SiGit, color: '#F05032' },
+  github: { Icon: SiGithub, color: 'currentColor' },
+  gitlab: { Icon: SiGitlab, color: '#FC6D26' },
+  jest: { Icon: SiJest, color: '#C21325' },
+  vitest: { Icon: SiVitest, color: '#6E9F18' },
+  webpack: { Icon: SiWebpack, color: '#8DD6F9' },
+  vite: { Icon: SiVite, color: '#646CFF' },
+  langchain: { Icon: SiLangchain, color: 'currentColor' },
+  json: { Icon: SiJson, color: 'currentColor' },
+}
+
+export function getSkillIcon(name: string): SkillIcon | null {
+  return SKILL_ICONS[name.trim().toLowerCase()] ?? null
+}
