@@ -1837,7 +1837,41 @@
   .landing-media-1,
   .landing-media-2,
   .landing-media-3 {
-    min-height: 240px;
+    flex: none;
+    min-height: 0;
+  }
+
+  /* Media cards use a hover-to-reveal flip on desktop (info panel slides
+     over the visual). Touch devices have no reliable "un-hover", so a tap
+     can leave the card stuck mid-transition with the widget shoved off
+     screen. Mobile gets a static stacked layout instead: visual on top,
+     info panel always visible below, no transform-based reveal. */
+  .landing-media-card {
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .landing-media-wrapper {
+    position: static;
+  }
+
+  .landing-media-visual {
+    position: relative;
+    inset: auto;
+    height: 180px;
+    transform: none !important;
+  }
+
+  .landing-media-info {
+    position: static;
+    transform: none !important;
+    opacity: 1 !important;
+    padding: 18px 20px 20px;
+  }
+
+  .landing-media-close {
+    display: none;
   }
 
   /* Cards — tighter padding */
