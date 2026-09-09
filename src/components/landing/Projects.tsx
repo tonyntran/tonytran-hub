@@ -15,7 +15,7 @@ export function Projects({ blocks }: Props) {
         <MediaCard
           key={block.id}
           block={block}
-          className={`landing-media-${i + 1}`}
+          className="landing-media-item"
           hasVideo={i === 1}
           index={i}
         />

@@ -1150,10 +1150,8 @@
   transform: scale(0.8);
 }
 
-/* Media card grid positions */
-.landing-media-1,
-.landing-media-2,
-.landing-media-3 {
+/* Media card grid positions — shared class so this scales past 3 projects */
+.landing-media-item {
   flex: 1 1 0;
   min-height: 220px;
 }
@@ -1771,9 +1769,7 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .landing-media-1,
-  .landing-media-2,
-  .landing-media-3 { min-height: 260px; }
+  .landing-media-item { min-height: 260px; }
 }
 
 /* ========================================
@@ -1834,9 +1830,7 @@
     gap: 14px;
   }
 
-  .landing-media-1,
-  .landing-media-2,
-  .landing-media-3 {
+  .landing-media-item {
     flex: none;
     min-height: 0;
   }
