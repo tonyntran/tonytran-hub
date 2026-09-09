@@ -29,3 +29,6 @@ supabase/.temp/
 # misc
 *.tsbuildinfo
 next-env.d.ts
+
+# espn research output (personal league data, not app content)
+scripts/espn-output/

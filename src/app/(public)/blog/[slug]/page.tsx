@@ -1,20 +1,20 @@
 export const dynamic = 'force-dynamic'
 
+import { cache } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { MarkdownContent } from '@/components/landing/MarkdownContent'
 import { ThemeToggle } from '@/components/landing/ThemeToggle'
+import { excerptFromMarkdown } from '@/lib/blogExcerpt'
 import type { ContentBlock, BlogPostMetadata } from '@/lib/types'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params
-  let post: ContentBlock | null = null
-
+const getPost = cache(async (slug: string): Promise<ContentBlock | null> => {
   try {
     const supabase = await createClient()
     const { data, error } = await supabase
@@ -26,10 +26,41 @@ export default async function BlogPostPage({ params }: Props) {
       .maybeSingle()
 
     if (error) throw error
-    post = data as ContentBlock | null
+    return data as ContentBlock | null
   } catch {
-    notFound()
+    return null
   }
+})
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const post = await getPost(slug)
+  if (!post) return {}
+
+  const meta = post.metadata as BlogPostMetadata
+  const title = post.title ?? '(untitled)'
+  const description = meta.excerpt ?? excerptFromMarkdown(post.body_md ?? '')
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      ...(meta.cover_image_url ? { images: [meta.cover_image_url] } : {}),
+    },
+    twitter: {
+      card: meta.cover_image_url ? 'summary_large_image' : 'summary',
+      title,
+      description,
+    },
+  }
+}
+
+export default async function BlogPostPage({ params }: Props) {
+  const { slug } = await params
+  const post = await getPost(slug)
 
   if (!post) notFound()
 
