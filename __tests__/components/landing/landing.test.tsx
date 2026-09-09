@@ -72,7 +72,7 @@ describe('Hero', () => {
     })
     render(<Hero block={block} />)
     expect(screen.getByText('Tony Tran')).toBeInTheDocument()
-    expect(screen.getByText('Full Stack Engineer')).toBeInTheDocument()
+    expect(screen.getByText('Senior Full Stack Software Engineer')).toBeInTheDocument()
   })
 
   it('returns null when no block provided', async () => {

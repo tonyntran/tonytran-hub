@@ -61,7 +61,7 @@ export function Hero({ block }: Props) {
           <div className="landing-hero-pre">Portfolio / 2026</div>
           <div className="landing-hero-name">{block.title}</div>
           <div className="landing-hero-divider" />
-          <div className="landing-hero-tagline">Full Stack Engineer</div>
+          <div className="landing-hero-tagline">Senior Full Stack Software Engineer</div>
           <button className="landing-hero-cta" onClick={scrollToPortfolio}>
             Explore My Work
           </button>
