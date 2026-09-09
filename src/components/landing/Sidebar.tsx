@@ -27,6 +27,7 @@ const NAV_ITEMS = [
   { label: 'Skills', href: '#skills' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '#contact' },
+  { label: 'Login', href: '/auth/login' },
 ]
 
 const ICON_MAP: Record<string, LucideIcon> = {
