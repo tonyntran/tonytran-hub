@@ -89,3 +89,17 @@ const SKILL_ICONS: Record<string, SkillIcon> = {
 export function getSkillIcon(name: string): SkillIcon | null {
   return SKILL_ICONS[name.trim().toLowerCase()] ?? null
 }
+
+// Fallback badge text for a skill with no mapped icon. A single first letter
+// works for one-off unmapped skills, but a shared prefix like "AWS " (six
+// separate services, none with an icon in this package) would otherwise
+// render six identical "A" tiles, so multi-word titles fall back to initials.
+export function getFallbackLabel(name: string): string {
+  const words = name.trim().split(/\s+/).filter(Boolean)
+  if (words.length <= 1) return (words[0]?.charAt(0) ?? '?').toUpperCase()
+  return words
+    .slice(0, 2)
+    .map((w) => w.charAt(0))
+    .join('')
+    .toUpperCase()
+}

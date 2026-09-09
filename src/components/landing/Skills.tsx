@@ -1,6 +1,6 @@
 import type { ContentBlock, SkillMetadata } from '@/lib/types'
 import { AnimatedCard } from './AnimatedCard'
-import { getSkillIcon } from './skillIcons'
+import { getSkillIcon, getFallbackLabel } from './skillIcons'
 
 interface Props {
   blocks: ContentBlock[]
@@ -36,7 +36,7 @@ export function Skills({ blocks }: Props) {
                       <icon.Icon size={26} color={icon.color} />
                     ) : (
                       <span className="landing-skill-tile-fallback">
-                        {(skill.title ?? '?').charAt(0).toUpperCase()}
+                        {getFallbackLabel(skill.title ?? '?')}
                       </span>
                     )}
                   </span>

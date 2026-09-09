@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getSkillIcon } from '@/components/landing/skillIcons'
+import { getSkillIcon, getFallbackLabel } from '@/components/landing/skillIcons'
 
 describe('getSkillIcon', () => {
   it('matches a known skill regardless of case', () => {
@@ -17,5 +17,15 @@ describe('getSkillIcon', () => {
 
   it('returns the correct brand color for a known skill', () => {
     expect(getSkillIcon('TypeScript')?.color).toBe('#3178C6')
+  })
+})
+
+describe('getFallbackLabel', () => {
+  it('uses a single initial for a one-word title', () => {
+    expect(getFallbackLabel('COBOL')).toBe('C')
+  })
+
+  it('disambiguates same-prefix titles with two-word initials', () => {
+    expect(getFallbackLabel('AWS S3')).not.toBe(getFallbackLabel('AWS VPC'))
   })
 })

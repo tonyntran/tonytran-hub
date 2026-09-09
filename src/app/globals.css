@@ -685,6 +685,7 @@
 .landing-bento {
   display: grid;
   grid-template-columns: 3fr 2fr;
+  align-items: start;
   gap: 18px;
   width: 100%;
 }
