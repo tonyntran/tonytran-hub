@@ -58,7 +58,7 @@ export function Sidebar({ aboutBlock, contactBlocks, visible }: Props) {
           <img src="/assets/profile.png" alt="Tony Tran" />
         </div>
         <div className="landing-sidebar-name">Tony Tran</div>
-        <div className="landing-sidebar-role">Full-Stack Developer</div>
+        <div className="landing-sidebar-role">Senior Full Stack Software Engineer</div>
         {about?.location && (
           <div className="landing-sidebar-location">{about.location}</div>
         )}
