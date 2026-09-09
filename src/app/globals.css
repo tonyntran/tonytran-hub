@@ -129,45 +129,45 @@
 }
 
 /* ========================================
-   LANDING PAGE THEME — Pacific Lifted Classic
+   LANDING PAGE THEME — Instrument Panel
    Scoped to .landing-theme to avoid affecting dashboard
    ======================================== */
 .landing-theme {
-  --background: #181E24;
-  --foreground: #EDE8E0;
-  --card: #2E3A44;
-  --card-foreground: #EDE8E0;
-  --popover: #2E3A44;
-  --popover-foreground: #EDE8E0;
-  --primary: #E09B6C;
-  --primary-foreground: #181E24;
-  --secondary: #2E3A44;
-  --secondary-foreground: #EDE8E0;
-  --muted: #2E3A44;
-  --muted-foreground: #9A9488;
-  --accent: rgba(224,155,108,0.14);
-  --accent-foreground: #E09B6C;
+  --background: #121820;
+  --foreground: #E8EDF1;
+  --card: #1C2530;
+  --card-foreground: #E8EDF1;
+  --popover: #1C2530;
+  --popover-foreground: #E8EDF1;
+  --primary: #3FB9CC;
+  --primary-foreground: #121820;
+  --secondary: #1C2530;
+  --secondary-foreground: #E8EDF1;
+  --muted: #1C2530;
+  --muted-foreground: #8A96A3;
+  --accent: rgba(63,185,204,0.14);
+  --accent-foreground: #3FB9CC;
   --border: rgba(255,255,255,0.08);
   --input: rgba(255,255,255,0.08);
-  --ring: #E09B6C;
+  --ring: #3FB9CC;
 
   /* Landing-specific tokens */
-  --landing-bg: #181E24;
-  --landing-bg-sidebar: #141A1F;
-  --landing-bg-card: #2E3A44;
-  --landing-bg-card-hover: #364858;
-  --landing-bg-card-gradient: linear-gradient(135deg, #2E3A44 0%, #364858 100%);
-  --landing-text: #EDE8E0;
-  --landing-text-muted: #9A9488;
-  --landing-text-dim: rgba(237,232,224,0.3);
-  --landing-accent: #E09B6C;
-  --landing-accent-bg: rgba(224,155,108,0.14);
-  --landing-accent-bg-hover: rgba(224,155,108,0.22);
-  --landing-accent-secondary: #7EA0B4;
-  --landing-accent-secondary-bg: rgba(126,160,180,0.14);
+  --landing-bg: #121820;
+  --landing-bg-sidebar: #0D1217;
+  --landing-bg-card: #1C2530;
+  --landing-bg-card-hover: #24303C;
+  --landing-bg-card-gradient: linear-gradient(135deg, #1C2530 0%, #24303C 100%);
+  --landing-text: #E8EDF1;
+  --landing-text-muted: #8A96A3;
+  --landing-text-dim: rgba(232,237,241,0.3);
+  --landing-accent: #3FB9CC;
+  --landing-accent-bg: rgba(63,185,204,0.14);
+  --landing-accent-bg-hover: rgba(63,185,204,0.22);
+  --landing-accent-secondary: #E0A23C;
+  --landing-accent-secondary-bg: rgba(224,162,60,0.14);
   --landing-border: rgba(255,255,255,0.08);
   --landing-border-hover: rgba(255,255,255,0.14);
-  --landing-particle-rgb: 224, 155, 108;
+  --landing-particle-rgb: 63, 185, 204;
 
   font-family: var(--font-body);
   background: var(--landing-bg);
@@ -176,46 +176,46 @@
 }
 
 /* ========================================
-   LIMESTONE LIGHT THEME — override landing vars
+   INSTRUMENT PANEL LIGHT THEME — override landing vars
    Activated when next-themes sets class="light" on <html>
    ======================================== */
 :root:not(.dark) .landing-theme,
 .light .landing-theme {
-  --landing-bg: #EAE1D2;
-  --landing-bg-sidebar: #DDD3C2;
-  --landing-bg-card: #DDD3C2;
-  --landing-bg-card-hover: #D2C7B4;
-  --landing-bg-card-gradient: linear-gradient(135deg, #DDD3C2 0%, #D2C7B4 100%);
-  --landing-text: #2A2015;
-  --landing-text-muted: #6B5D4E;
-  --landing-text-dim: rgba(42, 32, 21, 0.3);
-  --landing-accent: #A65D2E;
-  --landing-accent-bg: rgba(166, 93, 46, 0.12);
-  --landing-accent-bg-hover: rgba(166, 93, 46, 0.20);
-  --landing-accent-secondary: #506E82;
-  --landing-accent-secondary-bg: rgba(80, 110, 130, 0.12);
-  --landing-border: rgba(0, 0, 0, 0.07);
-  --landing-border-hover: rgba(0, 0, 0, 0.12);
-  --landing-particle-rgb: 166, 93, 46;
+  --landing-bg: #EEF1F3;
+  --landing-bg-sidebar: #E2E7EA;
+  --landing-bg-card: #FFFFFF;
+  --landing-bg-card-hover: #E7EBEE;
+  --landing-bg-card-gradient: linear-gradient(135deg, #FFFFFF 0%, #E7EBEE 100%);
+  --landing-text: #16212B;
+  --landing-text-muted: #566472;
+  --landing-text-dim: rgba(22, 33, 43, 0.3);
+  --landing-accent: #0E7A8C;
+  --landing-accent-bg: rgba(14, 122, 140, 0.10);
+  --landing-accent-bg-hover: rgba(14, 122, 140, 0.18);
+  --landing-accent-secondary: #A66A1A;
+  --landing-accent-secondary-bg: rgba(166, 106, 26, 0.10);
+  --landing-border: rgba(0, 0, 0, 0.08);
+  --landing-border-hover: rgba(0, 0, 0, 0.14);
+  --landing-particle-rgb: 14, 122, 140;
 
   /* Override shadcn vars for components used in landing */
-  --background: #EAE1D2;
-  --foreground: #2A2015;
-  --card: #DDD3C2;
-  --card-foreground: #2A2015;
-  --popover: #DDD3C2;
-  --popover-foreground: #2A2015;
-  --primary: #A65D2E;
-  --primary-foreground: #EAE1D2;
-  --secondary: #D2C7B4;
-  --secondary-foreground: #2A2015;
-  --muted: #D2C7B4;
-  --muted-foreground: #6B5D4E;
-  --accent: rgba(166, 93, 46, 0.12);
-  --accent-foreground: #A65D2E;
-  --border: rgba(0, 0, 0, 0.07);
-  --input: rgba(0, 0, 0, 0.07);
-  --ring: #A65D2E;
+  --background: #EEF1F3;
+  --foreground: #16212B;
+  --card: #FFFFFF;
+  --card-foreground: #16212B;
+  --popover: #FFFFFF;
+  --popover-foreground: #16212B;
+  --primary: #0E7A8C;
+  --primary-foreground: #EEF1F3;
+  --secondary: #E7EBEE;
+  --secondary-foreground: #16212B;
+  --muted: #E7EBEE;
+  --muted-foreground: #566472;
+  --accent: rgba(14, 122, 140, 0.10);
+  --accent-foreground: #0E7A8C;
+  --border: rgba(0, 0, 0, 0.08);
+  --input: rgba(0, 0, 0, 0.08);
+  --ring: #0E7A8C;
 }
 
 .landing-theme .landing-card,
@@ -419,7 +419,6 @@
   font-size: 0.72rem;
   color: var(--landing-accent);
   letter-spacing: 0.14em;
-  text-transform: uppercase;
   margin-bottom: 24px;
   opacity: 0;
   animation: landing-hero-in 0.6s 0.2s ease-out forwards;
@@ -429,7 +428,6 @@
   font-family: var(--font-display);
   font-size: clamp(5rem, 8vw, 9rem);
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--landing-text);
   line-height: 0.90;
@@ -455,7 +453,6 @@
   font-weight: 300;
   color: var(--landing-text-muted);
   letter-spacing: 0.08em;
-  text-transform: uppercase;
   margin-bottom: 44px;
   opacity: 0;
   transform: translateY(20px);
@@ -467,7 +464,6 @@
   font-size: 0.75rem;
   color: var(--landing-text-muted);
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   opacity: 0;
   animation: landing-hero-in 0.6s 1s ease-out forwards;
   pointer-events: auto;
@@ -480,8 +476,8 @@
 }
 
 .landing-hero-cta:hover {
-  background: rgba(224,155,108,0.06);
-  border-color: rgba(224,155,108,0.4);
+  background: var(--landing-accent-bg);
+  border-color: color-mix(in srgb, var(--landing-accent) 40%, transparent);
   color: var(--landing-accent);
 }
 
@@ -504,7 +500,6 @@
   font-size: 0.6rem;
   color: var(--landing-text-dim);
   letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .landing-scroll-line {
@@ -570,7 +565,6 @@
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--landing-accent);
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   overflow: hidden;
 }
@@ -587,7 +581,6 @@
   font-weight: 600;
   color: var(--landing-text);
   line-height: 1.05;
-  text-transform: uppercase;
   letter-spacing: 0.03em;
   margin-bottom: 6px;
 }
@@ -616,7 +609,6 @@
   font-family: var(--font-display);
   font-size: 0.9rem;
   font-weight: 500;
-  text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--landing-text-muted);
   text-decoration: none;
@@ -735,7 +727,6 @@
   font-family: var(--font-mono);
   font-size: 0.65rem;
   color: var(--landing-accent);
-  text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-bottom: 16px;
 }
@@ -745,7 +736,6 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--landing-text);
-  text-transform: uppercase;
   letter-spacing: 0.03em;
   line-height: 1.15;
   margin-bottom: 8px;
@@ -776,7 +766,6 @@
   font-size: 0.75rem;
   color: var(--landing-accent);
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   margin-bottom: 16px;
   position: relative;
 }
@@ -787,7 +776,6 @@
   font-weight: 600;
   color: var(--landing-text);
   line-height: 1.05;
-  text-transform: uppercase;
   letter-spacing: 0.02em;
   margin-bottom: 12px;
   position: relative;
@@ -882,7 +870,6 @@
 .landing-skill-category {
   font-size: 0.72rem;
   color: var(--landing-text-dim);
-  text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-top: 14px;
   margin-bottom: 8px;
@@ -926,7 +913,6 @@
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--landing-text);
   margin-bottom: 4px;
@@ -1076,7 +1062,7 @@
 }
 
 .landing-mock-line.short { width: 55%; }
-.landing-mock-line.accent { background: rgba(224,155,108,0.2); width: 38%; }
+.landing-mock-line.accent { background: var(--landing-accent-bg-hover); width: 38%; }
 
 .landing-media-visual-placeholder {
   width: 100%;
@@ -1179,7 +1165,6 @@
   font-family: var(--font-display);
   font-size: 1.1rem;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--landing-text);
   margin-bottom: 4px;
@@ -1236,7 +1221,6 @@
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--landing-text);
   margin-bottom: 6px;
@@ -1450,7 +1434,6 @@
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--landing-text);
   text-decoration: none;
 }
@@ -1482,7 +1465,6 @@
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   color: var(--landing-text-muted);
   text-decoration: none;
   margin-bottom: 40px;
@@ -1498,7 +1480,6 @@
   font-size: 0.72rem;
   color: var(--landing-accent);
   letter-spacing: 0.14em;
-  text-transform: uppercase;
   margin-bottom: 18px;
 }
 
@@ -1506,7 +1487,6 @@
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.02em;
   color: var(--landing-text);
   line-height: 1.08;
@@ -1533,7 +1513,6 @@
   font-size: 0.72rem;
   color: var(--landing-text-muted);
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   margin-bottom: 16px;
 }
 
@@ -1585,7 +1564,6 @@
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
   line-height: 1.25;
   color: var(--landing-text);
   margin: 1.7em 0 0.7em;
@@ -1675,7 +1653,6 @@
   font-size: 0.68rem;
   color: var(--landing-accent);
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   margin-bottom: 10px;
 }
 
@@ -1704,7 +1681,6 @@
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   color: var(--landing-text-dim);
   transition: color 0.2s, gap 0.2s;
 }

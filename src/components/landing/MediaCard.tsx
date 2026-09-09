@@ -111,12 +111,12 @@ export function MediaCard({ block, className = '', hasVideo = false, index = 0 }
           <div className="landing-media-links">
             {meta.url && (
               <a href={meta.url} target="_blank" rel="noopener noreferrer">
-                Live Demo &rarr;
+                Live demo
               </a>
             )}
             {meta.github_url && (
               <a href={meta.github_url} target="_blank" rel="noopener noreferrer">
-                GitHub &rarr;
+                GitHub
               </a>
             )}
           </div>

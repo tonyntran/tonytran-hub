@@ -29,7 +29,7 @@ export function BlogCard({ block, index = 0 }: Props) {
         <p className="landing-blog-card-meta">{date}</p>
         <h2 className="landing-blog-card-title">{block.title ?? '(untitled)'}</h2>
         {excerpt && <p className="landing-blog-card-excerpt">{excerpt}</p>}
-        <span className="landing-blog-card-cta">Read entry &rarr;</span>
+        <span className="landing-blog-card-cta">Read entry</span>
       </Link>
     </AnimatedCard>
   )

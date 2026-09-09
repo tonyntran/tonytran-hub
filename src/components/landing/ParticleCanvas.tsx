@@ -23,7 +23,7 @@ export function ParticleCanvas() {
   const mouseRef = useRef({ x: -1000, y: -1000 })
   const particlesRef = useRef<Particle[]>([])
   const animFrameRef = useRef<number>(0)
-  const colorRef = useRef('224, 155, 108')
+  const colorRef = useRef('63, 185, 204')
 
   const createParticles = useCallback((w: number, h: number) => {
     particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => ({
