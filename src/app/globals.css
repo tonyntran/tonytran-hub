@@ -139,17 +139,17 @@
   --card-foreground: #E8EDF1;
   --popover: #1C2530;
   --popover-foreground: #E8EDF1;
-  --primary: #3FB9CC;
+  --primary: #E0A23C;
   --primary-foreground: #121820;
   --secondary: #1C2530;
   --secondary-foreground: #E8EDF1;
   --muted: #1C2530;
   --muted-foreground: #8A96A3;
-  --accent: rgba(63,185,204,0.14);
-  --accent-foreground: #3FB9CC;
+  --accent: rgba(224,162,60,0.14);
+  --accent-foreground: #E0A23C;
   --border: rgba(255,255,255,0.08);
   --input: rgba(255,255,255,0.08);
-  --ring: #3FB9CC;
+  --ring: #E0A23C;
 
   /* Landing-specific tokens */
   --landing-bg: #121820;
@@ -160,14 +160,14 @@
   --landing-text: #E8EDF1;
   --landing-text-muted: #8A96A3;
   --landing-text-dim: rgba(232,237,241,0.3);
-  --landing-accent: #3FB9CC;
-  --landing-accent-bg: rgba(63,185,204,0.14);
-  --landing-accent-bg-hover: rgba(63,185,204,0.22);
-  --landing-accent-secondary: #E0A23C;
-  --landing-accent-secondary-bg: rgba(224,162,60,0.14);
+  --landing-accent: #E0A23C;
+  --landing-accent-bg: rgba(224,162,60,0.14);
+  --landing-accent-bg-hover: rgba(224,162,60,0.22);
+  --landing-accent-secondary: #3FB9CC;
+  --landing-accent-secondary-bg: rgba(63,185,204,0.14);
   --landing-border: rgba(255,255,255,0.08);
   --landing-border-hover: rgba(255,255,255,0.14);
-  --landing-particle-rgb: 63, 185, 204;
+  --landing-particle-rgb: 224, 162, 60;
 
   font-family: var(--font-body);
   background: var(--landing-bg);
@@ -189,14 +189,14 @@
   --landing-text: #16212B;
   --landing-text-muted: #566472;
   --landing-text-dim: rgba(22, 33, 43, 0.3);
-  --landing-accent: #0E7A8C;
-  --landing-accent-bg: rgba(14, 122, 140, 0.10);
-  --landing-accent-bg-hover: rgba(14, 122, 140, 0.18);
-  --landing-accent-secondary: #A66A1A;
-  --landing-accent-secondary-bg: rgba(166, 106, 26, 0.10);
+  --landing-accent: #A66A1A;
+  --landing-accent-bg: rgba(166, 106, 26, 0.10);
+  --landing-accent-bg-hover: rgba(166, 106, 26, 0.18);
+  --landing-accent-secondary: #0E7A8C;
+  --landing-accent-secondary-bg: rgba(14, 122, 140, 0.10);
   --landing-border: rgba(0, 0, 0, 0.08);
   --landing-border-hover: rgba(0, 0, 0, 0.14);
-  --landing-particle-rgb: 14, 122, 140;
+  --landing-particle-rgb: 166, 106, 26;
 
   /* Override shadcn vars for components used in landing */
   --background: #EEF1F3;
@@ -205,17 +205,17 @@
   --card-foreground: #16212B;
   --popover: #FFFFFF;
   --popover-foreground: #16212B;
-  --primary: #0E7A8C;
+  --primary: #A66A1A;
   --primary-foreground: #EEF1F3;
   --secondary: #E7EBEE;
   --secondary-foreground: #16212B;
   --muted: #E7EBEE;
   --muted-foreground: #566472;
-  --accent: rgba(14, 122, 140, 0.10);
-  --accent-foreground: #0E7A8C;
+  --accent: rgba(166, 106, 26, 0.10);
+  --accent-foreground: #A66A1A;
   --border: rgba(0, 0, 0, 0.08);
   --input: rgba(0, 0, 0, 0.08);
-  --ring: #0E7A8C;
+  --ring: #A66A1A;
 }
 
 .landing-theme .landing-card,
