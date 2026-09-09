@@ -6,7 +6,9 @@ import {
   SiNodedotjs, SiExpress, SiDjango, SiFlask, SiFastapi, SiSpring, SiGraphql,
   SiPostgresql, SiMysql, SiMongodb, SiRedis, SiSupabase, SiFirebase,
   SiDocker, SiKubernetes, SiVercel, SiGit, SiGithub, SiGitlab,
-  SiJest, SiVitest, SiWebpack, SiVite, SiLangchain, SiJson,
+  SiJest, SiVitest, SiWebpack, SiVite, SiLangchain, SiLanggraph, SiApollographql, SiJson,
+  SiAuth0, SiPrometheus, SiGrafana, SiSentry, SiRabbitmq, SiApachekafka,
+  SiClaude, SiGooglegemini, SiGithubcopilot, SiGithubactions,
 } from 'react-icons/si'
 
 interface SkillIcon {
@@ -66,7 +68,22 @@ const SKILL_ICONS: Record<string, SkillIcon> = {
   webpack: { Icon: SiWebpack, color: '#8DD6F9' },
   vite: { Icon: SiVite, color: '#646CFF' },
   langchain: { Icon: SiLangchain, color: 'currentColor' },
+  langgraph: { Icon: SiLanggraph, color: 'currentColor' },
+  apollo: { Icon: SiApollographql, color: 'currentColor' },
+  'apollo graphql': { Icon: SiApollographql, color: 'currentColor' },
   json: { Icon: SiJson, color: 'currentColor' },
+  auth0: { Icon: SiAuth0, color: '#EB5424' },
+  prometheus: { Icon: SiPrometheus, color: '#E6522C' },
+  grafana: { Icon: SiGrafana, color: '#F46800' },
+  sentry: { Icon: SiSentry, color: 'currentColor' },
+  rabbitmq: { Icon: SiRabbitmq, color: '#FF6600' },
+  kafka: { Icon: SiApachekafka, color: 'currentColor' },
+  claude: { Icon: SiClaude, color: '#D97757' },
+  gemini: { Icon: SiGooglegemini, color: 'currentColor' },
+  copilot: { Icon: SiGithubcopilot, color: 'currentColor' },
+  'github copilot': { Icon: SiGithubcopilot, color: 'currentColor' },
+  'github actions': { Icon: SiGithubactions, color: '#2088FF' },
+  'githubactions': { Icon: SiGithubactions, color: '#2088FF' },
 }
 
 export function getSkillIcon(name: string): SkillIcon | null {
