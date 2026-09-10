@@ -133,41 +133,41 @@
    Scoped to .landing-theme to avoid affecting dashboard
    ======================================== */
 .landing-theme {
-  --background: #121820;
-  --foreground: #E8EDF1;
-  --card: #1C2530;
-  --card-foreground: #E8EDF1;
-  --popover: #1C2530;
-  --popover-foreground: #E8EDF1;
-  --primary: #E0A23C;
-  --primary-foreground: #121820;
-  --secondary: #1C2530;
-  --secondary-foreground: #E8EDF1;
-  --muted: #1C2530;
-  --muted-foreground: #8A96A3;
-  --accent: rgba(224,162,60,0.14);
-  --accent-foreground: #E0A23C;
-  --border: rgba(255,255,255,0.08);
-  --input: rgba(255,255,255,0.08);
-  --ring: #E0A23C;
+  --background: #141a14;
+  --foreground: #f5f5f1;
+  --card: #1f281f;
+  --card-foreground: #f5f5f1;
+  --popover: #1f281f;
+  --popover-foreground: #f5f5f1;
+  --primary: #e74639;
+  --primary-foreground: #141a14;
+  --secondary: #1f281f;
+  --secondary-foreground: #f5f5f1;
+  --muted: #1f281f;
+  --muted-foreground: color-mix(in srgb, #f5f5f1 60%, #141a14);
+  --accent: rgba(231,70,57,0.16);
+  --accent-foreground: #e74639;
+  --border: rgba(245,245,241,0.1);
+  --input: rgba(245,245,241,0.1);
+  --ring: #e74639;
 
-  /* Landing-specific tokens */
-  --landing-bg: #121820;
-  --landing-bg-sidebar: #0D1217;
-  --landing-bg-card: #1C2530;
-  --landing-bg-card-hover: #24303C;
-  --landing-bg-card-gradient: linear-gradient(135deg, #1C2530 0%, #24303C 100%);
-  --landing-text: #E8EDF1;
-  --landing-text-muted: #8A96A3;
-  --landing-text-dim: rgba(232,237,241,0.3);
-  --landing-accent: #E0A23C;
-  --landing-accent-bg: rgba(224,162,60,0.14);
-  --landing-accent-bg-hover: rgba(224,162,60,0.22);
-  --landing-accent-secondary: #3FB9CC;
-  --landing-accent-secondary-bg: rgba(63,185,204,0.14);
-  --landing-border: rgba(255,255,255,0.08);
-  --landing-border-hover: rgba(255,255,255,0.14);
-  --landing-particle-rgb: 224, 162, 60;
+  /* Landing-specific tokens — PANTONE MOCKUP: 2411 U (deep surface) / 2347 U (accent) / P 179-1 U (text) */
+  --landing-bg: #141a14;
+  --landing-bg-sidebar: #0d110d;
+  --landing-bg-card: #1f281f;
+  --landing-bg-card-hover: #283428;
+  --landing-bg-card-gradient: linear-gradient(135deg, #1f281f 0%, #283428 100%);
+  --landing-text: #f5f5f1;
+  --landing-text-muted: color-mix(in srgb, #f5f5f1 60%, #141a14);
+  --landing-text-dim: rgba(245,245,241,0.3);
+  --landing-accent: #e74639;
+  --landing-accent-bg: rgba(231,70,57,0.14);
+  --landing-accent-bg-hover: rgba(231,70,57,0.22);
+  --landing-accent-secondary: #4b624b;
+  --landing-accent-secondary-bg: rgba(75,98,75,0.28);
+  --landing-border: rgba(245,245,241,0.1);
+  --landing-border-hover: rgba(245,245,241,0.16);
+  --landing-particle-rgb: 231, 70, 57;
 
   font-family: var(--font-body);
   background: var(--landing-bg);
@@ -181,41 +181,42 @@
    ======================================== */
 :root:not(.dark) .landing-theme,
 .light .landing-theme {
-  --landing-bg: #EEF1F3;
-  --landing-bg-sidebar: #E2E7EA;
-  --landing-bg-card: #FFFFFF;
-  --landing-bg-card-hover: #E7EBEE;
-  --landing-bg-card-gradient: linear-gradient(135deg, #FFFFFF 0%, #E7EBEE 100%);
-  --landing-text: #16212B;
-  --landing-text-muted: #566472;
-  --landing-text-dim: rgba(22, 33, 43, 0.3);
-  --landing-accent: #A66A1A;
-  --landing-accent-bg: rgba(166, 106, 26, 0.10);
-  --landing-accent-bg-hover: rgba(166, 106, 26, 0.18);
-  --landing-accent-secondary: #0E7A8C;
-  --landing-accent-secondary-bg: rgba(14, 122, 140, 0.10);
-  --landing-border: rgba(0, 0, 0, 0.08);
-  --landing-border-hover: rgba(0, 0, 0, 0.14);
-  --landing-particle-rgb: 166, 106, 26;
+  /* PANTONE MOCKUP: P 7-9 U / P 109-10 U / P 101-16 U */
+  --landing-bg: #f7e9c6;
+  --landing-bg-sidebar: color-mix(in srgb, #f7e9c6 85%, #4d424c);
+  --landing-bg-card: color-mix(in srgb, #f7e9c6 18%, white);
+  --landing-bg-card-hover: color-mix(in srgb, #f7e9c6 30%, white);
+  --landing-bg-card-gradient: linear-gradient(135deg, color-mix(in srgb, #f7e9c6 18%, white) 0%, color-mix(in srgb, #f7e9c6 30%, white) 100%);
+  --landing-text: #4d424c;
+  --landing-text-muted: color-mix(in srgb, #4d424c 60%, #f7e9c6);
+  --landing-text-dim: rgba(77, 66, 76, 0.3);
+  --landing-accent: #295889;
+  --landing-accent-bg: rgba(182, 202, 223, 0.35);
+  --landing-accent-bg-hover: rgba(182, 202, 223, 0.5);
+  --landing-accent-secondary: #4d424c;
+  --landing-accent-secondary-bg: rgba(77, 66, 76, 0.10);
+  --landing-border: rgba(77, 66, 76, 0.12);
+  --landing-border-hover: rgba(77, 66, 76, 0.2);
+  --landing-particle-rgb: 182, 202, 223;
 
   /* Override shadcn vars for components used in landing */
-  --background: #EEF1F3;
-  --foreground: #16212B;
-  --card: #FFFFFF;
-  --card-foreground: #16212B;
-  --popover: #FFFFFF;
-  --popover-foreground: #16212B;
-  --primary: #A66A1A;
-  --primary-foreground: #EEF1F3;
-  --secondary: #E7EBEE;
-  --secondary-foreground: #16212B;
-  --muted: #E7EBEE;
-  --muted-foreground: #566472;
-  --accent: rgba(166, 106, 26, 0.10);
-  --accent-foreground: #A66A1A;
-  --border: rgba(0, 0, 0, 0.08);
-  --input: rgba(0, 0, 0, 0.08);
-  --ring: #A66A1A;
+  --background: #f7e9c6;
+  --foreground: #4d424c;
+  --card: color-mix(in srgb, #f7e9c6 18%, white);
+  --card-foreground: #4d424c;
+  --popover: color-mix(in srgb, #f7e9c6 18%, white);
+  --popover-foreground: #4d424c;
+  --primary: #295889;
+  --primary-foreground: #f7e9c6;
+  --secondary: color-mix(in srgb, #f7e9c6 30%, white);
+  --secondary-foreground: #4d424c;
+  --muted: color-mix(in srgb, #f7e9c6 30%, white);
+  --muted-foreground: color-mix(in srgb, #4d424c 60%, #f7e9c6);
+  --accent: rgba(182, 202, 223, 0.35);
+  --accent-foreground: #295889;
+  --border: rgba(77, 66, 76, 0.12);
+  --input: rgba(77, 66, 76, 0.12);
+  --ring: #295889;
 }
 
 .landing-theme .landing-card,
