@@ -262,5 +262,11 @@ function extractMetadata(type: ContentBlockType, formData: FormData): Record<str
         excerpt: (formData.get('excerpt') as string) || null,
         cover_image_url: (formData.get('cover_image_url') as string) || null,
       }
+    case 'poll': {
+      const optionsRaw = formData.get('options') as string
+      return {
+        options: optionsRaw ? optionsRaw.split('\n').map((s) => s.trim()).filter(Boolean) : [],
+      }
+    }
   }
 }

@@ -7,10 +7,11 @@ import {
   projectMetadataSchema,
   contactMetadataSchema,
   blogPostMetadataSchema,
+  pollMetadataSchema,
   applicationSchema,
 } from '@/lib/schemas'
 
-// All 6 metadata schemas + applicationSchema are tested below
+// All metadata schemas + applicationSchema are tested below
 
 describe('heroMetadataSchema', () => {
   it('accepts valid hero metadata', () => {
@@ -190,6 +191,28 @@ describe('blogPostMetadataSchema', () => {
       excerpt: null,
       cover_image_url: null,
     })
+    expect(result.success).toBe(false)
+  })
+})
+
+describe('pollMetadataSchema', () => {
+  it('accepts valid poll options', () => {
+    const result = pollMetadataSchema.safeParse({ options: ['Yes', 'No'] })
+    expect(result.success).toBe(true)
+  })
+
+  it('rejects fewer than 2 options', () => {
+    const result = pollMetadataSchema.safeParse({ options: ['Only one'] })
+    expect(result.success).toBe(false)
+  })
+
+  it('rejects more than 8 options', () => {
+    const result = pollMetadataSchema.safeParse({ options: Array.from({ length: 9 }, (_, i) => `Option ${i}`) })
+    expect(result.success).toBe(false)
+  })
+
+  it('rejects an empty option string', () => {
+    const result = pollMetadataSchema.safeParse({ options: ['Yes', ''] })
     expect(result.success).toBe(false)
   })
 })

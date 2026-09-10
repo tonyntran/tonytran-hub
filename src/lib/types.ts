@@ -1,7 +1,7 @@
-export type ContentBlockType = 'hero' | 'about' | 'experience' | 'skill' | 'project' | 'contact' | 'blog_post'
+export type ContentBlockType = 'hero' | 'about' | 'experience' | 'skill' | 'project' | 'contact' | 'blog_post' | 'poll'
 
 export const SINGLETON_TYPES: ContentBlockType[] = ['hero', 'about']
-export const COLLECTION_TYPES: ContentBlockType[] = ['experience', 'skill', 'project', 'contact', 'blog_post']
+export const COLLECTION_TYPES: ContentBlockType[] = ['experience', 'skill', 'project', 'contact', 'blog_post', 'poll']
 export const ALL_CONTENT_TYPES: ContentBlockType[] = [...SINGLETON_TYPES, ...COLLECTION_TYPES]
 
 export interface HeroMetadata {
@@ -49,6 +49,10 @@ export interface BlogPostMetadata {
   cover_image_url: string | null
 }
 
+export interface PollMetadata {
+  options: string[]
+}
+
 export type ContentMetadata =
   | HeroMetadata
   | AboutMetadata
@@ -57,6 +61,7 @@ export type ContentMetadata =
   | ProjectMetadata
   | ContactMetadata
   | BlogPostMetadata
+  | PollMetadata
 
 export interface ContentBlock {
   id: string
@@ -68,6 +73,15 @@ export interface ContentBlock {
   visible: boolean
   created_at: string
   updated_at: string
+}
+
+export interface PollState {
+  id: string
+  question: string
+  options: string[]
+  results: number[]
+  totalVotes: number
+  votedOptionIndex: number | null
 }
 
 export type ApplicationStatus = 'active' | 'maintenance' | 'disabled'

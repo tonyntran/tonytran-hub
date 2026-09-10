@@ -14,6 +14,7 @@ import { SkillFields } from './fields/SkillFields'
 import { ProjectFields } from './fields/ProjectFields'
 import { ContactFields } from './fields/ContactFields'
 import { BlogPostFields } from './fields/BlogPostFields'
+import { PollFields } from './fields/PollFields'
 import { createContentBlock, updateContentBlock } from '@/lib/actions/content'
 import {
   ALL_CONTENT_TYPES,
@@ -26,6 +27,7 @@ import {
   type ProjectMetadata,
   type ContactMetadata,
   type BlogPostMetadata,
+  type PollMetadata,
 } from '@/lib/types'
 
 interface Props {
@@ -80,6 +82,8 @@ export function ContentForm({ block, defaultType, singletonStatus }: Props) {
         return <ContactFields metadata={metadata as ContactMetadata | undefined} />
       case 'blog_post':
         return <BlogPostFields metadata={metadata as BlogPostMetadata | undefined} />
+      case 'poll':
+        return <PollFields metadata={metadata as PollMetadata | undefined} />
     }
   }
 
@@ -114,7 +118,7 @@ export function ContentForm({ block, defaultType, singletonStatus }: Props) {
       </div>
 
       <div>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">{type === 'poll' ? 'Question' : 'Title'}</Label>
         <Input id="title" name="title" defaultValue={block?.title ?? ''} />
       </div>
 

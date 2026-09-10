@@ -47,6 +47,10 @@ export const blogPostMetadataSchema = z.object({
   cover_image_url: urlOrNull,
 })
 
+export const pollMetadataSchema = z.object({
+  options: z.array(z.string().min(1, 'Option cannot be empty')).min(2, 'At least 2 options required').max(8, 'At most 8 options allowed'),
+})
+
 export const metadataSchemaMap = {
   hero: heroMetadataSchema,
   about: aboutMetadataSchema,
@@ -55,6 +59,7 @@ export const metadataSchemaMap = {
   project: projectMetadataSchema,
   contact: contactMetadataSchema,
   blog_post: blogPostMetadataSchema,
+  poll: pollMetadataSchema,
 } as const
 
 export const applicationSchema = z.object({
