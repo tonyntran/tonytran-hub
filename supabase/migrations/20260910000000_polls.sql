@@ -36,3 +36,12 @@ CREATE VIEW poll_results AS
   GROUP BY poll_id, option_index;
 
 GRANT SELECT ON poll_results TO anon, authenticated;
+
+-- This view intentionally stays SECURITY DEFINER (the linter's
+-- security_definer_view finding here is expected, not an oversight): a
+-- security_invoker view would need an anon SELECT policy on poll_votes
+-- itself to return anything, which would expose every individual
+-- voter_token row via the public REST API -- strictly worse for privacy
+-- than the current setup, where poll_results is the only way to read
+-- vote counts at all.
+COMMENT ON VIEW poll_results IS 'Intentionally SECURITY DEFINER -- see migration comment above.';
