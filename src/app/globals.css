@@ -1459,6 +1459,45 @@
   margin: 1em 0;
 }
 
+.landing-prose details {
+  margin: 1.2em 0;
+  padding: 0.9em 1.1em;
+  border: 1px solid var(--landing-border);
+  border-radius: 10px;
+  background: var(--landing-bg-card);
+}
+
+.landing-prose details[open] {
+  padding-bottom: 1.1em;
+}
+
+.landing-prose details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--landing-text);
+  list-style: none;
+}
+
+.landing-prose details summary::-webkit-details-marker {
+  display: none;
+}
+
+.landing-prose details summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.5em;
+  color: var(--landing-accent);
+  transition: transform 0.15s ease;
+}
+
+.landing-prose details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.landing-prose details summary + * {
+  margin-top: 0.9em;
+}
+
 /* -- Poll embed (rendered from a ```poll code fence in body_md) -- */
 .landing-poll {
   margin: 1.2em 0;

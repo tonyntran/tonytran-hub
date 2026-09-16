@@ -23,4 +23,14 @@ describe('MarkdownContent', () => {
     render(<MarkdownContent>{'Hello **world**'}</MarkdownContent>)
     expect(screen.getByText('world')).toBeInTheDocument()
   })
+
+  it('renders raw HTML details/summary as a native collapsible element', () => {
+    const { container } = render(
+      <MarkdownContent>{'<details>\n<summary>Click to expand</summary>\n\nHidden content here.\n\n</details>'}</MarkdownContent>
+    )
+    const details = container.querySelector('details')
+    expect(details).toBeInTheDocument()
+    expect(screen.getByText('Click to expand').tagName).toBe('SUMMARY')
+    expect(screen.getByText('Hidden content here.')).toBeInTheDocument()
+  })
 })

@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import { PollEmbed } from './PollEmbed'
 
 interface Props {
@@ -12,6 +13,8 @@ export function MarkdownContent({ children, className = '' }: Props) {
     <div className={`landing-prose ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
+        remarkRehypeOptions={{ allowDangerousHtml: true }}
+        rehypePlugins={[rehypeRaw]}
         components={{
           code({ className: codeClassName, children: codeChildren, ...props }) {
             const language = /language-(\w+)/.exec(codeClassName || '')?.[1]
