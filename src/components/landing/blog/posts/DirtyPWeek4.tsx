@@ -3,8 +3,6 @@
 import { useState, type MouseEvent, type ReactNode } from 'react'
 import './dirtyp-week4.css'
 
-const MINE = 'Rb1'
-
 /* ------------------------------------------------------------------ data --- */
 
 interface TeamAllPlay {
@@ -247,7 +245,7 @@ function FraudGap() {
               onMouseLeave={hide}
               onBlur={hide}
             >
-              <div className={`dirtyp-team${d.t === MINE ? ' dirtyp-me' : ''}`}>{d.t}</div>
+              <div className="dirtyp-team">{d.t}</div>
               <div className="dirtyp-track">
                 <div
                   className="dirtyp-conn"
@@ -300,7 +298,7 @@ function FraudGap() {
               {byAp.map((d) => {
                 const gap = d.ap - d.win
                 return (
-                  <tr key={d.t} className={d.t === MINE ? 'dirtyp-tr-mine' : undefined}>
+                  <tr key={d.t}>
                     <td className="dirtyp-td-team">{d.t}</td>
                     <td className="dirtyp-n">{d.rec}</td>
                     <td className="dirtyp-n">{d.win.toFixed(1)}</td>
@@ -354,7 +352,7 @@ function BenchReport() {
               }
               onMouseLeave={hide}
             >
-              <div className={`dirtyp-team${d.t === MINE ? ' dirtyp-me' : ''}`}>{d.t}</div>
+              <div className="dirtyp-team">{d.t}</div>
               <div className="dirtyp-bar-track">
                 <div
                   className={`dirtyp-bar-fill${zero ? ' dirtyp-bar-fill-zero' : ''}`}
@@ -381,7 +379,7 @@ function BenchReport() {
             </thead>
             <tbody>
               {BENCH.map((d) => (
-                <tr key={d.t} className={d.t === MINE ? 'dirtyp-tr-mine' : undefined}>
+                <tr key={d.t}>
                   <td className="dirtyp-td-team">{d.t}</td>
                   <td className="dirtyp-n">{d.act.toFixed(2)}</td>
                   <td className="dirtyp-n">{d.opt.toFixed(2)}</td>
@@ -419,7 +417,7 @@ function PowerRankings() {
             </thead>
             <tbody>
               {RANKS.map((d) => (
-                <tr key={d.t} className={d.t === MINE ? 'dirtyp-tr-mine' : undefined}>
+                <tr key={d.t}>
                   <td className="dirtyp-td-team">{d.t}</td>
                   <td className="dirtyp-n">
                     <b>{d.idx.toFixed(1)}</b>
@@ -459,7 +457,7 @@ function PowerRankings() {
                 <div className={`dirtyp-rk-mv ${cls}`}>{label}</div>
               </div>
               <div className="dirtyp-rk-main">
-                <div className={`dirtyp-rk-name${d.t === MINE ? ' dirtyp-me' : ''}`}>{d.t}</div>
+                <div className="dirtyp-rk-name">{d.t}</div>
                 <div className="dirtyp-rk-line">
                   {`${d.rec} · ${d.ap} · fwd ${d.fwd.toFixed(1)} pts/wk`}
                 </div>
@@ -497,13 +495,7 @@ function Capsule({ home, homePts, away, awayPts, tag, cool, children }: CapsuleP
   const homeWon = homePts > awayPts
   const side = (name: string, pts: number, won: boolean, awaySide: boolean) => (
     <div className={`dirtyp-cap-side${awaySide ? ' dirtyp-cap-side-away' : ''}`}>
-      <div
-        className={`dirtyp-cap-team${won ? ' dirtyp-cap-win' : ''}${
-          name === MINE ? ' dirtyp-me' : ''
-        }`}
-      >
-        {name}
-      </div>
+      <div className={`dirtyp-cap-team${won ? ' dirtyp-cap-win' : ''}`}>{name}</div>
       <div className={`dirtyp-cap-pts${won ? '' : ' dirtyp-cap-lose'}`}>{pts.toFixed(2)}</div>
     </div>
   )
@@ -1070,7 +1062,7 @@ export function DirtyPWeek4() {
                       its record; Austin&rsquo;s is better than everyone&rsquo;s.
                     </td>
                   </tr>
-                  <tr className="dirtyp-tr-mine">
+                  <tr>
                     <td className="dirtyp-td-team">Rb1</td>
                     <td className="dirtyp-td-team">My Njigba Hurts</td>
                     <td className="dirtyp-td-wrap">

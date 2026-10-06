@@ -88,8 +88,20 @@ describe('DirtyPWeek4 column', () => {
     expect(container.querySelectorAll('details table').length).toBeGreaterThanOrEqual(3)
   })
 
-  it('marks the author team so it reads differently from the rest', () => {
+  it('does not single out the author team — this is written for the whole league', () => {
     const { container } = renderColumn()
-    expect(container.querySelectorAll('.dirtyp-me').length).toBeGreaterThan(0)
+    expect(container.querySelectorAll('.dirtyp-me')).toHaveLength(0)
+    expect(container.querySelectorAll('.dirtyp-tr-mine')).toHaveLength(0)
+  })
+
+  it('gives every team label the same classes, Rb1 included', () => {
+    const { container } = renderColumn()
+    const labels = Array.from(container.querySelectorAll('.dirtyp-team'))
+    expect(labels.length).toBeGreaterThan(0)
+    const classSets = new Set(labels.map((el) => el.className))
+    expect(classSets).toEqual(new Set(['dirtyp-team']))
+
+    const names = Array.from(container.querySelectorAll('.dirtyp-rk-name'))
+    expect(new Set(names.map((el) => el.className))).toEqual(new Set(['dirtyp-rk-name']))
   })
 })

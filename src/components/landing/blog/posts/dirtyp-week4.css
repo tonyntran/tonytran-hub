@@ -283,9 +283,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.dirtyp-me {
-  color: var(--dp-amber);
-}
 .dirtyp-track {
   position: relative;
   height: 22px;
@@ -541,9 +538,6 @@
   font-family: var(--dp-display);
   font-weight: 700;
   text-transform: uppercase;
-}
-.dirtyp-w4 tr.dirtyp-tr-mine td.dirtyp-td-team {
-  color: var(--dp-amber);
 }
 .dirtyp-hot {
   color: var(--dp-steel);
