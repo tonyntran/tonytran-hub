@@ -7,6 +7,8 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { MarkdownContent } from '@/components/landing/MarkdownContent'
 import { ThemeToggle } from '@/components/landing/ThemeToggle'
+import { CustomPostBody } from '@/components/landing/blog/posts/CustomPostBody'
+import { hasCustomPostBody } from '@/components/landing/blog/posts/registry'
 import { excerptFromMarkdown } from '@/lib/blogExcerpt'
 import type { ContentBlock, BlogPostMetadata } from '@/lib/types'
 
@@ -71,29 +73,50 @@ export default async function BlogPostPage({ params }: Props) {
     day: 'numeric',
   })
 
+  // Posts can opt into a bespoke React body. Those bring their own masthead, type
+  // scale and max-width, so they render outside the narrow prose container and
+  // without the default title/date header — otherwise the page shows two headlines.
+  const isCustom = hasCustomPostBody(meta.component)
+
   return (
     <div className="landing-theme">
       <header className="landing-blog-topbar">
         <Link href="/" className="landing-blog-wordmark">
           Tony Tran <span>/ Blog</span>
         </Link>
-        <ThemeToggle />
+        <div className="landing-blog-topbar-actions">
+          {/* Custom bodies paint their own background edge-to-edge, so the back link
+              lives up here rather than in a strip that would seam against it. */}
+          {isCustom && (
+            <Link href="/blog" className="landing-blog-back landing-blog-back-inline">
+              &larr; Back to blog
+            </Link>
+          )}
+          <ThemeToggle />
+        </div>
       </header>
-      <article className="landing-blog-container">
-        <Link href="/blog" className="landing-blog-back">
-          &larr; Back to blog
-        </Link>
-        <p className="landing-blog-article-meta">{date}</p>
-        <h1 className="landing-blog-title">{post.title ?? '(untitled)'}</h1>
-        <div className="landing-blog-divider" />
-        {meta.cover_image_url && (
-          <div className="landing-blog-cover">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={meta.cover_image_url} alt="" />
-          </div>
-        )}
-        <MarkdownContent className="landing-blog-article">{post.body_md ?? ''}</MarkdownContent>
-      </article>
+
+      {isCustom ? (
+        <article>
+          <CustomPostBody componentKey={meta.component} />
+        </article>
+      ) : (
+        <article className="landing-blog-container">
+          <Link href="/blog" className="landing-blog-back">
+            &larr; Back to blog
+          </Link>
+          <p className="landing-blog-article-meta">{date}</p>
+          <h1 className="landing-blog-title">{post.title ?? '(untitled)'}</h1>
+          <div className="landing-blog-divider" />
+          {meta.cover_image_url && (
+            <div className="landing-blog-cover">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={meta.cover_image_url} alt="" />
+            </div>
+          )}
+          <MarkdownContent className="landing-blog-article">{post.body_md ?? ''}</MarkdownContent>
+        </article>
+      )}
     </div>
   )
 }

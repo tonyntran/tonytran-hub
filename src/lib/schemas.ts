@@ -45,6 +45,14 @@ export const blogPostMetadataSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'Lowercase letters, numbers, and hyphens only'),
   excerpt: z.string().nullable(),
   cover_image_url: urlOrNull,
+  // Registry key for a bespoke React body. An unregistered key falls back to markdown
+  // rather than erroring, so this stays a soft reference the schema need not police.
+  component: z
+    .string()
+    .trim()
+    .nullable()
+    .optional()
+    .transform((value) => value || null),
 })
 
 export const pollMetadataSchema = z.object({

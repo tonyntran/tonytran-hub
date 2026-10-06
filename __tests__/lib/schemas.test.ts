@@ -193,6 +193,30 @@ describe('blogPostMetadataSchema', () => {
     })
     expect(result.success).toBe(false)
   })
+
+  describe('component field', () => {
+    const base = { slug: 'week-4-recap', excerpt: null, cover_image_url: null }
+
+    it('accepts metadata with no component field at all', () => {
+      expect(blogPostMetadataSchema.safeParse(base).success).toBe(true)
+    })
+
+    it('accepts a null component', () => {
+      expect(blogPostMetadataSchema.safeParse({ ...base, component: null }).success).toBe(true)
+    })
+
+    it('accepts a registered component key', () => {
+      const result = blogPostMetadataSchema.safeParse({ ...base, component: 'dirty-p-week-4' })
+      expect(result.success).toBe(true)
+      if (result.success) expect(result.data.component).toBe('dirty-p-week-4')
+    })
+
+    it('normalises an empty component string to null', () => {
+      const result = blogPostMetadataSchema.safeParse({ ...base, component: '' })
+      expect(result.success).toBe(true)
+      if (result.success) expect(result.data.component).toBeNull()
+    })
+  })
 })
 
 describe('pollMetadataSchema', () => {
@@ -247,5 +271,42 @@ describe('applicationSchema', () => {
       status: 'active',
     })
     expect(result.success).toBe(false)
+  })
+})
+
+describe('blog_post metadata round-trip through the dashboard form', () => {
+  it('keeps the component key when the form submits one', () => {
+    const fd = new FormData()
+    fd.set('slug', 'the-standings-are-lying-to-you')
+    fd.set('excerpt', 'Week 4 recap.')
+    fd.set('cover_image_url', '')
+    fd.set('component', 'dirty-p-week-4')
+
+    const metadata = {
+      slug: fd.get('slug'),
+      excerpt: (fd.get('excerpt') as string) || null,
+      cover_image_url: (fd.get('cover_image_url') as string) || null,
+      component: (fd.get('component') as string) || null,
+    }
+    const result = blogPostMetadataSchema.safeParse(metadata)
+    expect(result.success).toBe(true)
+    if (result.success) expect(result.data.component).toBe('dirty-p-week-4')
+  })
+
+  it('stores null when the form leaves the custom layout unset', () => {
+    const fd = new FormData()
+    fd.set('slug', 'a-normal-post')
+    fd.set('excerpt', '')
+    fd.set('cover_image_url', '')
+    fd.set('component', '')
+
+    const result = blogPostMetadataSchema.safeParse({
+      slug: fd.get('slug'),
+      excerpt: (fd.get('excerpt') as string) || null,
+      cover_image_url: (fd.get('cover_image_url') as string) || null,
+      component: (fd.get('component') as string) || null,
+    })
+    expect(result.success).toBe(true)
+    if (result.success) expect(result.data.component).toBeNull()
   })
 })

@@ -1635,6 +1635,16 @@
   padding: 64px 6vw 100px;
 }
 
+.landing-blog-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.landing-blog-back-inline {
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
 .landing-blog-back {
   display: inline-flex;
   align-items: center;

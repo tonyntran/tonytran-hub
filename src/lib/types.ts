@@ -47,6 +47,12 @@ export interface BlogPostMetadata {
   slug: string
   excerpt: string | null
   cover_image_url: string | null
+  /**
+   * Opt a post out of markdown rendering and into a bespoke React body, keyed into
+   * `components/landing/blog/posts/registry`. Used for posts that need their own
+   * layout, charts or type scale. Null/absent renders `body_md` as usual.
+   */
+  component?: string | null
 }
 
 export interface PollMetadata {

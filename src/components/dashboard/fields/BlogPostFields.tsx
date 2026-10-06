@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { slugify } from '@/lib/slugify'
 import { uploadImage } from '@/lib/supabase/uploadImage'
+import { CUSTOM_POST_KEYS } from '@/components/landing/blog/posts/registry'
 import type { BlogPostMetadata } from '@/lib/types'
 
 interface Props {
@@ -90,6 +91,26 @@ export function BlogPostFields({ metadata }: Props) {
             />
           </label>
         </div>
+      </div>
+      <div>
+        <Label htmlFor="component">Custom layout (optional)</Label>
+        <select
+          id="component"
+          name="component"
+          defaultValue={metadata?.component ?? ''}
+          className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
+        >
+          <option value="">Markdown (default)</option>
+          {CUSTOM_POST_KEYS.map((key) => (
+            <option key={key} value={key}>
+              {key}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Renders a hand-built React body instead of the markdown below. The markdown is kept
+          but not shown.
+        </p>
       </div>
     </>
   )

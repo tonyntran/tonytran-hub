@@ -261,6 +261,7 @@ function extractMetadata(type: ContentBlockType, formData: FormData): Record<str
         slug: formData.get('slug'),
         excerpt: (formData.get('excerpt') as string) || null,
         cover_image_url: (formData.get('cover_image_url') as string) || null,
+        component: (formData.get('component') as string) || null,
       }
     case 'poll': {
       const optionsRaw = formData.get('options') as string
