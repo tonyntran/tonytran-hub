@@ -773,8 +773,13 @@
 }
 
 /* ---------- misc ---------- */
+/* margin-block, never the `margin` shorthand: these <details> carry .dirtyp-col, and a
+   shorthand here outranks `.dirtyp-col { margin-inline: auto }` on specificity. Zeroing
+   the inline margins un-centres the block, and the tables inside it then resolve their
+   `calc(50% - breakout / 2)` against that off-centre box — which ran every "View as
+   table" panel off the left edge of the screen below ~1100px. */
 .dirtyp-w4 details {
-  margin: 1.25rem 0;
+  margin-block: 1.25rem;
   font-size: 0.9rem;
 }
 .dirtyp-w4 summary {
